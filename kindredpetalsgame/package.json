@@ -3,12 +3,16 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "http-server -o -a localhost"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
     "phaser": "^3.87.0"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
   }
 }
