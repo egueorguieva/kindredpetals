@@ -90,7 +90,15 @@ export class Level1 extends Scene
     
 
     handleFirstFlower() {
-        const { x, y } = this.items.flower1
+        const { x, y } = this.flowers.flower1
+        this.input.setDraggable(this.flowers["flower1"])
+
+        this.flowers.flower1.on("drag", (pointer, dragX, dragY) => {
+          this.flowers.flower1.x = dragX
+          this.flowers.flower1.y = dragY
+        })
+
+        
     }
 
 
