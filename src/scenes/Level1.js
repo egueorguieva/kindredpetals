@@ -2,13 +2,12 @@ import { Scene } from 'phaser';
 
 export class Level1 extends Scene
 {
-    constructor ()
-    {
-        super('Level1');
-    }
+  constructor () {
+    super('Level1');
+  }
 
-    preload () {
-        this.load.image('shop-bg', 'assets/main-bg.png')
+  preload () {
+      this.load.image('shop-bg', 'assets/main-bg.png')
         this.load.image('flower1', 'assets/flower1.png')
         this.load.image('flower2', 'assets/flower2.png')
         this.load.image('flower3', 'assets/flower3.png')
@@ -90,15 +89,21 @@ export class Level1 extends Scene
     
 
     handleFirstFlower() {
-        const { x, y } = this.flowers.flower1
-        this.input.setDraggable(this.flowers["flower1"])
+      const { x, y } = this.flowers.flower1
+      this.input.setDraggable(this.flowers["flower1"])
 
-        this.flowers.flower1.on("drag", (pointer, dragX, dragY) => {
-          this.flowers.flower1.x = dragX
-          this.flowers.flower1.y = dragY
-        })
+      this.flowers.flower1.on("drag", (pointer, dragX, dragY) => {
+        this.flowers.flower1.x = dragX
+        this.flowers.flower1.y = dragY
+      }) 
 
-        
+
+
+
+
+
+
+
     }
 
 

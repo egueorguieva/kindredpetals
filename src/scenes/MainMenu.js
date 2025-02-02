@@ -8,7 +8,7 @@ export class MainMenu extends Scene
     }
 
     preload() {
-        this.load.image("background", "assets/start-bg-2.png")
+        this.load.image("background", "assets/start-bg-3.png")
         this.load.image("level1", "assets/level1.png")
         this.load.image("level2", "assets/level2.png")
         this.load.image("level3", "assets/level3.png")
@@ -32,7 +32,7 @@ export class MainMenu extends Scene
         const levelTileScale = levelTileWidth / this.cameras.main.width
 
         const levels = []
-        const levelLabels = ['Level 1', 'Level 2', 'Level 3']
+        const levelLabels = ['Beginner', 'Level 2', 'Level 3']
 
         for (let i = 0; i < 3; i++) {
             const level = this.add.image(
@@ -89,9 +89,9 @@ export class MainMenu extends Scene
             this.scene.start("Level1")
         })
 
-        const muteIcon = this.add.image(100, 100, "muteIcon")
+        const muteIcon = this.add.image(210, 75, "muteIcon")
         muteIcon.setInteractive()
-        muteIcon.setScale(0.1)
+        muteIcon.setScale(0.3)
         muteIcon.setVisible(false)
 
         muteIcon.on("pointerdown", () => {
@@ -100,9 +100,17 @@ export class MainMenu extends Scene
             soundIcon.setVisible(true)
         })
 
-        const soundIcon = this.add.image(100, 100, "soundIcon")
+        const soundIcon = this.add.image(210, 75, "soundIcon")
         soundIcon.setInteractive()
-        soundIcon.setScale(0.1)
+        soundIcon.setScale(0.3)
+
+        soundIcon.on("pointerover", () => {
+          soundIcon.setScale(0.35)
+        })
+  
+        soundIcon.on("pointerout", () => {
+          soundIcon.setScale(0.3)
+        })
 
         soundIcon.on("pointerdown", () => {
             this.sound.mute = true
