@@ -51,18 +51,18 @@ export class MainMenu extends Scene
             
           const label = this.add.text(
               ((i + 1) * this.cameras.main.width) / 5 + 140,
-              (2 * this.cameras.main.height) / 3 - 30,
+              (2 * this.cameras.main.height) / 3 - 25,
               levelLabels[i],
               {
                 fontFamily: "cursive",
                 fontSize: 45,
-                color: "#ffffff",
+                color: "#FFF4F2",
                 stroke: '#000000', 
-                strokeThickness: 3,
+                strokeThickness: 4,
               }
             )
             label.setOrigin(0.5, 0.5)
-            label.setShadow(1, 1, "#000000", 3, false, true)
+            label.setShadow(1, 1, "#FFB6C1", 3, false, true)
 
           const level = this.add.image(
             ((i + 1) * this.cameras.main.width) / 5 + 140,
@@ -106,7 +106,7 @@ export class MainMenu extends Scene
 
         const muteIcon = this.add.image(210, 80, "muteIcon")
         muteIcon.setInteractive()
-        muteIcon.setScale(0.3)
+        muteIcon.setScale(0.2)
         muteIcon.setVisible(false)
         muteIcon.preFX.addShadow()
 
@@ -118,16 +118,16 @@ export class MainMenu extends Scene
 
         const soundIcon = this.add.image(210, 80, "soundIcon")
         soundIcon.setInteractive()
-        soundIcon.setScale(0.3)
+        soundIcon.setScale(0.2)
         soundIcon.preFX.addShadow()
 
         soundIcon.on("pointerover", () => {
-          soundIcon.setScale(0.35)
+          soundIcon.setScale(0.25)
           hoverSound.play()
         })
   
         soundIcon.on("pointerout", () => {
-          soundIcon.setScale(0.3)
+          soundIcon.setScale(0.2)
         })
 
         soundIcon.on("pointerdown", () => {
