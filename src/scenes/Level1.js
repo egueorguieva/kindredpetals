@@ -9,13 +9,13 @@ export class Level1 extends Scene
   preload () {
     this.load.image('shop-bg', 'assets/main-interior-bg.png')
     this.load.image('bunch1', 'assets/roses-bunch.png')
-    this.load.image('bunch2', 'assets/daffodils-bunch.png')
+    this.load.image('bunch2', 'assets/lilies-bunch.png')
     this.load.image('bunch3', 'assets/daisies-bunch.png')
     this.load.image('bunch4', 'assets/forget-me-nots-bunch.png')
     this.load.image('bunch5', 'assets/tulips-bunch.png')
     this.load.image('bunch6', 'assets/violets-bunch.png')
     this.load.image('bunch7', 'assets/carnations-bunch.png')
-    this.load.image('bunch8', 'assets/lilies-bunch.png')
+    this.load.image('bunch8', 'assets/daffodils-bunch.png')
     this.load.image('rose', 'assets/single-rose.png')
     this.load.image('lily', 'assets/single-lily.png')
     this.load.image('daisy', 'assets/single-daisy.png')
@@ -182,8 +182,41 @@ export class Level1 extends Scene
             repeat: 0,
           })
         })
-    }
 
+        const { x2, y2 } = this.flowers.bunch2
+        this.input.setDraggable(this.flowers["bunch2"])
+    
+        this.flowers.bunch2.on("drag", (pointer, dragX, dragY) => {
+            this.flowers.bunch2.x = dragX
+            this.flowers.bunch2.y = dragY
+        })
+  
+        this.flowers["bunch2"].on("dragend", () => {
+          const flower2Bounds = this.flowers.bunch2.getBounds()
+          const vaseBounds = this.vase.getBounds()
+      
+          if (Phaser.Geom.Intersects.RectangleToRectangle(flower2Bounds,vaseBounds))
+            {
+              this.add.image(440, 570, "lily")
+                  .setScale(0.9)
+                  .setInteractive()
+  
+                
+              this.handleSecondFlower()
+            }
+              
+            this.tweens.add({
+              targets: this.flowers.bunch2,
+              x2,
+              y2,
+              duration: 500,
+              ease: "Power0",
+              yoyo: false,
+              repeat: 0,
+            })
+              
+          })
+    }
 
     showStory(message) {
       // Create background rectangle

@@ -22,7 +22,7 @@ export class MainMenu extends Scene
         const bg = this.add.image(0, 0, "background")
         bg.setOrigin(0, 0)
         bg.setDisplaySize(this.sys.game.config.width, this.sys.game.config.height) // Scale to fit
-        bg.setTint(0xFFF4F2)
+        bg.setTint(0xFFFFFF)
 
         const title = this.add.text(710, 265, 'Kindred Petals', 
           {
