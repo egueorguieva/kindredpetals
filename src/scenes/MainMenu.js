@@ -8,9 +8,9 @@ export class MainMenu extends Scene
     }
 
     preload() {
-      this.load.image("background", "assets/start-bg-3.png")
-      this.load.image("level1", "assets/level1-2.png")
-      this.load.image("level2", "assets/level2-2.png")
+      this.load.image("background", "assets/start-bg-4.png")
+      this.load.image("level2", "assets/level1-2.png")
+      this.load.image("level1", "assets/level2-2.png")
       this.load.image("level3", "assets/level3.png")
       this.load.image("lock", "assets/lock.png")
     }
@@ -24,10 +24,10 @@ export class MainMenu extends Scene
         bg.setDisplaySize(this.sys.game.config.width, this.sys.game.config.height) // Scale to fit
         bg.setTint(0xFFFFFF)
 
-        const title = this.add.text(710, 265, 'Kindred Petals', 
+        const title = this.add.text(745, 117, 'Kindred \nPetals', 
           {
-            fontFamily: 'cursive', fontSize: 115, color: '#FFF4F2',
-            stroke: '#000000', strokeThickness: 7,
+            fontFamily: 'PixelFont', fontSize: '50px', color: '#ffffff',
+            stroke: '#000000', strokeThickness: 4,
             align: 'center'
           }
         )
@@ -104,7 +104,7 @@ export class MainMenu extends Scene
             this.scene.start("Level1")
         })
 
-        const muteIcon = this.add.image(210, 80, "muteIcon")
+        const muteIcon = this.add.image(90, 65, "muteIcon")
         muteIcon.setInteractive()
         muteIcon.setScale(0.2)
         muteIcon.setVisible(false)
@@ -116,7 +116,7 @@ export class MainMenu extends Scene
             soundIcon.setVisible(true)
         })
 
-        const soundIcon = this.add.image(210, 80, "soundIcon")
+        const soundIcon = this.add.image(90, 65, "soundIcon")
         soundIcon.setInteractive()
         soundIcon.setScale(0.2)
         soundIcon.preFX.addShadow()

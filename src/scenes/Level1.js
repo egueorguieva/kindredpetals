@@ -146,6 +146,7 @@ export class Level1 extends Scene
     
 
     handleFirstFlower() {
+
       const { x, y } = this.flowers.bunch1
       this.input.setDraggable(this.flowers["bunch1"])
 
