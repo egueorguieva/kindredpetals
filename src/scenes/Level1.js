@@ -8,13 +8,13 @@ export class Level1 extends Scene
 
   preload () {
     this.load.image('shop-bg', 'assets/main-bg-3.png')
-    this.load.image('bunch1', 'assets/roses-bunch.png')
+    this.load.image('bunch4', 'assets/roses-bunch.png')
     this.load.image('bunch2', 'assets/lilies-bunch.png')
-    this.load.image('bunch3', 'assets/daisies-bunch.png')
-    this.load.image('bunch4', 'assets/forget-me-nots-bunch.png')
+    this.load.image('bunch7', 'assets/daisies-bunch.png')
+    this.load.image('bunch1', 'assets/forget-me-nots-bunch.png')
     this.load.image('bunch5', 'assets/tulips-bunch.png')
     this.load.image('bunch6', 'assets/violets-bunch.png')
-    this.load.image('bunch7', 'assets/carnations-bunch.png')
+    this.load.image('bunch3', 'assets/carnations-bunch.png')
     this.load.image('bunch8', 'assets/daffodils-bunch.png')
     this.load.image('rose', 'assets/single-rose.png')
     this.load.image('lily', 'assets/single-lily.png')
@@ -29,13 +29,13 @@ export class Level1 extends Scene
     
   create ()
     {
-      const hoverSound = this.sound.add("hover")
+      this.hoverSound = this.sound.add("hover")
 
       const bg = this.add.image(0, 0, "shop-bg")
       bg.setOrigin(0, 0)
       bg.setDisplaySize(this.sys.game.config.width, this.sys.game.config.height)
 
-      this.vase = this.add.image(1200, 550, 'vase')
+      this.vase = this.add.image(1210, 550, 'vase')
       this.vase.setScale(0.5)
       this.vase.setDepth(1);
       this.vase.preFX.addShadow()
@@ -43,10 +43,9 @@ export class Level1 extends Scene
       this.setFlowers()
       // this.showStory()
       
-
       this.handleFirstFlower()
 
-      const muteIcon = this.add.image(1325, 60, "muteIcon")
+      const muteIcon = this.add.image(1375, 60, "muteIcon")
       muteIcon.setInteractive()
       muteIcon.setScale(0.15)
       muteIcon.setVisible(false)
@@ -58,13 +57,12 @@ export class Level1 extends Scene
           soundIcon.setVisible(true)
       })
 
-      const soundIcon = this.add.image(1325, 60, "soundIcon")
+      const soundIcon = this.add.image(1375, 60, "soundIcon")
       soundIcon.setInteractive()
       soundIcon.setScale(0.15)
       soundIcon.preFX.addShadow()
 
       soundIcon.on("pointerover", () => {
-        soundIcon.setScale(0.2)
         hoverSound.play()
       })
 
@@ -100,14 +98,14 @@ export class Level1 extends Scene
       }
     
       this.flowers = {
-        bunch1: { x: 1080, y: 90, key: "bunch1", scale: 0.35 }, 
-        bunch2: { x: 850, y: 100, key: "bunch2", scale: 0.35 },
-        bunch3: { x: 580, y: 95, key: "bunch3", scale: 0.35 },
-        bunch4: { x: 310, y: 100, key: "bunch4", scale: 0.35 },
-        bunch5: { x: 1080, y: 285, key: "bunch5", scale: 0.35 },
-        bunch6: { x: 850, y: 295, key: "bunch6", scale: 0.35 },
-        bunch7: { x: 580, y: 280, key: "bunch7", scale: 0.35 },
-        bunch8: { x: 310, y: 280, key: "bunch8", scale: 0.35 },
+        bunch1: { x: 975, y: 253, key: "bunch1", scale: 0.37 }, 
+        bunch2: { x: 785, y: 245, key: "bunch2", scale: 0.37 },
+        bunch3: { x: 590, y: 245, key: "bunch3", scale: 0.37 },
+        bunch4: { x: 420, y: 240, key: "bunch4", scale: 0.37 },
+        bunch5: { x: 975, y: 440, key: "bunch5", scale: 0.37 },
+        bunch6: { x: 790, y: 450, key: "bunch6", scale: 0.37 },
+        bunch7: { x: 590, y: 445, key: "bunch7", scale: 0.37 },
+        bunch8: { x: 400, y: 450, key: "bunch8", scale: 0.37 },
       }
     
       Object.entries(this.flowers).forEach(([key, flower]) => {
@@ -123,11 +121,11 @@ export class Level1 extends Scene
         createdFlower.on("pointerover", () => {
             this.hoverSound.play()
             glow = createdFlower.preFX.addGlow("0xffffff", 1, 0, false)
-            createdFlower.setScale(0.37)
+            createdFlower.setScale(0.39)
           })
         createdFlower.on("pointerout", () => {
             glow?.setActive(false)
-            createdFlower.setScale(0.35)
+            createdFlower.setScale(0.37)
           })
     
         this.flowers[key] = createdFlower
@@ -137,7 +135,7 @@ export class Level1 extends Scene
 
     handleFirstFlower() {
 
-      const { x, y } = this.flowers.bunch1
+      const { x: x1, y: y1 } = this.flowers.bunch1
       this.input.setDraggable(this.flowers["bunch1"])
 
       this.flowers.bunch1.on("drag", (pointer, dragX, dragY) => {
@@ -151,21 +149,21 @@ export class Level1 extends Scene
   
         if (Phaser.Geom.Intersects.RectangleToRectangle(flower1Bounds,vaseBounds))
           {
-            this.add.image(425, 590, "rose")
+            this.add.image(1205, 540, "rose")
               .setScale(0.9)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
             
-            this.flowers.bunch1.x = x;
-            this.flowers.bunch1.y = y;
+            this.flowers.bunch1.x = x1;
+            this.flowers.bunch1.y = y1;
             
           }
           
           this.tweens.add({
             targets: this.flowers.bunch1,
-            x,
-            y,
+            x: x1,
+            y: y1,
             duration: 500,
             ease: "Power0",
             yoyo: false,
@@ -173,7 +171,7 @@ export class Level1 extends Scene
           })
         })
 
-        const { x2, y2 } = this.flowers.bunch2
+        const { x: x2, y: y2 } = this.flowers.bunch2
         this.input.setDraggable(this.flowers["bunch2"])
     
         this.flowers.bunch2.on("drag", (pointer, dragX, dragY) => {
@@ -187,16 +185,21 @@ export class Level1 extends Scene
       
           if (Phaser.Geom.Intersects.RectangleToRectangle(flower2Bounds,vaseBounds))
             {
-              this.add.image(440, 570, "lily")
-                  .setScale(0.9)
-                  .setInteractive()
+              this.add.image(1285, 530, "lily")
+                .setScale(0.9)
+                .setInteractive()
+                .setDepth(this.vase.depth - 1)
+              
+                          
+              this.flowers.bunch2.x = x2;
+              this.flowers.bunch2.y = y2;
 
             }
               
             this.tweens.add({
               targets: this.flowers.bunch2,
-              x2,
-              y2,
+              x: x2,
+              y: y2,
               duration: 500,
               ease: "Power0",
               yoyo: false,

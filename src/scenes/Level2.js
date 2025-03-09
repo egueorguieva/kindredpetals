@@ -29,20 +29,20 @@ export class Level2 extends Scene
     
   create ()
     {
-      const hoverSound = this.sound.add("hover")
+      this.hoverSound = this.sound.add("hover")
 
       const bg = this.add.image(0, 0, "shop-bg")
       bg.setOrigin(0, 0)
       bg.setDisplaySize(this.sys.game.config.width, this.sys.game.config.height)
+      bg.setTint(0xFFFFFF)
 
-      this.vase = this.add.image(1200, 550, 'vase')
+      this.vase = this.add.image(1210, 550, 'vase')
       this.vase.setScale(0.5)
       this.vase.setDepth(1);
       this.vase.preFX.addShadow()
 
       this.setFlowers()
-      // this.showStory()
-      
+      // this.showOrder()
 
       this.handleFlower()
 
@@ -64,7 +64,6 @@ export class Level2 extends Scene
       soundIcon.preFX.addShadow()
 
       soundIcon.on("pointerover", () => {
-        soundIcon.setScale(0.2)
         hoverSound.play()
       })
 
@@ -87,49 +86,42 @@ export class Level2 extends Scene
           .setScale(scale)
           .setOrigin(origin.x, origin.y)
           .setInteractive()
-          .setDepth(2)
-        flower.preFX.addShadow()
-        return flower
+          .setDepth(2);
+        flower.preFX.addShadow();
+        return flower;
       }
     
       this.flowers = {
-        flower1: { x: 1080, y: 90, key: "flower1", scale: 0.35 }, 
-        flower2: { x: 850, y: 100, key: "flower2", scale: 0.35 },
-        flower3: { x: 580, y: 95, key: "flower3", scale: 0.35 },
-        flower4: { x: 310, y: 100, key: "flower4", scale: 0.35 },
-        flower5: { x: 1080, y: 285, key: "flower5", scale: 0.35 },
-        flower6: { x: 850, y: 295, key: "flower6", scale: 0.35 },
-        flower7: { x: 580, y: 280, key: "flower7", scale: 0.35 },
-        flower8: { x: 310, y: 280, key: "flower8", scale: 0.35 },
+        bunch1: { x: 975, y: 253, key: "bunch1", scale: 0.37 }, 
+        bunch2: { x: 785, y: 245, key: "bunch2", scale: 0.37 },
+        bunch3: { x: 590, y: 245, key: "bunch3", scale: 0.37 },
+        bunch4: { x: 420, y: 240, key: "bunch4", scale: 0.37 },
+        bunch5: { x: 975, y: 440, key: "bunch5", scale: 0.37 },
+        bunch6: { x: 790, y: 450, key: "bunch6", scale: 0.37 },
+        bunch7: { x: 590, y: 445, key: "bunch7", scale: 0.37 },
+        bunch8: { x: 400, y: 450, key: "bunch8", scale: 0.37 },
       }
     
       Object.entries(this.flowers).forEach(([key, flower]) => {
-        const createdFlower = createFlower(
-          flower.x,
-          flower.y,
-          flower.key,
-          flower.scale,
-          flower.origin || undefined
-        )
+        const createdFlower = createFlower(flower.x, flower.y, flower.key);
     
-        let glow
         createdFlower.on("pointerover", () => {
-            this.hoverSound.play()
-            glow = createdFlower.preFX.addGlow("000000", 1, 0, false)
-            createdFlower.setScale(0.37)
-          })
+            this.hoverSound.play();
+            createdFlower.preFX.addGlow("0xffffff", 1, 0, false);
+            createdFlower.setScale(0.39);
+        });
+
         createdFlower.on("pointerout", () => {
-            glow?.setActive(false)
-            createdFlower.setScale(0.35)
-          })
+            createdFlower.preFX.clear();
+            createdFlower.setScale(0.37)
+        });
     
-        this.flowers[key] = createdFlower
-      })
+        this.flowers[key] = createdFlower;
+      });
     }
     
 
     handleFlower() {
-
         let flowersPlaced = {
         "rose": 0,
         "daffodil": 0,
@@ -144,31 +136,28 @@ export class Level2 extends Scene
         let flowerCount = 0;
 
         this.items["flowers"].forEach((flower) => {
-            this.input.setDraggable(flower)
+            this.input.setDraggable(flower);
 
-            let [x, y] = [flower.x, flower.y]
+            const initialPosition = { x: flower.x, y: flower.y };
 
             flower.on("drag", (pointer, dragX, dragY) => {
-                flower.x = dragX
-                flower.y = dragY
+                flower.x = dragX;
+                flower.y = dragY;
             })
 
             flower.on("dragend", () => {
-                const flowerBounds = flower.getBounds()
-                const vaseBounds = this.vase.getBounds()
+                const flowerBounds = flower.getBounds();
+                const vaseBounds = this.vase.getBounds();
 
-                if (
-                    Phaser.Geom.Intersects.RectangleToRectangle(flowerBounds, vaseBounds)
-                ) {
-                    flowerCount += 1
-                    flowersPlaced[flower.texture.key] += 1
-                    flower.x = x
-                    flower.y = y
+                if (Phaser.Geom.Intersects.RectangleToRectangle(flowerBounds, vaseBounds)) {
+                    flowerCount += 1;
+                    flowersPlaced[flower.texture.key] += 1;
+                    flower.setPosition(initialPosition.x, initialPosition.y);
 
                     this.tweens.add({
                         targets: flower,
-                        x2,
-                        y2,
+                        x: initialPosition.x,
+                        y: initialPosition.y,
                         duration: 500,
                         ease: "Power1",
                         yoyo: false,
@@ -184,42 +173,4 @@ export class Level2 extends Scene
             })
         })
     }
-
-    showStory(message) {
-      // Create background rectangle
-      const background = this.add.rectangle(this.cameras.main.centerX, this.cameras.main.centerY, 400, 200, 0x000000, 0.8);
-      background.setDepth(100);
-    
-      // Create text object
-      const text = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY - 50, message, {
-        fontSize: '20px',
-        color: '#ffffff',
-        fontFamily: 'Arial',
-        align: 'center',
-        wordWrap: { width: 380, useAdvancedWrap: true }
-      });
-      text.setOrigin(0.5);
-      text.setDepth(101);
-    
-      // Create button
-      const button = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY + 50, 'Dismiss', {
-        fontSize: '20px',
-        color: '#ffffff',
-        fontFamily: 'Arial',
-        backgroundColor: '#ff0000',
-        padding: { x: 10, y: 5 }
-      });
-      button.setOrigin(0.5);
-      button.setDepth(101);
-      button.setInteractive({ useHandCursor: true });
-    
-        
-      button.on('pointerdown', () => {
-        background.destroy();
-        text.destroy();
-        button.destroy();
-      }); 
-      
-    }
-
 }
