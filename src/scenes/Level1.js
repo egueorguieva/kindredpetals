@@ -7,7 +7,7 @@ export class Level1 extends Scene
   }
 
   preload () {
-    this.load.image('shop-bg', 'assets/main-interior-bg.png')
+    this.load.image('shop-bg', 'assets/main-bg-3.png')
     this.load.image('bunch1', 'assets/roses-bunch.png')
     this.load.image('bunch2', 'assets/lilies-bunch.png')
     this.load.image('bunch3', 'assets/daisies-bunch.png')
@@ -29,27 +29,16 @@ export class Level1 extends Scene
     
   create ()
     {
-      this.hoverSound = this.sound.add("hover")
+      const hoverSound = this.sound.add("hover")
 
       const bg = this.add.image(0, 0, "shop-bg")
       bg.setOrigin(0, 0)
       bg.setDisplaySize(this.sys.game.config.width, this.sys.game.config.height)
 
-      this.vase = this.add.image(425, 590, 'vase')
+      this.vase = this.add.image(1200, 550, 'vase')
       this.vase.setScale(0.5)
       this.vase.setDepth(1);
       this.vase.preFX.addShadow()
-
-      let flowersPlaced = {
-        "rose": 0,
-        "daffodil": 0,
-        "tulip": 0,
-        "lily": 0,
-        "daisy": 0,
-        "forgetmenot": 0,
-        "violet": 0,
-        "carnation": 0
-      };    
 
       this.setFlowers()
       // this.showStory()
@@ -75,6 +64,7 @@ export class Level1 extends Scene
       soundIcon.preFX.addShadow()
 
       soundIcon.on("pointerover", () => {
+        soundIcon.setScale(0.2)
         hoverSound.play()
       })
 
@@ -132,7 +122,7 @@ export class Level1 extends Scene
         let glow
         createdFlower.on("pointerover", () => {
             this.hoverSound.play()
-            glow = createdFlower.preFX.addGlow("000000", 1, 0, false)
+            glow = createdFlower.preFX.addGlow("0xffffff", 1, 0, false)
             createdFlower.setScale(0.37)
           })
         createdFlower.on("pointerout", () => {
@@ -170,7 +160,6 @@ export class Level1 extends Scene
             this.flowers.bunch1.x = x;
             this.flowers.bunch1.y = y;
             
-            this.handleSecondFlower()
           }
           
           this.tweens.add({
@@ -201,9 +190,7 @@ export class Level1 extends Scene
               this.add.image(440, 570, "lily")
                   .setScale(0.9)
                   .setInteractive()
-  
-                
-              this.handleSecondFlower()
+
             }
               
             this.tweens.add({

@@ -7,7 +7,7 @@ export class Level2 extends Scene
   }
 
   preload () {
-    this.load.image('shop-bg', 'assets/main-interior-bg.png')
+    this.load.image('shop-bg', 'assets/main-bg-3.png')
     this.load.image('flower1', 'assets/roses-bunch.png')
     this.load.image('flower2', 'assets/lilies-bunch.png')
     this.load.image('flower3', 'assets/daisies-bunch.png')
@@ -29,13 +29,13 @@ export class Level2 extends Scene
     
   create ()
     {
-      this.hoverSound = this.sound.add("hover")
+      const hoverSound = this.sound.add("hover")
 
       const bg = this.add.image(0, 0, "shop-bg")
       bg.setOrigin(0, 0)
       bg.setDisplaySize(this.sys.game.config.width, this.sys.game.config.height)
 
-      this.vase = this.add.image(425, 590, 'vase')
+      this.vase = this.add.image(1200, 550, 'vase')
       this.vase.setScale(0.5)
       this.vase.setDepth(1);
       this.vase.preFX.addShadow()
@@ -64,6 +64,7 @@ export class Level2 extends Scene
       soundIcon.preFX.addShadow()
 
       soundIcon.on("pointerover", () => {
+        soundIcon.setScale(0.2)
         hoverSound.play()
       })
 
