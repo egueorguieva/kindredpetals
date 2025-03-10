@@ -154,20 +154,14 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowers.bunch1.x = x1;
+            this.flowers.bunch1.y = y1;
+
             flowersPlaced++
             this.handleSecondFlower()
             
           }
-          
-          this.tweens.add({
-            targets: this.flowers.bunch1,
-            x: x1,
-            y: y1,
-            duration: 500,
-            ease: "Power0",
-            yoyo: false,
-            repeat: 0,
-          })
+
         })
 
         const { x: x2, y: y2 } = this.flowers.bunch2
@@ -187,21 +181,14 @@ export class Level1 extends Scene
                 .setScale(0.9)
                 .setInteractive()
                 .setDepth(this.vase.depth - 1)
+              
+              this.flowers.bunch2.x = x2;
+              this.flowers.bunch2.y = y2;
             
               flowersPlaced++
               this.handleSecondFlower()
 
             }
-              
-            this.tweens.add({
-              targets: this.flowers.bunch2,
-              x: x2,
-              y: y2,
-              duration: 500,
-              ease: "Power0",
-              yoyo: false,
-              repeat: 0,
-            })
               
           })
 
@@ -222,22 +209,14 @@ export class Level1 extends Scene
                   .setScale(0.8)
                   .setInteractive()
                   .setDepth(this.vase.depth - 1)
+                
+                this.flowers.bunch3.x = x3;
+                this.flowers.bunch3.y = y3;
                   
                 flowersPlaced++
                 this.handleSecondFlower()
                   
-                
               }
-                
-              this.tweens.add({
-                targets: this.flowers.bunch3,
-                x: x3,
-                y: y3,
-                duration: 500,
-                ease: "Power0",
-                yoyo: false,
-                repeat: 0,
-              })
                 
             })
 
@@ -258,21 +237,14 @@ export class Level1 extends Scene
                     .setScale(0.8)
                     .setInteractive()
                     .setDepth(this.vase.depth - 1)
+                  
+                  this.flowers.bunch4.x = x4;
+                  this.flowers.bunch4.y = y4;
 
                   flowersPlaced++
                   this.handleSecondFlower()
 
                 }
-                  
-                this.tweens.add({
-                  targets: this.flowers.bunch4,
-                  x: x4,
-                  y: y4,
-                  duration: 500,
-                  ease: "Power0",
-                  yoyo: false,
-                  repeat: 0,
-                })
                   
               })
 
@@ -294,20 +266,13 @@ export class Level1 extends Scene
                       .setInteractive()
                       .setDepth(this.vase.depth - 1)
 
+                    this.flowers.bunch5.x = x5;
+                    this.flowers.bunch5.y = y5;
+
                     flowersPlaced++
                     this.handleSecondFlower()
       
                   }
-                    
-                  this.tweens.add({
-                    targets: this.flowers.bunch5,
-                    x: x5,
-                    y: y5,
-                    duration: 500,
-                    ease: "Power0",
-                    yoyo: false,
-                    repeat: 0,
-                  })
                     
                 })
 
@@ -329,20 +294,13 @@ export class Level1 extends Scene
                         .setInteractive()
                         .setDepth(this.vase.depth - 1)
 
+                      this.flowers.bunch6.x = x6;
+                      this.flowers.bunch6.y = y6;
+
                       flowersPlaced++
                       this.handleSecondFlower()
         
                     }
-                      
-                    this.tweens.add({
-                      targets: this.flowers.bunch6,
-                      x: x6,
-                      y: y6,
-                      duration: 500,
-                      ease: "Power0",
-                      yoyo: false,
-                      repeat: 0,
-                    })
                       
                   })
 
@@ -364,20 +322,13 @@ export class Level1 extends Scene
                           .setInteractive()
                           .setDepth(this.vase.depth - 1)
 
+                        this.flowers.bunch7.x = x7;
+                        this.flowers.bunch7.y = y7;
+
                         flowersPlaced++
                         this.handleSecondFlower()
           
                       }
-                        
-                      this.tweens.add({
-                        targets: this.flowers.bunch7,
-                        x: x7,
-                        y: y7,
-                        duration: 500,
-                        ease: "Power0",
-                        yoyo: false,
-                        repeat: 0,
-                      })
                         
                     })
 
@@ -399,20 +350,12 @@ export class Level1 extends Scene
                             .setInteractive()
                             .setDepth(this.vase.depth - 1)
 
+                          this.flowers.bunch8.x = x8;
+                          this.flowers.bunch8.y = y8;
+
                           flowersPlaced++
                           this.handleSecondFlower()
-            
                         }
-                          
-                        this.tweens.add({
-                          targets: this.flowers.bunch8,
-                          x: x8,
-                          y: y8,
-                          duration: 500,
-                          ease: "Power0",
-                          yoyo: false,
-                          repeat: 0,
-                        })
                           
                       })
 
@@ -440,20 +383,12 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowers.bunch1.x = x1;
+            this.flowers.bunch1.y = y1;
+
             flowersPlaced++
             this.handleThirdFlower()
-            
           }
-          
-          this.tweens.add({
-            targets: this.flowers.bunch1,
-            x: x1,
-            y: y1,
-            duration: 500,
-            ease: "Power0",
-            yoyo: false,
-            repeat: 0,
-          })
         })
 
         const { x: x2, y: y2 } = this.flowers.bunch2
@@ -473,21 +408,14 @@ export class Level1 extends Scene
                 .setScale(0.8)
                 .setInteractive()
                 .setDepth(this.vase.depth - 1)
+              
+              this.flowers.bunch2.x = x2;
+              this.flowers.bunch2.y = y2;
             
               flowersPlaced++
               this.handleThirdFlower()
 
             }
-              
-            this.tweens.add({
-              targets: this.flowers.bunch2,
-              x: x2,
-              y: y2,
-              duration: 500,
-              ease: "Power0",
-              yoyo: false,
-              repeat: 0,
-            })
               
           })
 
@@ -508,22 +436,14 @@ export class Level1 extends Scene
                   .setScale(0.8)
                   .setInteractive()
                   .setDepth(this.vase.depth - 1)
+
+                this.flowers.bunch3.x = x3;
+                this.flowers.bunch3.y = y3;
                   
                 flowersPlaced++
                 this.handleThirdFlower()
-                  
                 
               }
-                
-              this.tweens.add({
-                targets: this.flowers.bunch3,
-                x: x3,
-                y: y3,
-                duration: 500,
-                ease: "Power0",
-                yoyo: false,
-                repeat: 0,
-              })
                 
             })
 
@@ -545,21 +465,13 @@ export class Level1 extends Scene
                     .setInteractive()
                     .setDepth(this.vase.depth - 1)
 
+                  this.flowers.bunch4.x = x4;
+                  this.flowers.bunch4.y = y4;
+
                   flowersPlaced++
                   this.handleThirdFlower()
 
                 }
-                  
-                this.tweens.add({
-                  targets: this.flowers.bunch4,
-                  x: x4,
-                  y: y4,
-                  duration: 500,
-                  ease: "Power0",
-                  yoyo: false,
-                  repeat: 0,
-                })
-                  
               })
 
               const { x: x5, y: y5 } = this.flowers.bunch5
@@ -580,20 +492,13 @@ export class Level1 extends Scene
                       .setInteractive()
                       .setDepth(this.vase.depth - 1)
 
+                    this.flowers.bunch5.x = x5;
+                    this.flowers.bunch5.y = y5;
+
                     flowersPlaced++
                     this.handleThirdFlower()
       
                   }
-                    
-                  this.tweens.add({
-                    targets: this.flowers.bunch5,
-                    x: x5,
-                    y: y5,
-                    duration: 500,
-                    ease: "Power0",
-                    yoyo: false,
-                    repeat: 0,
-                  })
                     
                 })
 
@@ -615,20 +520,13 @@ export class Level1 extends Scene
                         .setInteractive()
                         .setDepth(this.vase.depth - 1)
 
+                      this.flowers.bunch6.x = x6;
+                      this.flowers.bunch6.y = y6;
+
                       flowersPlaced++
                       this.handleThirdFlower()
         
                     }
-                      
-                    this.tweens.add({
-                      targets: this.flowers.bunch6,
-                      x: x6,
-                      y: y6,
-                      duration: 500,
-                      ease: "Power0",
-                      yoyo: false,
-                      repeat: 0,
-                    })
                       
                   }
                 )
@@ -650,21 +548,14 @@ export class Level1 extends Scene
                         .setScale(0.8)
                         .setInteractive()
                         .setDepth(this.vase.depth - 1)
+                      
+                      this.flowers.bunch7.x = x7;
+                      this.flowers.bunch7.y = y7;
 
                       flowersPlaced++
                       this.handleThirdFlower()
           
                     }
-                      
-                    this.tweens.add({
-                      targets: this.flowers.bunch7,
-                      x: x7,
-                      y: y7,
-                      duration: 500,
-                      ease: "Power0",
-                      yoyo: false,
-                      repeat: 0,
-                    })
                       
                   })
 
@@ -686,20 +577,13 @@ export class Level1 extends Scene
                           .setInteractive()
                           .setDepth(this.vase.depth - 1)
 
+                        this.flowers.bunch8.x = x8;
+                        this.flowers.bunch8.y = y8;
+
                         flowersPlaced++
                         this.handleThirdFlower()
             
                       }
-                        
-                      this.tweens.add({
-                        targets: this.flowers.bunch8,
-                        x: x8,
-                        y: y8,
-                        duration: 500,
-                        ease: "Power0",
-                        yoyo: false,
-                        repeat: 0,
-                      })
                         
                     })
     }
@@ -725,20 +609,13 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowers.bunch1.x = x1;
+            this.flowers.bunch1.y = y1;
+
             flowersPlaced++
             this.handleFourthFlower()
             
           }
-          
-          this.tweens.add({
-            targets: this.flowers.bunch1,
-            x: x1,
-            y: y1,
-            duration: 500,
-            ease: "Power0",
-            yoyo: false,
-            repeat: 0,
-          })
         }
       )
 
@@ -760,20 +637,13 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowers.bunch2.x = x2;
+            this.flowers.bunch2.y = y2;
+
             flowersPlaced++
             this.handleFourthFlower()
             
           }
-          
-          this.tweens.add({
-            targets: this.flowers.bunch2,
-            x: x2,
-            y: y2,
-            duration: 500,
-            ease: "Power0",
-            yoyo: false,
-            repeat: 0,
-          })
         }
       )
 
@@ -795,20 +665,13 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowers.bunch3.x = x3;
+            this.flowers.bunch3.y = y3;
+
             flowersPlaced++
             this.handleFourthFlower()
             
           }
-          
-          this.tweens.add({
-            targets: this.flowers.bunch3,
-            x: x3,
-            y: y3,
-            duration: 500,
-            ease: "Power0",
-            yoyo: false,
-            repeat: 0,
-          })
         }
       )
 
@@ -830,20 +693,13 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowers.bunch4.x = x4;
+            this.flowers.bunch4.y = y4;
+
             flowersPlaced++
             this.handleFourthFlower()
             
           }
-          
-          this.tweens.add({
-            targets: this.flowers.bunch4,
-            x: x4,
-            y: y4,
-            duration: 500,
-            ease: "Power0",
-            yoyo: false,
-            repeat: 0,
-          })
         }
       )
 
@@ -865,20 +721,13 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowers.bunch5.x = x5;
+            this.flowers.bunch5.y = y5;
+
             flowersPlaced++
             this.handleFourthFlower()
             
           }
-          
-          this.tweens.add({
-            targets: this.flowers.bunch5,
-            x: x5,
-            y: y5,
-            duration: 500,
-            ease: "Power0",
-            yoyo: false,
-            repeat: 0,
-          })
         }
       )
 
@@ -899,21 +748,14 @@ export class Level1 extends Scene
               .setScale(0.7)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
+            
+            this.flowers.bunch6.x = x6;
+            this.flowers.bunch6.y = y6;
 
             flowersPlaced++
             this.handleFourthFlower()
             
           }
-          
-          this.tweens.add({
-            targets: this.flowers.bunch6,
-            x: x6,
-            y: y6,
-            duration: 500,
-            ease: "Power0",
-            yoyo: false,
-            repeat: 0,
-          })
         }
       )
 
@@ -935,20 +777,13 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowers.bunch7.x = x7;
+            this.flowers.bunch7.y = y7;
+
             flowersPlaced++
             this.handleFourthFlower()
             
           }
-          
-          this.tweens.add({
-            targets: this.flowers.bunch7,
-            x: x7,
-            y: y7,
-            duration: 500,
-            ease: "Power0",
-            yoyo: false,
-            repeat: 0,
-          })
         }
       )
 
@@ -970,20 +805,13 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowers.bunch8.x = x8;
+            this.flowers.bunch8.y = y8;
+
             flowersPlaced++
             this.handleFourthFlower()
             
           }
-          
-          this.tweens.add({
-            targets: this.flowers.bunch8,
-            x: x8,
-            y: y8,
-            duration: 500,
-            ease: "Power0",
-            yoyo: false,
-            repeat: 0,
-          })
         }
       )      
     }
@@ -1009,20 +837,14 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowers.bunch1.x = x1;
+            this.flowers.bunch1.y = y1;
+
             flowersPlaced++
             this.handleFifthFlower()
             
           }
           
-          this.tweens.add({
-            targets: this.flowers.bunch1,
-            x: x1,
-            y: y1,
-            duration: 500,
-            ease: "Power0",
-            yoyo: false,
-            repeat: 0,
-          })
         }
       )
 
@@ -1043,21 +865,14 @@ export class Level1 extends Scene
               .setScale(0.6)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
+            
+            this.flowers.bunch2.x = x2;
+            this.flowers.bunch2.y = y2;
 
             flowersPlaced++
             this.handleFifthFlower()
             
           }
-          
-          this.tweens.add({
-            targets: this.flowers.bunch2,
-            x: x2,
-            y: y2,
-            duration: 500,
-            ease: "Power0",
-            yoyo: false,
-            repeat: 0,
-          })
         }
       )
 
@@ -1079,20 +894,13 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowers.bunch3.x = x3;
+            this.flowers.bunch3.y = y3;
+
             flowersPlaced++
             this.handleFifthFlower()
             
           }
-          
-          this.tweens.add({
-            targets: this.flowers.bunch3,
-            x: x3,
-            y: y3,
-            duration: 500,
-            ease: "Power0",
-            yoyo: false,
-            repeat: 0,
-          })
         }
       )
 
@@ -1114,20 +922,13 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowers.bunch4.x = x4;
+            this.flowers.bunch4.y = y4;
+
             flowersPlaced++
             this.handleFifthFlower()
             
           }
-          
-          this.tweens.add({
-            targets: this.flowers.bunch4,
-            x: x4,
-            y: y4,
-            duration: 500,
-            ease: "Power0",
-            yoyo: false,
-            repeat: 0,
-          })
         }
       )
 
@@ -1149,20 +950,13 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowers.bunch5.x = x5;
+            this.flowers.bunch5.y = y5;
+
             flowersPlaced++
             this.handleFifthFlower()
             
           }
-          
-          this.tweens.add({
-            targets: this.flowers.bunch5,
-            x: x5,
-            y: y5,
-            duration: 500,
-            ease: "Power0",
-            yoyo: false,
-            repeat: 0,
-          })
         }
       )
 
@@ -1184,20 +978,13 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowers.bunch6.x = x6;
+            this.flowers.bunch6.y = y6;
+
             flowersPlaced++
             this.handleFifthFlower()
             
           }
-          
-          this.tweens.add({
-            targets: this.flowers.bunch6,
-            x: x6,
-            y: y6,
-            duration: 500,
-            ease: "Power0",
-            yoyo: false,
-            repeat: 0,
-          })
         }
       )
 
@@ -1219,20 +1006,13 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowers.bunch7.x = x7;
+            this.flowers.bunch7.y = y7;
+
             flowersPlaced++
             this.handleFifthFlower()
             
           }
-          
-          this.tweens.add({
-            targets: this.flowers.bunch7,
-            x: x7,
-            y: y7,
-            duration: 500,
-            ease: "Power0",
-            yoyo: false,
-            repeat: 0,
-          })
         }
       )
 
@@ -1254,20 +1034,13 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowers.bunch8.x = x8;
+            this.flowers.bunch8.y = y8;
+
             flowersPlaced++
             this.handleFifthFlower()
             
           }
-          
-          this.tweens.add({
-            targets: this.flowers.bunch8,
-            x: x8,
-            y: y8,
-            duration: 500,
-            ease: "Power0",
-            yoyo: false,
-            repeat: 0,
-          })
         }
       )
     }
@@ -1293,19 +1066,13 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowers.bunch1.x = x1;
+            this.flowers.bunch1.y = y1;
+
             flowersPlaced++
             this.orderComplete()
           }
           
-          this.tweens.add({
-            targets: this.flowers.bunch1,
-            x: x1,
-            y: y1,
-            duration: 500,
-            ease: "Power0",
-            yoyo: false,
-            repeat: 0,
-          })
         }
       )
 
@@ -1327,19 +1094,12 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowers.bunch2.x = x2;
+            this.flowers.bunch2.y = y2;
+
             flowersPlaced++
             this.orderComplete()
           }
-          
-          this.tweens.add({
-            targets: this.flowers.bunch2,
-            x: x2,
-            y: y2,
-            duration: 500,
-            ease: "Power0",
-            yoyo: false,
-            repeat: 0,
-          })
         }
       )
 
@@ -1361,19 +1121,12 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowers.bunch3.x = x3;
+            this.flowers.bunch3.y = y3;
+
             flowersPlaced++
             this.orderComplete()
           }
-          
-          this.tweens.add({
-            targets: this.flowers.bunch3,
-            x: x3,
-            y: y3,
-            duration: 500,
-            ease: "Power0",
-            yoyo: false,
-            repeat: 0,
-          })
         }
       )
 
@@ -1395,19 +1148,12 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowers.bunch4.x = x4;
+            this.flowers.bunch4.y = y4;
+
             flowersPlaced++
             this.orderComplete()
           }
-          
-          this.tweens.add({
-            targets: this.flowers.bunch4,
-            x: x4,
-            y: y4,
-            duration: 500,
-            ease: "Power0",
-            yoyo: false,
-            repeat: 0,
-          })
         }
       )
 
@@ -1429,19 +1175,12 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowers.bunch5.x = x5;
+            this.flowers.bunch5.y = y5;
+
             flowersPlaced++
             this.orderComplete()
           }
-          
-          this.tweens.add({
-            targets: this.flowers.bunch5,
-            x: x5,
-            y: y5,
-            duration: 500,
-            ease: "Power0",
-            yoyo: false,
-            repeat: 0,
-          })
         }
       )
 
@@ -1463,19 +1202,12 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowers.bunch6.x = x6;
+            this.flowers.bunch6.y = y6;
+
             flowersPlaced++
             this.orderComplete()
           }
-          
-          this.tweens.add({
-            targets: this.flowers.bunch6,
-            x: x6,
-            y: y6,
-            duration: 500,
-            ease: "Power0",
-            yoyo: false,
-            repeat: 0,
-          })
         }
       )
 
@@ -1497,19 +1229,12 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowers.bunch7.x = x7;
+            this.flowers.bunch7.y = y7;
+
             flowersPlaced++
             this.orderComplete()
           }
-          
-          this.tweens.add({
-            targets: this.flowers.bunch7,
-            x: x7,
-            y: y7,
-            duration: 500,
-            ease: "Power0",
-            yoyo: false,
-            repeat: 0,
-          })
         }
       )
 
@@ -1531,19 +1256,12 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowers.bunch8.x = x8;
+            this.flowers.bunch8.y = y8;
+
             flowersPlaced++
             this.orderComplete()
           }
-          
-          this.tweens.add({
-            targets: this.flowers.bunch8,
-            x: x8,
-            y: y8,
-            duration: 500,
-            ease: "Power0",
-            yoyo: false,
-            repeat: 0,
-          })
         }
       )
     }
