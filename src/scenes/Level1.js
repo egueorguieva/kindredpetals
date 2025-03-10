@@ -149,7 +149,7 @@ export class Level1 extends Scene
   
         if (Phaser.Geom.Intersects.RectangleToRectangle(flower1Bounds,vaseBounds))
           {
-            this.add.image(1205, 540, "rose")
+            this.add.image(1205, 540, "forgetmenot")
               .setScale(0.9)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
@@ -175,8 +175,8 @@ export class Level1 extends Scene
         this.input.setDraggable(this.flowers["bunch2"])
     
         this.flowers.bunch2.on("drag", (pointer, dragX, dragY) => {
-            this.flowers.bunch2.x = dragX
-            this.flowers.bunch2.y = dragY
+          this.flowers.bunch2.x = dragX
+          this.flowers.bunch2.y = dragY
         })
   
         this.flowers["bunch2"].on("dragend", () => {
@@ -207,6 +207,230 @@ export class Level1 extends Scene
             })
               
           })
+
+          const { x: x3, y: y3 } = this.flowers.bunch3
+          this.input.setDraggable(this.flowers["bunch3"])
+
+          this.flowers.bunch3.on("drag", (pointer, dragX, dragY) => {
+            this.flowers.bunch3.x = dragX
+            this.flowers.bunch3.y = dragY
+          })
+          
+          this.flowers["bunch3"].on("dragend", () => {
+            const flower3Bounds = this.flowers.bunch3.getBounds()
+            const vaseBounds = this.vase.getBounds()
+        
+            if (Phaser.Geom.Intersects.RectangleToRectangle(flower3Bounds,vaseBounds))
+              {
+                this.add.image(1270, 530, "carnation")
+                  .setScale(0.8)
+                  .setInteractive()
+                  .setDepth(this.vase.depth - 1)
+                
+                            
+                this.flowers.bunch3.x = x3;
+                this.flowers.bunch3.y = y3;
+  
+              }
+                
+              this.tweens.add({
+                targets: this.flowers.bunch3,
+                x: x3,
+                y: y3,
+                duration: 500,
+                ease: "Power0",
+                yoyo: false,
+                repeat: 0,
+              })
+                
+            })
+
+            const { x: x4, y: y4 } = this.flowers.bunch4
+            this.input.setDraggable(this.flowers["bunch4"])
+
+            this.flowers.bunch4.on("drag", (pointer, dragX, dragY) => {
+              this.flowers.bunch4.x = dragX
+              this.flowers.bunch4.y = dragY
+            })
+            
+            this.flowers["bunch4"].on("dragend", () => {
+              const flower4Bounds = this.flowers.bunch4.getBounds()
+              const vaseBounds = this.vase.getBounds()
+          
+              if (Phaser.Geom.Intersects.RectangleToRectangle(flower4Bounds,vaseBounds))
+                {
+                  this.add.image(1270, 530, "rose")
+                    .setScale(0.8)
+                    .setInteractive()
+                    .setDepth(this.vase.depth - 1)
+                  
+                              
+                  this.flowers.bunch4.x = x4;
+                  this.flowers.bunch4.y = y4;
+    
+                }
+                  
+                this.tweens.add({
+                  targets: this.flowers.bunch4,
+                  x: x4,
+                  y: y4,
+                  duration: 500,
+                  ease: "Power0",
+                  yoyo: false,
+                  repeat: 0,
+                })
+                  
+              })
+
+              const { x: x5, y: y5 } = this.flowers.bunch5
+              this.input.setDraggable(this.flowers["bunch5"])
+
+              this.flowers.bunch5.on("drag", (pointer, dragX, dragY) => {
+                this.flowers.bunch5.x = dragX
+                this.flowers.bunch5.y = dragY
+              })
+
+              this.flowers["bunch5"].on("dragend", () => {
+                const flower5Bounds = this.flowers.bunch5.getBounds()
+                const vaseBounds = this.vase.getBounds()
+            
+                if (Phaser.Geom.Intersects.RectangleToRectangle(flower5Bounds,vaseBounds))
+                  {
+                    this.add.image(1200, 540, "tulip")
+                      .setScale(0.9)
+                      .setInteractive()
+                      .setDepth(this.vase.depth - 1)
+                    
+                                
+                    this.flowers.bunch5.x = x5;
+                    this.flowers.bunch5.y = y5;
+      
+                  }
+                    
+                  this.tweens.add({
+                    targets: this.flowers.bunch5,
+                    x: x5,
+                    y: y5,
+                    duration: 500,
+                    ease: "Power0",
+                    yoyo: false,
+                    repeat: 0,
+                  })
+                    
+                })
+
+                const { x: x6, y: y6 } = this.flowers.bunch6
+                this.input.setDraggable(this.flowers["bunch6"])
+
+                this.flowers.bunch6.on("drag", (pointer, dragX, dragY) => {
+                  this.flowers.bunch6.x = dragX
+                  this.flowers.bunch6.y = dragY
+                })
+
+                this.flowers["bunch6"].on("dragend", () => {
+                  const flower6Bounds = this.flowers.bunch6.getBounds()
+                  const vaseBounds = this.vase.getBounds()
+              
+                  if (Phaser.Geom.Intersects.RectangleToRectangle(flower6Bounds,vaseBounds))
+                    {
+                      this.add.image(1200, 540, "violet")
+                        .setScale(0.9)
+                        .setInteractive()
+                        .setDepth(this.vase.depth - 1)
+                      
+                                  
+                      this.flowers.bunch6.x = x6;
+                      this.flowers.bunch6.y = y6;
+        
+                    }
+                      
+                    this.tweens.add({
+                      targets: this.flowers.bunch6,
+                      x: x6,
+                      y: y6,
+                      duration: 500,
+                      ease: "Power0",
+                      yoyo: false,
+                      repeat: 0,
+                    })
+                      
+                  })
+
+                  const { x: x7, y: y7 } = this.flowers.bunch7
+                  this.input.setDraggable(this.flowers["bunch7"])
+
+                  this.flowers.bunch7.on("drag", (pointer, dragX, dragY) => {
+                    this.flowers.bunch7.x = dragX
+                    this.flowers.bunch7.y = dragY
+                  })
+
+                  this.flowers["bunch7"].on("dragend", () => {
+                    const flower7Bounds = this.flowers.bunch7.getBounds()
+                    const vaseBounds = this.vase.getBounds()
+                
+                    if (Phaser.Geom.Intersects.RectangleToRectangle(flower7Bounds,vaseBounds))
+                      {
+                        this.add.image(1200, 540, "daisy")
+                          .setScale(0.9)
+                          .setInteractive()
+                          .setDepth(this.vase.depth - 1)
+                        
+                                      
+                        this.flowers.bunch7.x = x7;
+                        this.flowers.bunch7.y = y7;
+          
+                      }
+                        
+                      this.tweens.add({
+                        targets: this.flowers.bunch7,
+                        x: x7,
+                        y: y7,
+                        duration: 500,
+                        ease: "Power0",
+                        yoyo: false,
+                        repeat: 0,
+                      })
+                        
+                    })
+
+                    const { x: x8, y: y8 } = this.flowers.bunch8
+                    this.input.setDraggable(this.flowers["bunch8"])
+
+                    this.flowers.bunch8.on("drag", (pointer, dragX, dragY) => {
+                      this.flowers.bunch8.x = dragX
+                      this.flowers.bunch8.y = dragY
+                    })
+
+                    this.flowers["bunch8"].on("dragend", () => {
+                      const flower8Bounds = this.flowers.bunch8.getBounds()
+                      const vaseBounds = this.vase.getBounds()
+                  
+                      if (Phaser.Geom.Intersects.RectangleToRectangle(flower8Bounds,vaseBounds))
+                        {
+                          this.add.image(1200, 540, "daffodil")
+                            .setScale(0.9)
+                            .setInteractive()
+                            .setDepth(this.vase.depth - 1)
+                          
+                                      
+                          this.flowers.bunch8.x = x8;
+                          this.flowers.bunch8.y = y8;
+            
+                        }
+                          
+                        this.tweens.add({
+                          targets: this.flowers.bunch8,
+                          x: x8,
+                          y: y8,
+                          duration: 500,
+                          ease: "Power0",
+                          yoyo: false,
+                          repeat: 0,
+                        })
+                          
+                      })
+
+
     }
 
     showStory(message) {
