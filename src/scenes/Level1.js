@@ -44,36 +44,6 @@ export class Level1 extends Scene
       // this.showStory()
       this.handleFirstFlower()
 
-      const muteIcon = this.add.image(1375, 60, "muteIcon")
-      muteIcon.setInteractive()
-      muteIcon.setScale(0.15)
-      muteIcon.setVisible(false)
-      muteIcon.preFX.addShadow()
-
-      muteIcon.on("pointerdown", () => {
-          this.sound.mute = false
-          muteIcon.setVisible(false)
-          soundIcon.setVisible(true)
-      })
-
-      const soundIcon = this.add.image(1375, 60, "soundIcon")
-      soundIcon.setInteractive()
-      soundIcon.setScale(0.15)
-      soundIcon.preFX.addShadow()
-
-      soundIcon.on("pointerover", () => {
-        hoverSound.play()
-      })
-
-      soundIcon.on("pointerout", () => {
-        soundIcon.setScale(0.15)
-      })
-
-      soundIcon.on("pointerdown", () => {
-        this.sound.mute = true
-        muteIcon.setVisible(true)
-        soundIcon.setVisible(false)
-      })
 
     }
 
@@ -136,6 +106,15 @@ export class Level1 extends Scene
 
       let flowersPlaced = 0
 
+      let textBubble = this.add.text(0, 0, "", {
+        fontSize: "16px",
+        fill: "#fff",
+        fontFamily: "PixelFont",
+        backgroundColor: "#000",
+        padding: { x: 10, y: 5 },
+        wordWrap: { width: 150 }
+      }).setVisible(false);
+
       const { x: x1, y: y1 } = this.flowers.bunch1
       this.input.setDraggable(this.flowers["bunch1"])
 
@@ -160,6 +139,12 @@ export class Level1 extends Scene
 
             this.flowers.bunch1.x = x1;
             this.flowers.bunch1.y = y1;
+
+            this.add.text(520, 710, "I'm so sorry to hear that!", { 
+              fontSize: "32px", 
+              fill: "#000", 
+              fontFamily: "PixelFont"
+            })
 
             flowersPlaced++
             this.handleSecondFlower()
@@ -198,6 +183,8 @@ export class Level1 extends Scene
               
               this.flowers.bunch2.x = x2;
               this.flowers.bunch2.y = y2;
+
+
             
               flowersPlaced++
               this.handleSecondFlower()
@@ -470,6 +457,12 @@ export class Level1 extends Scene
             this.flowers.bunch1.x = x1;
             this.flowers.bunch1.y = y1;
 
+            this.add.text(520, 750, "I'm so sorry to hear that!", { 
+              fontSize: "32px", 
+              fill: "#000", 
+              fontFamily: "PixelFont"
+            })
+
             flowersPlaced++
             this.handleThirdFlower()
           }
@@ -488,7 +481,7 @@ export class Level1 extends Scene
           const vaseBounds = this.vase.getBounds()
       
           if (flowersPlaced === 1 && Phaser.Geom.Intersects.RectangleToRectangle(flower2Bounds,vaseBounds)) {
-              this.add.image(1225, 510, "lily")
+              this.add.image(1250, 490, "lily")
                 .setScale(0.9)
                 .setInteractive()
                 .setDepth(this.vase.depth - 1)
@@ -716,7 +709,7 @@ export class Level1 extends Scene
         const vaseBounds = this.vase.getBounds()
   
         if (flowersPlaced === 2 && Phaser.Geom.Intersects.RectangleToRectangle(flower2Bounds,vaseBounds)) {
-            this.add.image(1250, 490, "lily")
+            this.add.image(1225, 510, "lily")
               .setScale(0.9)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
@@ -945,8 +938,8 @@ export class Level1 extends Scene
         const vaseBounds = this.vase.getBounds()
   
         if (flowersPlaced === 3 && Phaser.Geom.Intersects.RectangleToRectangle(flower2Bounds,vaseBounds)) {
-            this.add.image(1000, 540, "lily")
-              .setScale(0.6)
+            this.add.image(1270, 500, "lily")
+              .setScale(0.9)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
             
@@ -1173,8 +1166,8 @@ export class Level1 extends Scene
         const vaseBounds = this.vase.getBounds()
   
         if (flowersPlaced === 4 && Phaser.Geom.Intersects.RectangleToRectangle(flower2Bounds,vaseBounds)) {
-            this.add.image(1000, 540, "lily")
-              .setScale(0.5)
+            this.add.image(1240, 540, "lily")
+              .setScale(0.9)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
