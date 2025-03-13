@@ -10,6 +10,7 @@ export class Preloader extends Scene
     preload ()
     {
         this.load.audio("hover", "assets/sound-effects/hover.wav");
+        this.load.audio("select", "assets/sound-effects/select.wav");
 
         this.load.image("soundIcon", "assets/music-note.png")
         this.load.image("muteIcon", "assets/mute-note.png")

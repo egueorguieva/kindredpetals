@@ -18,6 +18,7 @@ export class MainMenu extends Scene
     create ()
     {
         const hoverSound = this.sound.add("hover")
+        const selectSound = this.sound.add("select")
 
         const bg = this.add.image(0, 0, "background")
         bg.setOrigin(0, 0)
@@ -101,6 +102,7 @@ export class MainMenu extends Scene
 
 
         levels[0].on("pointerdown", () => {
+            selectSound.play()
             this.scene.start("Level1")
         })
 
@@ -112,6 +114,7 @@ export class MainMenu extends Scene
 
         muteIcon.on("pointerdown", () => {
             this.sound.mute = false
+            selectSound.play()
             muteIcon.setVisible(false)
             soundIcon.setVisible(true)
         })
@@ -131,6 +134,7 @@ export class MainMenu extends Scene
         })
 
         soundIcon.on("pointerdown", () => {
+            selectSound.play()
             this.sound.mute = true
             muteIcon.setVisible(true)
             soundIcon.setVisible(false)

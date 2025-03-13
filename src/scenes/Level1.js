@@ -4,6 +4,9 @@ export class Level1 extends Scene
 {
   constructor () {
     super('Level1');
+    this.textBubble = null;
+    this.currentTurn = 0;
+    this.currentFlower = 0;
   }
 
   preload () {
@@ -30,6 +33,7 @@ export class Level1 extends Scene
   create ()
     {
       this.hoverSound = this.sound.add("hover")
+      this.selectSound = this.sound.add("select")
 
       const bg = this.add.image(0, 0, "shop-bg")
       bg.setOrigin(0, 0)
@@ -42,17 +46,90 @@ export class Level1 extends Scene
 
       this.setFlowers()
       // this.showStory()
+
+      this.textBubble = this.add.text(0, 0, "", {
+        fontSize: "24px",
+        fill: "#fff",
+        fontFamily: "PixelFont",
+        backgroundColor: "#000",
+        padding: { x: 10, y: 5 },
+        wordWrap: { width: 200, useAdvancedWrap: true },
+      }).setVisible(false);
+
+      this.flowerColors = {
+        bunch1: "#0165FC", // forget-me-not color
+        bunch2: "#964B00", // lily color
+        bunch3: "#FF1694", // carnation color
+        bunch4: "#FF0000", // rose color
+        bunch5: "#FF4D00", // tulip color
+        bunch6: "#7600BC", // violet color
+        bunch7: "#FFFFFF", // daisy color
+        bunch8: "#FFDE21"  // daffodil color
+      }
+
+      this.flowerTexts = {
+        bunch1: [ // emotional expression
+          "I'm so sorry to hear that!",
+          "no",
+          "yes",
+          "woah",
+          "nice"
+        ],
+        bunch2: [ // paraphrasing
+          "Lily message 1",
+          "Lily message 2",
+          "Lily message 3",
+          "Lily message 4",
+          "Lily message 5"
+        ],
+        bunch3: [ // empowerment
+          "Carnation message 1",
+          "Carnation message 2",
+          "Carnation message 3",
+          "Carnation message 4",
+          "Carnation message 5"
+        ],
+        bunch4: [ // information
+          "Rose message 1",
+          "Rose message 2",
+          "Rose message 3",
+          "Rose message 4",
+          "Rose message 5"
+        ],
+        bunch5: [ // validation
+          "Tulip message 1",
+          "Tulip message 2",
+          "Tulip message 3",
+          "Tulip message 4",
+          "Tulip message 5"
+        ],
+        bunch6: [ // contextualizing
+          "Violet message 1",
+          "Violet message 2",
+          "Violet message 3",
+          "Violet message 4",
+          "Violet message 5",
+        ],
+        bunch7: [ // advice
+          "Daisy message 1",
+          "Daisy message 2",
+          "Daisy message 3",
+          "Daisy message 4",
+          "Daisy message 5"
+        ],
+        bunch8: [ // gratitude
+          "Daffodil message 1",
+          "Daffodil message 2",
+          "Daffodil message 3",
+          "Daffodil message 4",
+          "Daffodil message 5"
+        ]
+      };
+
       this.handleFirstFlower()
 
 
     }
-
-    // markComponentAdded() {
-    //     /* mechanics of exactly what happens when
-    //     flower gets added to vase ? */
-
-    //     this.currentFlower++
-    // }
 
     setFlowers() {
       const createFlower = (x, y, key, scale, origin = { x: 0.5, y: 0.5 }) => {
@@ -106,26 +183,23 @@ export class Level1 extends Scene
 
       let flowersPlaced = 0
 
-      let textBubble = this.add.text(0, 0, "", {
-        fontSize: "16px",
-        fill: "#fff",
-        fontFamily: "PixelFont",
-        backgroundColor: "#000",
-        padding: { x: 10, y: 5 },
-        wordWrap: { width: 150 }
-      }).setVisible(false);
-
       const { x: x1, y: y1 } = this.flowers.bunch1
       this.input.setDraggable(this.flowers["bunch1"])
-
-      /* this.flowers.bunch1.on("pointerover", () => {
-        this.hoverSound.play()
-      }) */
 
       this.flowers.bunch1.on("drag", (pointer, dragX, dragY) => {
         this.flowers.bunch1.x = dragX
         this.flowers.bunch1.y = dragY
       })
+
+      this.flowers.bunch1.on("pointerover", () => {
+        this.textBubble.setText(this.flowerTexts.bunch1[this.currentTurn])
+          .setPosition(this.flowers.bunch1.x + 70, this.flowers.bunch1.y - 30)
+          .setVisible(true);
+      });
+
+      this.flowers.bunch1.on("pointerout", () => {
+        this.textBubble.setVisible(false);
+      });
 
       this.flowers["bunch1"].on("dragend", () => {
         const flower1Bounds = this.flowers.bunch1.getBounds()
@@ -136,20 +210,22 @@ export class Level1 extends Scene
               .setScale(0.85)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
-
+            
+            this.selectSound.play()
             this.flowers.bunch1.x = x1;
             this.flowers.bunch1.y = y1;
 
-            this.add.text(520, 710, "I'm so sorry to hear that!", { 
+            this.add.text(520, 710, this.flowerTexts.bunch1[this.currentTurn], { 
               fontSize: "32px", 
-              fill: "#0165FC", 
+              fill: this.flowerColors.bunch1, 
               fontFamily: "PixelFont"
             })
 
             flowersPlaced++
+            this.currentTurn++
             this.handleSecondFlower()
             
-          }
+          }        
 
         this.tweens.add({
           targets: this.flowers.bunch1,
@@ -170,6 +246,17 @@ export class Level1 extends Scene
           this.flowers.bunch2.x = dragX
           this.flowers.bunch2.y = dragY
         })
+
+        this.flowers.bunch2.on("pointerover", () => {
+          this.textBubble.setText(this.flowerTexts.bunch2[this.currentTurn])
+            .setPosition(this.flowers.bunch2.x + 70, this.flowers.bunch2.y - 30)
+            .setDepth(this.flowers.bunch1.depth + 1)
+            .setVisible(true);
+        });
+  
+        this.flowers.bunch2.on("pointerout", () => {
+          this.textBubble.setVisible(false);
+        });
   
         this.flowers["bunch2"].on("dragend", () => {
           const flower2Bounds = this.flowers.bunch2.getBounds()
@@ -181,16 +268,18 @@ export class Level1 extends Scene
                 .setInteractive()
                 .setDepth(this.vase.depth - 1)
               
+              this.selectSound.play()
               this.flowers.bunch2.x = x2;
               this.flowers.bunch2.y = y2;
 
-              this.add.text(520, 710, "lily message 1", { 
+              this.add.text(520, 710, this.flowerTexts.bunch2[this.currentTurn], { 
                 fontSize: "32px", 
-                fill: "#000", 
+                fill: this.flowerColors.bunch2,
                 fontFamily: "PixelFont"
               })
             
               flowersPlaced++
+              this.currentTurn++
               this.handleSecondFlower()
 
             }
@@ -214,6 +303,17 @@ export class Level1 extends Scene
             this.flowers.bunch3.x = dragX
             this.flowers.bunch3.y = dragY
           })
+
+          this.flowers.bunch3.on("pointerover", () => {
+            this.textBubble.setText(this.flowerTexts.bunch3[this.currentTurn])
+              .setPosition(this.flowers.bunch3.x + 70, this.flowers.bunch3.y - 30)
+              .setDepth(this.flowers.bunch1.depth + 1)
+              .setVisible(true);
+          });
+    
+          this.flowers.bunch3.on("pointerout", () => {
+            this.textBubble.setVisible(false);
+          });
           
           this.flowers["bunch3"].on("dragend", () => {
             const flower3Bounds = this.flowers.bunch3.getBounds()
@@ -224,11 +324,19 @@ export class Level1 extends Scene
                   .setScale(0.8)
                   .setInteractive()
                   .setDepth(this.vase.depth - 1)
-                
+
+                this.selectSound.play()
                 this.flowers.bunch3.x = x3;
                 this.flowers.bunch3.y = y3;
+
+                this.add.text(520, 710, this.flowerTexts.bunch3[this.currentTurn], { 
+                  fontSize: "32px", 
+                  fill: this.flowerColors.bunch3,  
+                  fontFamily: "PixelFont"
+                })
                   
                 flowersPlaced++
+                this.currentTurn++
                 this.handleSecondFlower()
                   
               }
@@ -252,6 +360,17 @@ export class Level1 extends Scene
               this.flowers.bunch4.x = dragX
               this.flowers.bunch4.y = dragY
             })
+
+            this.flowers.bunch4.on("pointerover", () => {
+              this.textBubble.setText(this.flowerTexts.bunch4[this.currentTurn])
+                .setPosition(this.flowers.bunch4.x + 70, this.flowers.bunch4.y - 30)
+                .setDepth(this.flowers.bunch1.depth + 1)
+                .setVisible(true);
+            });
+      
+            this.flowers.bunch4.on("pointerout", () => {
+              this.textBubble.setVisible(false);
+            });
             
             this.flowers["bunch4"].on("dragend", () => {
               const flower4Bounds = this.flowers.bunch4.getBounds()
@@ -263,10 +382,18 @@ export class Level1 extends Scene
                     .setInteractive()
                     .setDepth(this.vase.depth - 1)
                   
+                  this.selectSound.play()
                   this.flowers.bunch4.x = x4;
                   this.flowers.bunch4.y = y4;
 
+                  this.add.text(520, 710, this.flowerTexts.bunch4[this.currentTurn], { 
+                    fontSize: "32px", 
+                    fill: this.flowerColors.bunch4, 
+                    fontFamily: "PixelFont"
+                  })
+
                   flowersPlaced++
+                  this.currentTurn++
                   this.handleSecondFlower()
 
                 }
@@ -291,6 +418,17 @@ export class Level1 extends Scene
                 this.flowers.bunch5.y = dragY
               })
 
+              this.flowers.bunch5.on("pointerover", () => {
+                this.textBubble.setText(this.flowerTexts.bunch5[this.currentTurn])
+                  .setPosition(this.flowers.bunch5.x + 70, this.flowers.bunch5.y - 30)
+                  .setDepth(this.flowers.bunch1.depth + 1)
+                  .setVisible(true);
+              });
+        
+              this.flowers.bunch5.on("pointerout", () => {
+                this.textBubble.setVisible(false);
+              });
+
               this.flowers["bunch5"].on("dragend", () => {
                 const flower5Bounds = this.flowers.bunch5.getBounds()
                 const vaseBounds = this.vase.getBounds()
@@ -301,10 +439,18 @@ export class Level1 extends Scene
                       .setInteractive()
                       .setDepth(this.vase.depth - 1)
 
+                    this.selectSound.play()
                     this.flowers.bunch5.x = x5;
                     this.flowers.bunch5.y = y5;
 
+                    this.add.text(520, 710, this.flowerTexts.bunch5[this.currentTurn], { 
+                      fontSize: "32px", 
+                      fill: this.flowerColors.bunch5,  
+                      fontFamily: "PixelFont"
+                    })
+
                     flowersPlaced++
+                    this.currentTurn++
                     this.handleSecondFlower()
       
                   }
@@ -329,6 +475,17 @@ export class Level1 extends Scene
                   this.flowers.bunch6.y = dragY
                 })
 
+                this.flowers.bunch6.on("pointerover", () => {
+                  this.textBubble.setText(this.flowerTexts.bunch6[this.currentTurn])
+                    .setPosition(this.flowers.bunch6.x + 70, this.flowers.bunch6.y - 30)
+                    .setDepth(this.flowers.bunch1.depth + 1)
+                    .setVisible(true);
+                });
+          
+                this.flowers.bunch6.on("pointerout", () => {
+                  this.textBubble.setVisible(false);
+                });
+
                 this.flowers["bunch6"].on("dragend", () => {
                   const flower6Bounds = this.flowers.bunch6.getBounds()
                   const vaseBounds = this.vase.getBounds()
@@ -339,10 +496,18 @@ export class Level1 extends Scene
                         .setInteractive()
                         .setDepth(this.vase.depth - 1)
 
+                      this.selectSound.play()
                       this.flowers.bunch6.x = x6;
                       this.flowers.bunch6.y = y6;
 
+                      this.add.text(520, 710, this.flowerTexts.bunch6[this.currentTurn], { 
+                        fontSize: "32px", 
+                        fill: this.flowerColors.bunch6,  
+                        fontFamily: "PixelFont"
+                      })
+
                       flowersPlaced++
+                      this.currentTurn++
                       this.handleSecondFlower()
         
                     }
@@ -367,6 +532,17 @@ export class Level1 extends Scene
                     this.flowers.bunch7.y = dragY
                   })
 
+                  this.flowers.bunch7.on("pointerover", () => {
+                    this.textBubble.setText(this.flowerTexts.bunch7[this.currentTurn])
+                      .setPosition(this.flowers.bunch7.x + 70, this.flowers.bunch7.y - 30)
+                      .setDepth(this.flowers.bunch1.depth + 1)
+                      .setVisible(true);
+                  });
+            
+                  this.flowers.bunch7.on("pointerout", () => {
+                    this.textBubble.setVisible(false);
+                  });
+
                   this.flowers["bunch7"].on("dragend", () => {
                     const flower7Bounds = this.flowers.bunch7.getBounds()
                     const vaseBounds = this.vase.getBounds()
@@ -377,10 +553,18 @@ export class Level1 extends Scene
                           .setInteractive()
                           .setDepth(this.vase.depth - 1)
 
+                        this.selectSound.play()
                         this.flowers.bunch7.x = x7;
                         this.flowers.bunch7.y = y7;
 
+                        this.add.text(520, 710, this.flowerTexts.bunch7[this.currentTurn], { 
+                          fontSize: "32px", 
+                          fill: this.flowerColors.bunch7,  
+                          fontFamily: "PixelFont"
+                        })
+
                         flowersPlaced++
+                        this.currentTurn++
                         this.handleSecondFlower()
           
                       }
@@ -405,6 +589,17 @@ export class Level1 extends Scene
                       this.flowers.bunch8.y = dragY
                     })
 
+                    this.flowers.bunch8.on("pointerover", () => {
+                      this.textBubble.setText(this.flowerTexts.bunch8[this.currentTurn])
+                        .setPosition(this.flowers.bunch8.x + 70, this.flowers.bunch8.y - 30)
+                        .setDepth(this.flowers.bunch1.depth + 1)
+                        .setVisible(true);
+                    });
+              
+                    this.flowers.bunch8.on("pointerout", () => {
+                      this.textBubble.setVisible(false);
+                    });
+
                     this.flowers["bunch8"].on("dragend", () => {
                       const flower8Bounds = this.flowers.bunch8.getBounds()
                       const vaseBounds = this.vase.getBounds()
@@ -415,10 +610,18 @@ export class Level1 extends Scene
                             .setInteractive()
                             .setDepth(this.vase.depth - 1)
 
+                          this.selectSound.play()
                           this.flowers.bunch8.x = x8;
                           this.flowers.bunch8.y = y8;
 
+                          this.add.text(520, 710, this.flowerTexts.bunch8[this.currentTurn], { 
+                            fontSize: "32px", 
+                            fill: this.flowerColors.bunch8, 
+                            fontFamily: "PixelFont"
+                          })
+
                           flowersPlaced++
+                          this.currentTurn++
                           this.handleSecondFlower()
                         }
 
@@ -433,7 +636,6 @@ export class Level1 extends Scene
                         })
                           
                       })
-
     }
 
     handleSecondFlower() {
@@ -443,10 +645,16 @@ export class Level1 extends Scene
       const { x: x1, y: y1 } = this.flowers.bunch1
       this.input.setDraggable(this.flowers["bunch1"])
 
-      this.flowers.bunch1.on("drag", (pointer, dragX, dragY) => {
-        this.flowers.bunch1.x = dragX
-        this.flowers.bunch1.y = dragY
-      })
+      this.flowers.bunch1.on("pointerover", () => {
+        this.textBubble.setText(this.flowerTexts.bunch1[this.currentTurn])
+          .setPosition(this.flowers.bunch1.x + 70, this.flowers.bunch1.y - 30)
+          .setDepth(this.flowers.bunch1.depth + 1)
+          .setVisible(true);
+      });
+
+      this.flowers.bunch1.on("pointerout", () => {
+        this.textBubble.setVisible(false);
+      });
 
       this.flowers["bunch1"].on("dragend", () => {
         const flower1Bounds = this.flowers.bunch1.getBounds()
@@ -458,16 +666,18 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.selectSound.play()
             this.flowers.bunch1.x = x1;
             this.flowers.bunch1.y = y1;
 
-            this.add.text(520, 750, "I'm so sorry to hear that!", { 
+            this.add.text(520, 750, this.flowerTexts.bunch1[this.currentTurn], { 
               fontSize: "32px", 
-              fill: "#000", 
+              fill: this.flowerColors.bunch1, 
               fontFamily: "PixelFont"
             })
 
             flowersPlaced++
+            this.currentTurn++
             this.handleThirdFlower()
           }
         })
@@ -475,10 +685,16 @@ export class Level1 extends Scene
         const { x: x2, y: y2 } = this.flowers.bunch2
         this.input.setDraggable(this.flowers["bunch2"])
 
-        this.flowers.bunch2.on("drag", (pointer, dragX, dragY) => {
-          this.flowers.bunch2.x = dragX
-          this.flowers.bunch2.y = dragY
-        })
+        this.flowers.bunch2.on("pointerover", () => {
+          this.textBubble.setText(this.flowerTexts.bunch2[this.currentTurn])
+            .setPosition(this.flowers.bunch2.x + 70, this.flowers.bunch2.y - 30)
+            .setDepth(this.flowers.bunch1.depth + 1)
+            .setVisible(true);
+        });
+  
+        this.flowers.bunch2.on("pointerout", () => {
+          this.textBubble.setVisible(false);
+        });
 
         this.flowers["bunch2"].on("dragend", () => {
           const flower2Bounds = this.flowers.bunch2.getBounds()
@@ -490,10 +706,18 @@ export class Level1 extends Scene
                 .setInteractive()
                 .setDepth(this.vase.depth - 1)
               
+              this.selectSound.play()
               this.flowers.bunch2.x = x2;
               this.flowers.bunch2.y = y2;
+
+              this.add.text(520, 750, this.flowerTexts.bunch2[this.currentTurn], { 
+                fontSize: "32px", 
+                fill: this.flowerColors.bunch2,  
+                fontFamily: "PixelFont"
+              })
             
               flowersPlaced++
+              this.currentTurn++
               this.handleThirdFlower()
 
             }
@@ -503,10 +727,16 @@ export class Level1 extends Scene
           const { x: x3, y: y3 } = this.flowers.bunch3
           this.input.setDraggable(this.flowers["bunch3"])
 
-          this.flowers.bunch3.on("drag", (pointer, dragX, dragY) => {
-            this.flowers.bunch3.x = dragX
-            this.flowers.bunch3.y = dragY
-          })
+          this.flowers.bunch3.on("pointerover", () => {
+            this.textBubble.setText(this.flowerTexts.bunch3[this.currentTurn])
+              .setPosition(this.flowers.bunch3.x + 70, this.flowers.bunch3.y - 30)
+              .setDepth(this.flowers.bunch1.depth + 1)
+              .setVisible(true);
+          });
+    
+          this.flowers.bunch3.on("pointerout", () => {
+            this.textBubble.setVisible(false);
+          });
 
           this.flowers["bunch3"].on("dragend", () => {
             const flower3Bounds = this.flowers.bunch3.getBounds()
@@ -518,10 +748,18 @@ export class Level1 extends Scene
                   .setInteractive()
                   .setDepth(this.vase.depth - 1)
 
+                this.selectSound.play()
                 this.flowers.bunch3.x = x3;
                 this.flowers.bunch3.y = y3;
+
+                this.add.text(520, 750, this.flowerTexts.bunch3[this.currentTurn], { 
+                  fontSize: "32px", 
+                  fill: this.flowerColors.bunch3, 
+                  fontFamily: "PixelFont"
+                })
                   
                 flowersPlaced++
+                this.currentTurn++
                 this.handleThirdFlower()
                 
               }
@@ -531,10 +769,16 @@ export class Level1 extends Scene
             const { x: x4, y: y4 } = this.flowers.bunch4
             this.input.setDraggable(this.flowers["bunch4"])
 
-            this.flowers.bunch4.on("drag", (pointer, dragX, dragY) => {
-              this.flowers.bunch4.x = dragX
-              this.flowers.bunch4.y = dragY
-            })
+            this.flowers.bunch4.on("pointerover", () => {
+              this.textBubble.setText(this.flowerTexts.bunch4[this.currentTurn])
+                .setPosition(this.flowers.bunch4.x + 70, this.flowers.bunch4.y - 30)
+                .setDepth(this.flowers.bunch1.depth + 1)
+                .setVisible(true);
+            });
+      
+            this.flowers.bunch4.on("pointerout", () => {
+              this.textBubble.setVisible(false);
+            });
 
             this.flowers["bunch4"].on("dragend", () => {
               const flower4Bounds = this.flowers.bunch4.getBounds()
@@ -546,10 +790,18 @@ export class Level1 extends Scene
                     .setInteractive()
                     .setDepth(this.vase.depth - 1)
 
+                  this.selectSound.play()
                   this.flowers.bunch4.x = x4;
                   this.flowers.bunch4.y = y4;
 
+                  this.add.text(520, 750, this.flowerTexts.bunch4[this.currentTurn], { 
+                    fontSize: "32px", 
+                    fill: this.flowerColors.bunch4, 
+                    fontFamily: "PixelFont"
+                  })
+
                   flowersPlaced++
+                  this.currentTurn++
                   this.handleThirdFlower()
 
                 }
@@ -558,10 +810,16 @@ export class Level1 extends Scene
               const { x: x5, y: y5 } = this.flowers.bunch5
               this.input.setDraggable(this.flowers["bunch5"])
 
-              this.flowers.bunch5.on("drag", (pointer, dragX, dragY) => {
-                this.flowers.bunch5.x = dragX
-                this.flowers.bunch5.y = dragY
-              })
+              this.flowers.bunch5.on("pointerover", () => {
+                this.textBubble.setText(this.flowerTexts.bunch5[this.currentTurn])
+                  .setPosition(this.flowers.bunch5.x + 70, this.flowers.bunch5.y - 30)
+                  .setDepth(this.flowers.bunch1.depth + 1)
+                  .setVisible(true);
+              });
+        
+              this.flowers.bunch5.on("pointerout", () => {
+                this.textBubble.setVisible(false);
+              });
 
               this.flowers["bunch5"].on("dragend", () => {
                 const flower5Bounds = this.flowers.bunch5.getBounds()
@@ -573,10 +831,18 @@ export class Level1 extends Scene
                       .setInteractive()
                       .setDepth(this.vase.depth - 1)
 
+                    this.selectSound.play()
                     this.flowers.bunch5.x = x5;
                     this.flowers.bunch5.y = y5;
 
+                    this.add.text(520, 750, this.flowerTexts.bunch5[this.currentTurn], { 
+                      fontSize: "32px", 
+                      fill: this.flowerColors.bunch5, 
+                      fontFamily: "PixelFont"
+                    })
+
                     flowersPlaced++
+                    this.currentTurn++
                     this.handleThirdFlower()
       
                   }
@@ -586,10 +852,16 @@ export class Level1 extends Scene
                 const { x: x6, y: y6 } = this.flowers.bunch6
                 this.input.setDraggable(this.flowers["bunch6"])
 
-                this.flowers.bunch6.on("drag", (pointer, dragX, dragY) => {
-                  this.flowers.bunch6.x = dragX
-                  this.flowers.bunch6.y = dragY
-                })
+                this.flowers.bunch6.on("pointerover", () => {
+                  this.textBubble.setText(this.flowerTexts.bunch6[this.currentTurn])
+                    .setPosition(this.flowers.bunch6.x + 70, this.flowers.bunch6.y - 30)
+                    .setDepth(this.flowers.bunch1.depth + 1)
+                    .setVisible(true);
+                });
+          
+                this.flowers.bunch6.on("pointerout", () => {
+                  this.textBubble.setVisible(false);
+                });
 
                 this.flowers["bunch6"].on("dragend", () => {
                   const flower6Bounds = this.flowers.bunch6.getBounds()
@@ -601,10 +873,18 @@ export class Level1 extends Scene
                         .setInteractive()
                         .setDepth(this.vase.depth - 1)
 
+                      this.selectSound.play()
                       this.flowers.bunch6.x = x6;
                       this.flowers.bunch6.y = y6;
 
+                      this.add.text(520, 750, this.flowerTexts.bunch6[this.currentTurn], { 
+                        fontSize: "32px", 
+                        fill: this.flowerColors.bunch6, 
+                        fontFamily: "PixelFont"
+                      })
+
                       flowersPlaced++
+                      this.currentTurn++
                       this.handleThirdFlower()
         
                     }
@@ -615,10 +895,16 @@ export class Level1 extends Scene
                 const { x: x7, y: y7 } = this.flowers.bunch7
                 this.input.setDraggable(this.flowers["bunch7"])
 
-                this.flowers.bunch7.on("drag", (pointer, dragX, dragY) => {
-                  this.flowers.bunch7.x = dragX
-                  this.flowers.bunch7.y = dragY
-                })
+                this.flowers.bunch7.on("pointerover", () => {
+                  this.textBubble.setText(this.flowerTexts.bunch7[this.currentTurn])
+                    .setPosition(this.flowers.bunch7.x + 70, this.flowers.bunch7.y - 30)
+                    .setDepth(this.flowers.bunch1.depth + 1)
+                    .setVisible(true);
+                });
+          
+                this.flowers.bunch7.on("pointerout", () => {
+                  this.textBubble.setVisible(false);
+                });
 
                 this.flowers["bunch7"].on("dragend", () => {
                   const flower7Bounds = this.flowers.bunch7.getBounds()
@@ -630,10 +916,18 @@ export class Level1 extends Scene
                         .setInteractive()
                         .setDepth(this.vase.depth - 1)
                       
+                      this.selectSound.play()
                       this.flowers.bunch7.x = x7;
                       this.flowers.bunch7.y = y7;
 
+                      this.add.text(520, 750, this.flowerTexts.bunch7[this.currentTurn], { 
+                        fontSize: "32px", 
+                        fill: this.flowerColors.bunch7, 
+                        fontFamily: "PixelFont"
+                      })
+
                       flowersPlaced++
+                      this.currentTurn++
                       this.handleThirdFlower()
           
                     }
@@ -643,10 +937,16 @@ export class Level1 extends Scene
                   const { x: x8, y: y8 } = this.flowers.bunch8
                   this.input.setDraggable(this.flowers["bunch8"])
 
-                  this.flowers.bunch8.on("drag", (pointer, dragX, dragY) => {
-                    this.flowers.bunch8.x = dragX
-                    this.flowers.bunch8.y = dragY
-                  })
+                  this.flowers.bunch8.on("pointerover", () => {
+                    this.textBubble.setText(this.flowerTexts.bunch8[this.currentTurn])
+                      .setPosition(this.flowers.bunch8.x + 70, this.flowers.bunch8.y - 30)
+                      .setDepth(this.flowers.bunch1.depth + 1)
+                      .setVisible(true);
+                  });
+            
+                  this.flowers.bunch8.on("pointerout", () => {
+                    this.textBubble.setVisible(false);
+                  });
 
                   this.flowers["bunch8"].on("dragend", () => {
                     const flower8Bounds = this.flowers.bunch8.getBounds()
@@ -658,10 +958,18 @@ export class Level1 extends Scene
                           .setInteractive()
                           .setDepth(this.vase.depth - 1)
 
+                        this.selectSound.play()
                         this.flowers.bunch8.x = x8;
                         this.flowers.bunch8.y = y8;
 
+                        this.add.text(520, 750, this.flowerTexts.bunch8[this.currentTurn], { 
+                          fontSize: "32px", 
+                          fill: this.flowerColors.bunch8, 
+                          fontFamily: "PixelFont"
+                        })
+
                         flowersPlaced++
+                        this.currentTurn++
                         this.handleThirdFlower()
             
                       }
@@ -675,10 +983,16 @@ export class Level1 extends Scene
       const { x: x1, y: y1 } = this.flowers.bunch1
       this.input.setDraggable(this.flowers["bunch1"])
 
-      this.flowers.bunch1.on("drag", (pointer, dragX, dragY) => {
-        this.flowers.bunch1.x = dragX
-        this.flowers.bunch1.y = dragY
-      })
+      this.flowers.bunch1.on("pointerover", () => {
+        this.textBubble.setText(this.flowerTexts.bunch1[this.currentTurn])
+          .setPosition(this.flowers.bunch1.x + 70, this.flowers.bunch1.y - 30)
+          .setDepth(this.flowers.bunch1.depth + 1)
+          .setVisible(true);
+      });
+
+      this.flowers.bunch1.on("pointerout", () => {
+        this.textBubble.setVisible(false);
+      });
 
       this.flowers["bunch1"].on("dragend", () => {
         const flower1Bounds = this.flowers.bunch1.getBounds()
@@ -690,10 +1004,18 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.selectSound.play()
             this.flowers.bunch1.x = x1;
             this.flowers.bunch1.y = y1;
 
+            this.add.text(520, 780, this.flowerTexts.bunch1[this.currentTurn], { 
+              fontSize: "32px", 
+              fill: this.flowerColors.bunch1, 
+              fontFamily: "PixelFont"
+            })
+
             flowersPlaced++
+            this.currentTurn++
             this.handleFourthFlower()
             
           }
@@ -703,10 +1025,16 @@ export class Level1 extends Scene
       const { x: x2, y: y2 } = this.flowers.bunch2
       this.input.setDraggable(this.flowers["bunch2"])
 
-      this.flowers.bunch2.on("drag", (pointer, dragX, dragY) => {
-        this.flowers.bunch2.x = dragX
-        this.flowers.bunch2.y = dragY
-      })
+      this.flowers.bunch2.on("pointerover", () => {
+        this.textBubble.setText(this.flowerTexts.bunch2[this.currentTurn])
+          .setPosition(this.flowers.bunch2.x + 70, this.flowers.bunch2.y - 30)
+          .setDepth(this.flowers.bunch1.depth + 1)
+          .setVisible(true);
+      });
+
+      this.flowers.bunch2.on("pointerout", () => {
+        this.textBubble.setVisible(false);
+      });
 
       this.flowers["bunch2"].on("dragend", () => {
         const flower2Bounds = this.flowers.bunch2.getBounds()
@@ -718,10 +1046,18 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.selectSound.play()
             this.flowers.bunch2.x = x2;
             this.flowers.bunch2.y = y2;
 
+            this.add.text(520, 780, this.flowerTexts.bunch2[this.currentTurn], { 
+              fontSize: "32px", 
+              fill: this.flowerColors.bunch2, 
+              fontFamily: "PixelFont"
+            })
+
             flowersPlaced++
+            this.currentTurn++
             this.handleFourthFlower()
             
           }
@@ -731,10 +1067,16 @@ export class Level1 extends Scene
       const { x: x3, y: y3 } = this.flowers.bunch3
       this.input.setDraggable(this.flowers["bunch3"])
 
-      this.flowers.bunch3.on("drag", (pointer, dragX, dragY) => {
-        this.flowers.bunch3.x = dragX
-        this.flowers.bunch3.y = dragY
-      })
+      this.flowers.bunch3.on("pointerover", () => {
+        this.textBubble.setText(this.flowerTexts.bunch3[this.currentTurn])
+          .setPosition(this.flowers.bunch3.x + 70, this.flowers.bunch3.y - 30)
+          .setDepth(this.flowers.bunch1.depth + 1)
+          .setVisible(true);
+      });
+
+      this.flowers.bunch3.on("pointerout", () => {
+        this.textBubble.setVisible(false);
+      });
 
       this.flowers["bunch3"].on("dragend", () => {
         const flower3Bounds = this.flowers.bunch3.getBounds()
@@ -746,10 +1088,18 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.selectSound.play()
             this.flowers.bunch3.x = x3;
             this.flowers.bunch3.y = y3;
 
+            this.add.text(520, 780, this.flowerTexts.bunch3[this.currentTurn], { 
+              fontSize: "32px", 
+              fill: this.flowerColors.bunch3, 
+              fontFamily: "PixelFont"
+            })
+
             flowersPlaced++
+            this.currentTurn++
             this.handleFourthFlower()
             
           }
@@ -759,10 +1109,16 @@ export class Level1 extends Scene
       const { x: x4, y: y4 } = this.flowers.bunch4
       this.input.setDraggable(this.flowers["bunch4"])
 
-      this.flowers.bunch4.on("drag", (pointer, dragX, dragY) => {
-        this.flowers.bunch4.x = dragX
-        this.flowers.bunch4.y = dragY
-      })
+      this.flowers.bunch4.on("pointerover", () => {
+        this.textBubble.setText(this.flowerTexts.bunch4[this.currentTurn])
+          .setPosition(this.flowers.bunch4.x + 70, this.flowers.bunch4.y - 30)
+          .setDepth(this.flowers.bunch1.depth + 1)
+          .setVisible(true);
+      });
+
+      this.flowers.bunch4.on("pointerout", () => {
+        this.textBubble.setVisible(false);
+      });
 
       this.flowers["bunch4"].on("dragend", () => {
         const flower4Bounds = this.flowers.bunch4.getBounds()
@@ -774,10 +1130,18 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.selectSound.play()
             this.flowers.bunch4.x = x4;
             this.flowers.bunch4.y = y4;
 
+            this.add.text(520, 780, this.flowerTexts.bunch4[this.currentTurn], { 
+              fontSize: "32px", 
+              fill: this.flowerColors.bunch4, 
+              fontFamily: "PixelFont"
+            })
+
             flowersPlaced++
+            this.currentTurn++
             this.handleFourthFlower()
             
           }
@@ -787,10 +1151,16 @@ export class Level1 extends Scene
       const { x: x5, y: y5 } = this.flowers.bunch5
       this.input.setDraggable(this.flowers["bunch5"])
 
-      this.flowers.bunch5.on("drag", (pointer, dragX, dragY) => {
-        this.flowers.bunch5.x = dragX
-        this.flowers.bunch5.y = dragY
-      })
+      this.flowers.bunch5.on("pointerover", () => {
+        this.textBubble.setText(this.flowerTexts.bunch5[this.currentTurn])
+          .setPosition(this.flowers.bunch5.x + 70, this.flowers.bunch5.y - 30)
+          .setDepth(this.flowers.bunch1.depth + 1)
+          .setVisible(true);
+      });
+
+      this.flowers.bunch5.on("pointerout", () => {
+        this.textBubble.setVisible(false);
+      });
 
       this.flowers["bunch5"].on("dragend", () => {
         const flower5Bounds = this.flowers.bunch5.getBounds()
@@ -802,10 +1172,18 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.selectSound.play()
             this.flowers.bunch5.x = x5;
             this.flowers.bunch5.y = y5;
 
+            this.add.text(520, 780, this.flowerTexts.bunch5[this.currentTurn], { 
+              fontSize: "32px", 
+              fill: this.flowerColors.bunch5, 
+              fontFamily: "PixelFont"
+            })
+
             flowersPlaced++
+            this.currentTurn++
             this.handleFourthFlower()
             
           }
@@ -815,10 +1193,16 @@ export class Level1 extends Scene
       const { x: x6, y: y6 } = this.flowers.bunch6
       this.input.setDraggable(this.flowers["bunch6"])
 
-      this.flowers.bunch6.on("drag", (pointer, dragX, dragY) => {
-        this.flowers.bunch6.x = dragX
-        this.flowers.bunch6.y = dragY
-      })
+      this.flowers.bunch6.on("pointerover", () => {
+        this.textBubble.setText(this.flowerTexts.bunch6[this.currentTurn])
+          .setPosition(this.flowers.bunch6.x + 70, this.flowers.bunch6.y - 30)
+          .setDepth(this.flowers.bunch1.depth + 1)
+          .setVisible(true);
+      });
+
+      this.flowers.bunch6.on("pointerout", () => {
+        this.textBubble.setVisible(false);
+      });
 
       this.flowers["bunch6"].on("dragend", () => {
         const flower6Bounds = this.flowers.bunch6.getBounds()
@@ -830,10 +1214,18 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
             
+            this.selectSound.play()
             this.flowers.bunch6.x = x6;
             this.flowers.bunch6.y = y6;
 
+            this.add.text(520, 780, this.flowerTexts.bunch6[this.currentTurn], { 
+              fontSize: "32px", 
+              fill: this.flowerColors.bunch6, 
+              fontFamily: "PixelFont"
+            })
+
             flowersPlaced++
+            this.currentTurn++
             this.handleFourthFlower()
             
           }
@@ -843,10 +1235,16 @@ export class Level1 extends Scene
       const { x: x7, y: y7 } = this.flowers.bunch7
       this.input.setDraggable(this.flowers["bunch7"])
 
-      this.flowers.bunch7.on("drag", (pointer, dragX, dragY) => {
-        this.flowers.bunch7.x = dragX
-        this.flowers.bunch7.y = dragY
-      })
+      this.flowers.bunch7.on("pointerover", () => {
+        this.textBubble.setText(this.flowerTexts.bunch7[this.currentTurn])
+          .setPosition(this.flowers.bunch7.x + 70, this.flowers.bunch7.y - 30)
+          .setDepth(this.flowers.bunch1.depth + 1)
+          .setVisible(true);
+      });
+
+      this.flowers.bunch7.on("pointerout", () => {
+        this.textBubble.setVisible(false);
+      });
 
       this.flowers["bunch7"].on("dragend", () => {
         const flower7Bounds = this.flowers.bunch7.getBounds()
@@ -858,10 +1256,18 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.selectSound.play()
             this.flowers.bunch7.x = x7;
             this.flowers.bunch7.y = y7;
 
+            this.add.text(520, 780, this.flowerTexts.bunch7[this.currentTurn], { 
+              fontSize: "32px", 
+              fill: this.flowerColors.bunch7, 
+              fontFamily: "PixelFont"
+            })
+
             flowersPlaced++
+            this.currentTurn++
             this.handleFourthFlower()
             
           }
@@ -871,10 +1277,16 @@ export class Level1 extends Scene
       const { x: x8, y: y8 } = this.flowers.bunch8
       this.input.setDraggable(this.flowers["bunch8"])
 
-      this.flowers.bunch8.on("drag", (pointer, dragX, dragY) => {
-        this.flowers.bunch8.x = dragX
-        this.flowers.bunch8.y = dragY
-      })
+      this.flowers.bunch8.on("pointerover", () => {
+        this.textBubble.setText(this.flowerTexts.bunch8[this.currentTurn])
+          .setPosition(this.flowers.bunch8.x + 70, this.flowers.bunch8.y - 30)
+          .setDepth(this.flowers.bunch1.depth + 1)
+          .setVisible(true);
+      });
+
+      this.flowers.bunch8.on("pointerout", () => {
+        this.textBubble.setVisible(false);
+      });
 
       this.flowers["bunch8"].on("dragend", () => {
         const flower8Bounds = this.flowers.bunch8.getBounds()
@@ -886,10 +1298,18 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.selectSound.play()
             this.flowers.bunch8.x = x8;
             this.flowers.bunch8.y = y8;
 
+            this.add.text(520, 780, this.flowerTexts.bunch8[this.currentTurn], { 
+              fontSize: "32px", 
+              fill: this.flowerColors.bunch8, 
+              fontFamily: "PixelFont"
+            })
+
             flowersPlaced++
+            this.currentTurn++
             this.handleFourthFlower()
             
           }
@@ -903,10 +1323,16 @@ export class Level1 extends Scene
       const { x: x1, y: y1 } = this.flowers.bunch1
       this.input.setDraggable(this.flowers["bunch1"])
 
-      this.flowers.bunch1.on("drag", (pointer, dragX, dragY) => {
-        this.flowers.bunch1.x = dragX
-        this.flowers.bunch1.y = dragY
-      })
+      this.flowers.bunch1.on("pointerover", () => {
+        this.textBubble.setText(this.flowerTexts.bunch1[this.currentTurn])
+          .setPosition(this.flowers.bunch1.x + 70, this.flowers.bunch1.y - 30)
+          .setDepth(this.flowers.bunch1.depth + 1)
+          .setVisible(true);
+      });
+
+      this.flowers.bunch1.on("pointerout", () => {
+        this.textBubble.setVisible(false);
+      });
 
       this.flowers["bunch1"].on("dragend", () => {
         const flower1Bounds = this.flowers.bunch1.getBounds()
@@ -918,10 +1344,18 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.selectSound.play()
             this.flowers.bunch1.x = x1;
             this.flowers.bunch1.y = y1;
 
+            this.add.text(520, 810, this.flowerTexts.bunch1[this.currentTurn], { 
+              fontSize: "32px", 
+              fill: this.flowerColors.bunch1,  
+              fontFamily: "PixelFont"
+            })
+
             flowersPlaced++
+            this.currentTurn++
             this.handleFifthFlower()
             
           }
@@ -932,10 +1366,16 @@ export class Level1 extends Scene
       const { x: x2, y: y2 } = this.flowers.bunch2
       this.input.setDraggable(this.flowers["bunch2"])
 
-      this.flowers.bunch2.on("drag", (pointer, dragX, dragY) => {
-        this.flowers.bunch2.x = dragX
-        this.flowers.bunch2.y = dragY
-      })
+      this.flowers.bunch2.on("pointerover", () => {
+        this.textBubble.setText(this.flowerTexts.bunch2[this.currentTurn])
+          .setPosition(this.flowers.bunch2.x + 70, this.flowers.bunch2.y - 30)
+          .setDepth(this.flowers.bunch1.depth + 1)
+          .setVisible(true);
+      });
+
+      this.flowers.bunch2.on("pointerout", () => {
+        this.textBubble.setVisible(false);
+      });
 
       this.flowers["bunch2"].on("dragend", () => {
         const flower2Bounds = this.flowers.bunch2.getBounds()
@@ -947,10 +1387,18 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
             
+            this.selectSound.play()
             this.flowers.bunch2.x = x2;
             this.flowers.bunch2.y = y2;
 
+            this.add.text(520, 810, this.flowerTexts.bunch2[this.currentTurn], { 
+              fontSize: "32px", 
+              fill: this.flowerColors.bunch2,  
+              fontFamily: "PixelFont"
+            })
+
             flowersPlaced++
+            this.currentTurn++
             this.handleFifthFlower()
             
           }
@@ -960,10 +1408,16 @@ export class Level1 extends Scene
       const { x: x3, y: y3 } = this.flowers.bunch3
       this.input.setDraggable(this.flowers["bunch3"])
 
-      this.flowers.bunch3.on("drag", (pointer, dragX, dragY) => {
-        this.flowers.bunch3.x = dragX
-        this.flowers.bunch3.y = dragY
-      })
+      this.flowers.bunch3.on("pointerover", () => {
+        this.textBubble.setText(this.flowerTexts.bunch3[this.currentTurn])
+          .setPosition(this.flowers.bunch3.x + 70, this.flowers.bunch3.y - 30)
+          .setDepth(this.flowers.bunch1.depth + 1)
+          .setVisible(true);
+      });
+
+      this.flowers.bunch3.on("pointerout", () => {
+        this.textBubble.setVisible(false);
+      });
 
       this.flowers["bunch3"].on("dragend", () => {
         const flower3Bounds = this.flowers.bunch3.getBounds()
@@ -975,10 +1429,18 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.selectSound.play()
             this.flowers.bunch3.x = x3;
             this.flowers.bunch3.y = y3;
 
+            this.add.text(520, 810, this.flowerTexts.bunch3[this.currentTurn], { 
+              fontSize: "32px", 
+              fill: this.flowerColors.bunch3, 
+              fontFamily: "PixelFont"
+            })
+
             flowersPlaced++
+            this.currentTurn++
             this.handleFifthFlower()
             
           }
@@ -988,10 +1450,16 @@ export class Level1 extends Scene
       const { x: x4, y: y4 } = this.flowers.bunch4
       this.input.setDraggable(this.flowers["bunch4"])
 
-      this.flowers.bunch4.on("drag", (pointer, dragX, dragY) => {
-        this.flowers.bunch4.x = dragX
-        this.flowers.bunch4.y = dragY
-      })
+      this.flowers.bunch4.on("pointerover", () => {
+        this.textBubble.setText(this.flowerTexts.bunch4[this.currentTurn])
+          .setPosition(this.flowers.bunch4.x + 70, this.flowers.bunch4.y - 30)
+          .setDepth(this.flowers.bunch1.depth + 1)
+          .setVisible(true);
+      });
+
+      this.flowers.bunch4.on("pointerout", () => {
+        this.textBubble.setVisible(false);
+      });
 
       this.flowers["bunch4"].on("dragend", () => {
         const flower4Bounds = this.flowers.bunch4.getBounds()
@@ -1003,10 +1471,18 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.selectSound.play()
             this.flowers.bunch4.x = x4;
             this.flowers.bunch4.y = y4;
 
+            this.add.text(520, 810, this.flowerTexts.bunch4[this.currentTurn], { 
+              fontSize: "32px", 
+              fill: this.flowerColors.bunch4, 
+              fontFamily: "PixelFont"
+            })
+
             flowersPlaced++
+            this.currentTurn++
             this.handleFifthFlower()
             
           }
@@ -1016,10 +1492,16 @@ export class Level1 extends Scene
       const { x: x5, y: y5 } = this.flowers.bunch5
       this.input.setDraggable(this.flowers["bunch5"])
 
-      this.flowers.bunch5.on("drag", (pointer, dragX, dragY) => {
-        this.flowers.bunch5.x = dragX
-        this.flowers.bunch5.y = dragY
-      })
+      this.flowers.bunch5.on("pointerover", () => {
+        this.textBubble.setText(this.flowerTexts.bunch5[this.currentTurn])
+          .setPosition(this.flowers.bunch5.x + 70, this.flowers.bunch5.y - 30)
+          .setDepth(this.flowers.bunch1.depth + 1)
+          .setVisible(true);
+      });
+
+      this.flowers.bunch5.on("pointerout", () => {
+        this.textBubble.setVisible(false);
+      });
 
       this.flowers["bunch5"].on("dragend", () => {
         const flower5Bounds = this.flowers.bunch5.getBounds()
@@ -1031,10 +1513,18 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.selectSound.play()
             this.flowers.bunch5.x = x5;
             this.flowers.bunch5.y = y5;
 
+            this.add.text(520, 810, this.flowerTexts.bunch5[this.currentTurn], { 
+              fontSize: "32px", 
+              fill: this.flowerColors.bunch5, 
+              fontFamily: "PixelFont"
+            })
+
             flowersPlaced++
+            this.currentTurn++
             this.handleFifthFlower()
             
           }
@@ -1044,10 +1534,16 @@ export class Level1 extends Scene
       const { x: x6, y: y6 } = this.flowers.bunch6
       this.input.setDraggable(this.flowers["bunch6"])
 
-      this.flowers.bunch6.on("drag", (pointer, dragX, dragY) => {
-        this.flowers.bunch6.x = dragX
-        this.flowers.bunch6.y = dragY
-      })
+      this.flowers.bunch6.on("pointerover", () => {
+        this.textBubble.setText(this.flowerTexts.bunch6[this.currentTurn])
+          .setPosition(this.flowers.bunch6.x + 70, this.flowers.bunch6.y - 30)
+          .setDepth(this.flowers.bunch1.depth + 1)
+          .setVisible(true);
+      });
+
+      this.flowers.bunch6.on("pointerout", () => {
+        this.textBubble.setVisible(false);
+      });
 
       this.flowers["bunch6"].on("dragend", () => {
         const flower6Bounds = this.flowers.bunch6.getBounds()
@@ -1059,10 +1555,18 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.selectSound.play()
             this.flowers.bunch6.x = x6;
             this.flowers.bunch6.y = y6;
 
+            this.add.text(520, 810, this.flowerTexts.bunch6[this.currentTurn], { 
+              fontSize: "32px", 
+              fill: this.flowerColors.bunch6, 
+              fontFamily: "PixelFont"
+            })
+
             flowersPlaced++
+            this.currentTurn++
             this.handleFifthFlower()
             
           }
@@ -1072,10 +1576,16 @@ export class Level1 extends Scene
       const { x: x7, y: y7 } = this.flowers.bunch7
       this.input.setDraggable(this.flowers["bunch7"])
 
-      this.flowers.bunch7.on("drag", (pointer, dragX, dragY) => {
-        this.flowers.bunch7.x = dragX
-        this.flowers.bunch7.y = dragY
-      })
+      this.flowers.bunch7.on("pointerover", () => {
+        this.textBubble.setText(this.flowerTexts.bunch7[this.currentTurn])
+          .setPosition(this.flowers.bunch7.x + 70, this.flowers.bunch7.y - 30)
+          .setDepth(this.flowers.bunch1.depth + 1)
+          .setVisible(true);
+      });
+
+      this.flowers.bunch7.on("pointerout", () => {
+        this.textBubble.setVisible(false);
+      });
 
       this.flowers["bunch7"].on("dragend", () => {
         const flower7Bounds = this.flowers.bunch7.getBounds()
@@ -1087,10 +1597,18 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.selectSound.play()
             this.flowers.bunch7.x = x7;
             this.flowers.bunch7.y = y7;
 
+            this.add.text(520, 810, this.flowerTexts.bunch7[this.currentTurn], { 
+              fontSize: "32px", 
+              fill: this.flowerColors.bunch7, 
+              fontFamily: "PixelFont"
+            })
+
             flowersPlaced++
+            this.currentTurn++
             this.handleFifthFlower()
             
           }
@@ -1100,10 +1618,16 @@ export class Level1 extends Scene
       const { x: x8, y: y8 } = this.flowers.bunch8
       this.input.setDraggable(this.flowers["bunch8"])
 
-      this.flowers.bunch8.on("drag", (pointer, dragX, dragY) => {
-        this.flowers.bunch8.x = dragX
-        this.flowers.bunch8.y = dragY
-      })
+      this.flowers.bunch8.on("pointerover", () => {
+        this.textBubble.setText(this.flowerTexts.bunch8[this.currentTurn])
+          .setPosition(this.flowers.bunch8.x + 70, this.flowers.bunch8.y - 30)
+          .setDepth(this.flowers.bunch1.depth + 1)
+          .setVisible(true);
+      });
+
+      this.flowers.bunch8.on("pointerout", () => {
+        this.textBubble.setVisible(false);
+      });
 
       this.flowers["bunch8"].on("dragend", () => {
         const flower8Bounds = this.flowers.bunch8.getBounds()
@@ -1114,11 +1638,19 @@ export class Level1 extends Scene
               .setScale(0.8)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
-
+            
+            this.selectSound.play()
             this.flowers.bunch8.x = x8;
             this.flowers.bunch8.y = y8;
 
+            this.add.text(520, 810, this.flowerTexts.bunch8[this.currentTurn], { 
+              fontSize: "32px", 
+              fill: this.flowerColors.bunch8, 
+              fontFamily: "PixelFont"
+            })
+
             flowersPlaced++
+            this.currentTurn++
             this.handleFifthFlower()
             
           }
@@ -1132,10 +1664,16 @@ export class Level1 extends Scene
       const { x: x1, y: y1 } = this.flowers.bunch1
       this.input.setDraggable(this.flowers["bunch1"])
 
-      this.flowers.bunch1.on("drag", (pointer, dragX, dragY) => {
-        this.flowers.bunch1.x = dragX
-        this.flowers.bunch1.y = dragY
-      })
+      this.flowers.bunch1.on("pointerover", () => {
+        this.textBubble.setText(this.flowerTexts.bunch1[this.currentTurn])
+          .setPosition(this.flowers.bunch1.x + 70, this.flowers.bunch1.y - 30)
+          .setDepth(this.flowers.bunch1.depth + 1)
+          .setVisible(true);
+      });
+
+      this.flowers.bunch1.on("pointerout", () => {
+        this.textBubble.setVisible(false);
+      });
 
       this.flowers["bunch1"].on("dragend", () => {
         const flower1Bounds = this.flowers.bunch1.getBounds()
@@ -1147,10 +1685,18 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.selectSound.play()
             this.flowers.bunch1.x = x1;
             this.flowers.bunch1.y = y1;
 
+            this.add.text(520, 840, this.flowerTexts.bunch1[this.currentTurn], { 
+              fontSize: "32px", 
+              fill: this.flowerColors.bunch1, 
+              fontFamily: "PixelFont"
+            })
+
             flowersPlaced++
+            this.currentTurn++
             this.orderComplete()
           }
           
@@ -1160,10 +1706,16 @@ export class Level1 extends Scene
       const { x: x2, y: y2 } = this.flowers.bunch2
       this.input.setDraggable(this.flowers["bunch2"])
 
-      this.flowers.bunch2.on("drag", (pointer, dragX, dragY) => {
-        this.flowers.bunch2.x = dragX
-        this.flowers.bunch2.y = dragY
-      })
+      this.flowers.bunch2.on("pointerover", () => {
+        this.textBubble.setText(this.flowerTexts.bunch2[this.currentTurn])
+          .setPosition(this.flowers.bunch2.x + 70, this.flowers.bunch2.y - 30)
+          .setDepth(this.flowers.bunch1.depth + 1)
+          .setVisible(true);
+      });
+
+      this.flowers.bunch2.on("pointerout", () => {
+        this.textBubble.setVisible(false);
+      });
 
       this.flowers["bunch2"].on("dragend", () => {
         const flower2Bounds = this.flowers.bunch2.getBounds()
@@ -1175,10 +1727,18 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.selectSound.play()
             this.flowers.bunch2.x = x2;
             this.flowers.bunch2.y = y2;
 
+            this.add.text(520, 840, this.flowerTexts.bunch2[this.currentTurn], { 
+              fontSize: "32px", 
+              fill: this.flowerColors.bunch2, 
+              fontFamily: "PixelFont"
+            })
+
             flowersPlaced++
+            this.currentTurn++
             this.orderComplete()
           }
         }
@@ -1187,10 +1747,16 @@ export class Level1 extends Scene
       const { x: x3, y: y3 } = this.flowers.bunch3
       this.input.setDraggable(this.flowers["bunch3"])
 
-      this.flowers.bunch3.on("drag", (pointer, dragX, dragY) => {
-        this.flowers.bunch3.x = dragX
-        this.flowers.bunch3.y = dragY
-      })
+      this.flowers.bunch3.on("pointerover", () => {
+        this.textBubble.setText(this.flowerTexts.bunch3[this.currentTurn])
+          .setPosition(this.flowers.bunch3.x + 70, this.flowers.bunch3.y - 30)
+          .setDepth(this.flowers.bunch1.depth + 1)
+          .setVisible(true);
+      });
+
+      this.flowers.bunch3.on("pointerout", () => {
+        this.textBubble.setVisible(false);
+      });
 
       this.flowers["bunch3"].on("dragend", () => {
         const flower3Bounds = this.flowers.bunch3.getBounds()
@@ -1202,10 +1768,19 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.selectSound.play()
             this.flowers.bunch3.x = x3;
             this.flowers.bunch3.y = y3;
 
+
+            this.add.text(520, 840, this.flowerTexts.bunch3[this.currentTurn], { 
+              fontSize: "32px", 
+              fill: this.flowerColors.bunch3,  
+              fontFamily: "PixelFont"
+            })
+
             flowersPlaced++
+            this.currentTurn++
             this.orderComplete()
           }
         }
@@ -1214,10 +1789,16 @@ export class Level1 extends Scene
       const { x: x4, y: y4 } = this.flowers.bunch4
       this.input.setDraggable(this.flowers["bunch4"])
 
-      this.flowers.bunch4.on("drag", (pointer, dragX, dragY) => {
-        this.flowers.bunch4.x = dragX
-        this.flowers.bunch4.y = dragY
-      })
+      this.flowers.bunch4.on("pointerover", () => {
+        this.textBubble.setText(this.flowerTexts.bunch4[this.currentTurn])
+          .setPosition(this.flowers.bunch4.x + 70, this.flowers.bunch4.y - 30)
+          .setDepth(this.flowers.bunch1.depth + 1)
+          .setVisible(true);
+      });
+
+      this.flowers.bunch4.on("pointerout", () => {
+        this.textBubble.setVisible(false);
+      });
 
       this.flowers["bunch4"].on("dragend", () => {
         const flower4Bounds = this.flowers.bunch4.getBounds()
@@ -1229,10 +1810,19 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.selectSound.play()
             this.flowers.bunch4.x = x4;
             this.flowers.bunch4.y = y4;
 
+
+            this.add.text(520, 840, this.flowerTexts.bunch4[this.currentTurn], { 
+              fontSize: "32px", 
+              fill: this.flowerColors.bunch4,  
+              fontFamily: "PixelFont"
+            })
+
             flowersPlaced++
+            this.currentTurn++
             this.orderComplete()
           }
         }
@@ -1241,10 +1831,16 @@ export class Level1 extends Scene
       const { x: x5, y: y5 } = this.flowers.bunch5
       this.input.setDraggable(this.flowers["bunch5"])
 
-      this.flowers.bunch5.on("drag", (pointer, dragX, dragY) => {
-        this.flowers.bunch5.x = dragX
-        this.flowers.bunch5.y = dragY
-      })
+      this.flowers.bunch5.on("pointerover", () => {
+        this.textBubble.setText(this.flowerTexts.bunch5[this.currentTurn])
+          .setPosition(this.flowers.bunch5.x + 70, this.flowers.bunch5.y - 30)
+          .setDepth(this.flowers.bunch1.depth + 1)
+          .setVisible(true);
+      });
+
+      this.flowers.bunch5.on("pointerout", () => {
+        this.textBubble.setVisible(false);
+      });
 
       this.flowers["bunch5"].on("dragend", () => {
         const flower5Bounds = this.flowers.bunch5.getBounds()
@@ -1256,10 +1852,19 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.selectSound.play()
             this.flowers.bunch5.x = x5;
             this.flowers.bunch5.y = y5;
 
+
+            this.add.text(520, 840, this.flowerTexts.bunch5[this.currentTurn], { 
+              fontSize: "32px", 
+              fill: this.flowerColors.bunch5,  
+              fontFamily: "PixelFont"
+            })
+
             flowersPlaced++
+            this.currentTurn++
             this.orderComplete()
           }
         }
@@ -1268,10 +1873,16 @@ export class Level1 extends Scene
       const { x: x6, y: y6 } = this.flowers.bunch6
       this.input.setDraggable(this.flowers["bunch6"])
 
-      this.flowers.bunch6.on("drag", (pointer, dragX, dragY) => {
-        this.flowers.bunch6.x = dragX
-        this.flowers.bunch6.y = dragY
-      })
+      this.flowers.bunch6.on("pointerover", () => {
+        this.textBubble.setText(this.flowerTexts.bunch6[this.currentTurn])
+          .setPosition(this.flowers.bunch6.x + 70, this.flowers.bunch6.y - 30)
+          .setDepth(this.flowers.bunch1.depth + 1)
+          .setVisible(true);
+      });
+
+      this.flowers.bunch6.on("pointerout", () => {
+        this.textBubble.setVisible(false);
+      });
 
       this.flowers["bunch6"].on("dragend", () => {
         const flower6Bounds = this.flowers.bunch6.getBounds()
@@ -1283,10 +1894,19 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.selectSound.play()
             this.flowers.bunch6.x = x6;
             this.flowers.bunch6.y = y6;
 
+
+            this.add.text(520, 840, this.flowerTexts.bunch6[this.currentTurn], { 
+              fontSize: "32px", 
+              fill: this.flowerColors.bunch6, 
+              fontFamily: "PixelFont"
+            })
+
             flowersPlaced++
+            this.currentTurn++
             this.orderComplete()
           }
         }
@@ -1295,10 +1915,16 @@ export class Level1 extends Scene
       const { x: x7, y: y7 } = this.flowers.bunch7
       this.input.setDraggable(this.flowers["bunch7"])
 
-      this.flowers.bunch7.on("drag", (pointer, dragX, dragY) => {
-        this.flowers.bunch7.x = dragX
-        this.flowers.bunch7.y = dragY
-      })
+      this.flowers.bunch7.on("pointerover", () => {
+        this.textBubble.setText(this.flowerTexts.bunch7[this.currentTurn])
+          .setPosition(this.flowers.bunch7.x + 70, this.flowers.bunch7.y - 30)
+          .setDepth(this.flowers.bunch1.depth + 1)
+          .setVisible(true);
+      });
+
+      this.flowers.bunch7.on("pointerout", () => {
+        this.textBubble.setVisible(false);
+      });
 
       this.flowers["bunch7"].on("dragend", () => {
         const flower7Bounds = this.flowers.bunch7.getBounds()
@@ -1310,10 +1936,19 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.selectSound.play()
             this.flowers.bunch7.x = x7;
             this.flowers.bunch7.y = y7;
 
+
+            this.add.text(520, 840, this.flowerTexts.bunch7[this.currentTurn], { 
+              fontSize: "32px", 
+              fill: this.flowerColors.bunch7,  
+              fontFamily: "PixelFont"
+            })
+
             flowersPlaced++
+            this.currentTurn++
             this.orderComplete()
           }
         }
@@ -1322,10 +1957,16 @@ export class Level1 extends Scene
       const { x: x8, y: y8 } = this.flowers.bunch8
       this.input.setDraggable(this.flowers["bunch8"])
 
-      this.flowers.bunch8.on("drag", (pointer, dragX, dragY) => {
-        this.flowers.bunch8.x = dragX
-        this.flowers.bunch8.y = dragY
-      })
+      this.flowers.bunch8.on("pointerover", () => {
+        this.textBubble.setText(this.flowerTexts.bunch8[this.currentTurn])
+          .setPosition(this.flowers.bunch8.x + 70, this.flowers.bunch8.y - 30)
+          .setDepth(this.flowers.bunch1.depth + 1)
+          .setVisible(true);
+      });
+
+      this.flowers.bunch8.on("pointerout", () => {
+        this.textBubble.setVisible(false);
+      });
 
       this.flowers["bunch8"].on("dragend", () => {
         const flower8Bounds = this.flowers.bunch8.getBounds()
@@ -1337,19 +1978,31 @@ export class Level1 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.selectSound.play()
             this.flowers.bunch8.x = x8;
             this.flowers.bunch8.y = y8;
 
+            this.add.text(520, 840, this.flowerTexts.bunch8[this.currentTurn], { 
+              fontSize: "32px", 
+              fill: this.flowerColors.bunch8, 
+              fontFamily: "PixelFont"
+            })
+
             flowersPlaced++
+            this.currentTurn++
             this.orderComplete()
           }
         }
       )
     }
 
-    /* orderComplete() {
-      this.scene.start("GameOver")
-    } */
+    orderComplete() {
+      this.add.text(520, 900, "Order Complete!", {
+        fontSize: "32px", 
+        fill: "#0165FC", 
+        fontFamily: "PixelFont"
+      })
+    } 
 
     showStory(message) {
       // Create background rectangle
