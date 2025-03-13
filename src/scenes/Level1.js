@@ -7,7 +7,7 @@ export class Level1 extends Scene
   }
 
   preload () {
-    this.load.image('shop-bg', 'assets/main-bg-3.png')
+    this.load.image('shop-bg', 'assets/main-bg-4.png')
     this.load.image('bunch4', 'assets/roses-bunch.png')
     this.load.image('bunch2', 'assets/lilies-bunch.png')
     this.load.image('bunch7', 'assets/daisies-bunch.png')
@@ -67,7 +67,7 @@ export class Level1 extends Scene
       }
     
       this.flowers = {
-        bunch1: { x: 975, y: 253, key: "bunch1", scale: 0.37 }, 
+        bunch1: { x: 975, y: 253, key: "bunch1", scale: 0.39 }, 
         bunch2: { x: 785, y: 245, key: "bunch2", scale: 0.37 },
         bunch3: { x: 590, y: 245, key: "bunch3", scale: 0.37 },
         bunch4: { x: 420, y: 240, key: "bunch4", scale: 0.37 },
@@ -142,7 +142,7 @@ export class Level1 extends Scene
 
             this.add.text(520, 710, "I'm so sorry to hear that!", { 
               fontSize: "32px", 
-              fill: "#000", 
+              fill: "#0165FC", 
               fontFamily: "PixelFont"
             })
 
@@ -184,7 +184,11 @@ export class Level1 extends Scene
               this.flowers.bunch2.x = x2;
               this.flowers.bunch2.y = y2;
 
-
+              this.add.text(520, 710, "lily message 1", { 
+                fontSize: "32px", 
+                fill: "#000", 
+                fontFamily: "PixelFont"
+              })
             
               flowersPlaced++
               this.handleSecondFlower()
@@ -216,7 +220,7 @@ export class Level1 extends Scene
             const vaseBounds = this.vase.getBounds()
         
             if (flowersPlaced === 0 && Phaser.Geom.Intersects.RectangleToRectangle(flower3Bounds,vaseBounds)) {
-                this.add.image(1230, 520, "carnation")
+                this.add.image(1225, 520, "carnation")
                   .setScale(0.8)
                   .setInteractive()
                   .setDepth(this.vase.depth - 1)
@@ -254,8 +258,8 @@ export class Level1 extends Scene
               const vaseBounds = this.vase.getBounds()
           
               if (flowersPlaced === 0 && Phaser.Geom.Intersects.RectangleToRectangle(flower4Bounds,vaseBounds)) {
-                  this.add.image(1270, 530, "rose")
-                    .setScale(0.8)
+                  this.add.image(1220, 520, "rose")
+                    .setScale(0.9)
                     .setInteractive()
                     .setDepth(this.vase.depth - 1)
                   
@@ -292,8 +296,8 @@ export class Level1 extends Scene
                 const vaseBounds = this.vase.getBounds()
             
                 if (flowersPlaced === 0 && Phaser.Geom.Intersects.RectangleToRectangle(flower5Bounds,vaseBounds)) {
-                    this.add.image(1200, 540, "tulip")
-                      .setScale(0.9)
+                    this.add.image(1200, 500, "tulip")
+                      .setScale(0.8)
                       .setInteractive()
                       .setDepth(this.vase.depth - 1)
 
@@ -330,8 +334,8 @@ export class Level1 extends Scene
                   const vaseBounds = this.vase.getBounds()
               
                   if (flowersPlaced === 0 && Phaser.Geom.Intersects.RectangleToRectangle(flower6Bounds,vaseBounds)) {
-                      this.add.image(1200, 540, "violet")
-                        .setScale(0.9)
+                      this.add.image(1230, 540, "violet")
+                        .setScale(0.8)
                         .setInteractive()
                         .setDepth(this.vase.depth - 1)
 
@@ -368,7 +372,7 @@ export class Level1 extends Scene
                     const vaseBounds = this.vase.getBounds()
                 
                     if (flowersPlaced === 0 && Phaser.Geom.Intersects.RectangleToRectangle(flower7Bounds,vaseBounds)) {
-                        this.add.image(1200, 540, "daisy")
+                        this.add.image(1220, 535, "daisy")
                           .setScale(0.9)
                           .setInteractive()
                           .setDepth(this.vase.depth - 1)
@@ -406,8 +410,8 @@ export class Level1 extends Scene
                       const vaseBounds = this.vase.getBounds()
                   
                       if (flowersPlaced === 0 && Phaser.Geom.Intersects.RectangleToRectangle(flower8Bounds,vaseBounds)) {
-                          this.add.image(1200, 540, "daffodil")
-                            .setScale(0.9)
+                          this.add.image(1220, 530, "daffodil")
+                            .setScale(0.8)
                             .setInteractive()
                             .setDepth(this.vase.depth - 1)
 
@@ -509,7 +513,7 @@ export class Level1 extends Scene
             const vaseBounds = this.vase.getBounds()
         
             if (flowersPlaced === 1 && Phaser.Geom.Intersects.RectangleToRectangle(flower3Bounds,vaseBounds)) {
-                this.add.image(1000, 540, "carnation")
+                this.add.image(1200, 500, "carnation")
                   .setScale(0.8)
                   .setInteractive()
                   .setDepth(this.vase.depth - 1)
@@ -537,8 +541,8 @@ export class Level1 extends Scene
               const vaseBounds = this.vase.getBounds()
           
               if (flowersPlaced === 1 && Phaser.Geom.Intersects.RectangleToRectangle(flower4Bounds,vaseBounds)) {
-                  this.add.image(1000, 540, "rose")
-                    .setScale(0.8)
+                  this.add.image(1190, 520, "rose")
+                    .setScale(0.9)
                     .setInteractive()
                     .setDepth(this.vase.depth - 1)
 
@@ -564,7 +568,7 @@ export class Level1 extends Scene
                 const vaseBounds = this.vase.getBounds()
             
                 if (flowersPlaced === 1 && Phaser.Geom.Intersects.RectangleToRectangle(flower5Bounds,vaseBounds)) {
-                    this.add.image(1000, 540, "tulip")
+                    this.add.image(1180, 500, "tulip")
                       .setScale(0.8)
                       .setInteractive()
                       .setDepth(this.vase.depth - 1)
@@ -592,7 +596,7 @@ export class Level1 extends Scene
                   const vaseBounds = this.vase.getBounds()
               
                   if (flowersPlaced === 1 && Phaser.Geom.Intersects.RectangleToRectangle(flower6Bounds,vaseBounds)) {
-                      this.add.image(1000, 540, "violet")
+                      this.add.image(1210, 540, "violet")
                         .setScale(0.8)
                         .setInteractive()
                         .setDepth(this.vase.depth - 1)
@@ -621,8 +625,8 @@ export class Level1 extends Scene
                   const vaseBounds = this.vase.getBounds()
               
                   if (flowersPlaced === 1 && Phaser.Geom.Intersects.RectangleToRectangle(flower7Bounds,vaseBounds)) {
-                      this.add.image(1000, 540, "daisy")
-                        .setScale(0.8)
+                      this.add.image(1200, 535, "daisy")
+                        .setScale(0.9)
                         .setInteractive()
                         .setDepth(this.vase.depth - 1)
                       
@@ -649,7 +653,7 @@ export class Level1 extends Scene
                     const vaseBounds = this.vase.getBounds()
                 
                     if (flowersPlaced === 1 && Phaser.Geom.Intersects.RectangleToRectangle(flower8Bounds,vaseBounds)) {
-                        this.add.image(1000, 540, "daffodil")
+                        this.add.image(1190, 520, "daffodil")
                           .setScale(0.8)
                           .setInteractive()
                           .setDepth(this.vase.depth - 1)
@@ -737,7 +741,7 @@ export class Level1 extends Scene
         const vaseBounds = this.vase.getBounds()
   
         if (flowersPlaced === 2 && Phaser.Geom.Intersects.RectangleToRectangle(flower3Bounds,vaseBounds)) {
-            this.add.image(1000, 540, "carnation")
+            this.add.image(1170, 520, "carnation")
               .setScale(0.7)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
@@ -765,8 +769,8 @@ export class Level1 extends Scene
         const vaseBounds = this.vase.getBounds()
   
         if (flowersPlaced === 2 && Phaser.Geom.Intersects.RectangleToRectangle(flower4Bounds,vaseBounds)) {
-            this.add.image(1000, 540, "rose")
-              .setScale(0.7)
+            this.add.image(1160, 510, "rose")
+              .setScale(0.9)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
@@ -793,8 +797,8 @@ export class Level1 extends Scene
         const vaseBounds = this.vase.getBounds()
   
         if (flowersPlaced === 2 && Phaser.Geom.Intersects.RectangleToRectangle(flower5Bounds,vaseBounds)) {
-            this.add.image(1000, 540, "tulip")
-              .setScale(0.7)
+            this.add.image(1160, 500, "tulip")
+              .setScale(0.8)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
@@ -821,8 +825,8 @@ export class Level1 extends Scene
         const vaseBounds = this.vase.getBounds()
   
         if (flowersPlaced === 2 && Phaser.Geom.Intersects.RectangleToRectangle(flower6Bounds,vaseBounds)) {
-            this.add.image(1000, 540, "violet")
-              .setScale(0.7)
+            this.add.image(1190, 540, "violet")
+              .setScale(0.8)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
             
@@ -849,8 +853,8 @@ export class Level1 extends Scene
         const vaseBounds = this.vase.getBounds()
   
         if (flowersPlaced === 2 && Phaser.Geom.Intersects.RectangleToRectangle(flower7Bounds,vaseBounds)) {
-            this.add.image(1000, 540, "daisy")
-              .setScale(0.7)
+            this.add.image(1180, 535, "daisy")
+              .setScale(0.9)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
@@ -877,8 +881,8 @@ export class Level1 extends Scene
         const vaseBounds = this.vase.getBounds()
   
         if (flowersPlaced === 2 && Phaser.Geom.Intersects.RectangleToRectangle(flower8Bounds,vaseBounds)) {
-            this.add.image(1000, 540, "daffodil")
-              .setScale(0.7)
+            this.add.image(1170, 535, "daffodil")
+              .setScale(0.8)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
@@ -966,8 +970,8 @@ export class Level1 extends Scene
         const vaseBounds = this.vase.getBounds()
   
         if (flowersPlaced === 3 && Phaser.Geom.Intersects.RectangleToRectangle(flower3Bounds,vaseBounds)) {
-            this.add.image(1000, 540, "carnation")
-              .setScale(0.6)
+            this.add.image(1215, 530, "carnation")
+              .setScale(0.8)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
@@ -994,8 +998,8 @@ export class Level1 extends Scene
         const vaseBounds = this.vase.getBounds()
   
         if (flowersPlaced === 3 && Phaser.Geom.Intersects.RectangleToRectangle(flower4Bounds,vaseBounds)) {
-            this.add.image(1000, 540, "rose")
-              .setScale(0.6)
+            this.add.image(1200, 540, "rose")
+              .setScale(0.9)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
@@ -1022,8 +1026,8 @@ export class Level1 extends Scene
         const vaseBounds = this.vase.getBounds()
   
         if (flowersPlaced === 3 && Phaser.Geom.Intersects.RectangleToRectangle(flower5Bounds,vaseBounds)) {
-            this.add.image(1000, 540, "tulip")
-              .setScale(0.6)
+            this.add.image(1190, 550, "tulip")
+              .setScale(0.8)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
@@ -1050,8 +1054,8 @@ export class Level1 extends Scene
         const vaseBounds = this.vase.getBounds()
   
         if (flowersPlaced === 3 && Phaser.Geom.Intersects.RectangleToRectangle(flower6Bounds,vaseBounds)) {
-            this.add.image(1000, 540, "violet")
-              .setScale(0.6)
+            this.add.image(1210, 555, "violet")
+              .setScale(0.8)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
@@ -1078,8 +1082,8 @@ export class Level1 extends Scene
         const vaseBounds = this.vase.getBounds()
   
         if (flowersPlaced === 3 && Phaser.Geom.Intersects.RectangleToRectangle(flower7Bounds,vaseBounds)) {
-            this.add.image(1000, 540, "daisy")
-              .setScale(0.6)
+            this.add.image(1215, 560, "daisy")
+              .setScale(0.9)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
@@ -1106,8 +1110,8 @@ export class Level1 extends Scene
         const vaseBounds = this.vase.getBounds()
   
         if (flowersPlaced === 3 && Phaser.Geom.Intersects.RectangleToRectangle(flower8Bounds,vaseBounds)) {
-            this.add.image(1000, 540, "daffodil")
-              .setScale(0.6)
+            this.add.image(1215, 550, "daffodil")
+              .setScale(0.8)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
@@ -1193,8 +1197,8 @@ export class Level1 extends Scene
         const vaseBounds = this.vase.getBounds()
   
         if (flowersPlaced === 4 && Phaser.Geom.Intersects.RectangleToRectangle(flower3Bounds,vaseBounds)) {
-            this.add.image(1000, 540, "carnation")
-              .setScale(0.5)
+            this.add.image(1190, 535, "carnation")
+              .setScale(0.8)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
@@ -1220,8 +1224,8 @@ export class Level1 extends Scene
         const vaseBounds = this.vase.getBounds()
   
         if (flowersPlaced === 4 && Phaser.Geom.Intersects.RectangleToRectangle(flower4Bounds,vaseBounds)) {
-            this.add.image(1000, 540, "rose")
-              .setScale(0.5)
+            this.add.image(1160, 530, "rose")
+              .setScale(0.9)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
@@ -1247,8 +1251,8 @@ export class Level1 extends Scene
         const vaseBounds = this.vase.getBounds()
   
         if (flowersPlaced === 4 && Phaser.Geom.Intersects.RectangleToRectangle(flower5Bounds,vaseBounds)) {
-            this.add.image(1000, 540, "tulip")
-              .setScale(0.5)
+            this.add.image(1170, 550, "tulip")
+              .setScale(0.8)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
@@ -1274,8 +1278,8 @@ export class Level1 extends Scene
         const vaseBounds = this.vase.getBounds()
   
         if (flowersPlaced === 4 && Phaser.Geom.Intersects.RectangleToRectangle(flower6Bounds,vaseBounds)) {
-            this.add.image(1000, 540, "violet")
-              .setScale(0.5)
+            this.add.image(1185, 555, "violet")
+              .setScale(0.8)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
@@ -1301,8 +1305,8 @@ export class Level1 extends Scene
         const vaseBounds = this.vase.getBounds()
   
         if (flowersPlaced === 4 && Phaser.Geom.Intersects.RectangleToRectangle(flower7Bounds,vaseBounds)) {
-            this.add.image(1000, 540, "daisy")
-              .setScale(0.5)
+            this.add.image(1190, 560, "daisy")
+              .setScale(0.9)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
@@ -1328,8 +1332,8 @@ export class Level1 extends Scene
         const vaseBounds = this.vase.getBounds()
   
         if (flowersPlaced === 4 && Phaser.Geom.Intersects.RectangleToRectangle(flower8Bounds,vaseBounds)) {
-            this.add.image(1000, 540, "daffodil")
-              .setScale(0.5)
+            this.add.image(1185, 550, "daffodil")
+              .setScale(0.8)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
@@ -1343,9 +1347,9 @@ export class Level1 extends Scene
       )
     }
 
-    orderComplete() {
+    /* orderComplete() {
       this.scene.start("GameOver")
-    }
+    } */
 
     showStory(message) {
       // Create background rectangle
