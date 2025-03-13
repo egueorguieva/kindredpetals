@@ -11,6 +11,7 @@ export class Level1 extends Scene
 
   preload () {
     this.load.image('shop-bg', 'assets/main-bg-4.png')
+    this.load.image('frame', 'assets/order-frame.png')
     this.load.image('bunch4', 'assets/roses-bunch.png')
     this.load.image('bunch2', 'assets/lilies-bunch.png')
     this.load.image('bunch7', 'assets/daisies-bunch.png')
@@ -45,7 +46,7 @@ export class Level1 extends Scene
       this.vase.preFX.addShadow()
 
       this.setFlowers()
-      // this.showStory()
+      //this.createStoryPanel()
 
       this.textBubble = this.add.text(0, 0, "", {
         fontSize: "24px",
@@ -76,18 +77,18 @@ export class Level1 extends Scene
           "nice"
         ],
         bunch2: [ // paraphrasing
-          "Lily message 1",
-          "Lily message 2",
+          "It sounds like you're going through a tough time.",
+          "I'm hearing that you're feeling overwhelmed.",
           "Lily message 3",
           "Lily message 4",
           "Lily message 5"
         ],
         bunch3: [ // empowerment
-          "Carnation message 1",
-          "Carnation message 2",
-          "Carnation message 3",
-          "Carnation message 4",
-          "Carnation message 5"
+          "You're doing such a great job.",
+          "You've totally got this!",
+          "You're amazing.",
+          "You're so strong.",
+          "You've got this."
         ],
         bunch4: [ // information
           "Rose message 1",
@@ -97,9 +98,9 @@ export class Level1 extends Scene
           "Rose message 5"
         ],
         bunch5: [ // validation
-          "Tulip message 1",
-          "Tulip message 2",
-          "Tulip message 3",
+          "You're not alone in this.",
+          "Everyone feels like this sometimes.",
+          "It's completely valid to feel this way.",
           "Tulip message 4",
           "Tulip message 5"
         ],
@@ -118,11 +119,11 @@ export class Level1 extends Scene
           "Daisy message 5"
         ],
         bunch8: [ // gratitude
-          "Daffodil message 1",
-          "Daffodil message 2",
-          "Daffodil message 3",
-          "Daffodil message 4",
-          "Daffodil message 5"
+          "Thank you so much for sharing this with me.",
+          "I really appreciate your openness.",
+          "I feel grateful to be here for you.",
+          "Thank you for trusting me with your feelings.",
+          "I appreciate you."
         ]
       };
 
@@ -130,6 +131,51 @@ export class Level1 extends Scene
 
 
     }
+
+    createStoryPanel() {
+      // Wooden frame
+      this.storyFrame = this.add.image(600, 300, "frame").setDepth(10).setScale(1.2);
+    
+      // Story text
+      this.storyText = this.add.text(450, 250, "Once upon a time...", {
+        fontSize: "24px",
+        fill: "#000",
+        wordWrap: { width: 300 },
+        fontFamily: "PixelFont",
+      }).setDepth(11);
+    
+      // Close button
+      this.closeButton = this.add.text(700, 100, "X", {
+        fontSize: "32px",
+        fill: "#ff0000",
+        fontFamily: "PixelFont",
+      }).setDepth(12).setInteractive();
+    
+      // Story tab (hidden initially)
+      this.storyTab = this.add.text(50, 550, "Story", {
+        fontSize: "24px",
+        fill: "#fff",
+        backgroundColor: "#000",
+        padding: { x: 10, y: 5 },
+        fontFamily: "PixelFont",
+      }).setDepth(9).setInteractive().setVisible(false);
+    
+      // Close button minimizes the panel
+      this.closeButton.on("pointerdown", () => {
+        this.storyFrame.setVisible(false);
+        this.storyText.setVisible(false);
+        this.closeButton.setVisible(false);
+        this.storyTab.setVisible(true);
+      });
+    
+      // Clicking the tab restores the story
+      this.storyTab.on("pointerdown", () => {
+        this.storyFrame.setVisible(true);
+        this.storyText.setVisible(true);
+        this.closeButton.setVisible(true);
+        this.storyTab.setVisible(false);
+      });
+    }    
 
     setFlowers() {
       const createFlower = (x, y, key, scale, origin = { x: 0.5, y: 0.5 }) => {
@@ -670,7 +716,7 @@ export class Level1 extends Scene
             this.flowers.bunch1.x = x1;
             this.flowers.bunch1.y = y1;
 
-            this.add.text(520, 750, this.flowerTexts.bunch1[this.currentTurn], { 
+            this.add.text(520, 770, this.flowerTexts.bunch1[this.currentTurn], { 
               fontSize: "32px", 
               fill: this.flowerColors.bunch1, 
               fontFamily: "PixelFont"
@@ -710,7 +756,7 @@ export class Level1 extends Scene
               this.flowers.bunch2.x = x2;
               this.flowers.bunch2.y = y2;
 
-              this.add.text(520, 750, this.flowerTexts.bunch2[this.currentTurn], { 
+              this.add.text(520, 770, this.flowerTexts.bunch2[this.currentTurn], { 
                 fontSize: "32px", 
                 fill: this.flowerColors.bunch2,  
                 fontFamily: "PixelFont"
@@ -752,7 +798,7 @@ export class Level1 extends Scene
                 this.flowers.bunch3.x = x3;
                 this.flowers.bunch3.y = y3;
 
-                this.add.text(520, 750, this.flowerTexts.bunch3[this.currentTurn], { 
+                this.add.text(520, 770, this.flowerTexts.bunch3[this.currentTurn], { 
                   fontSize: "32px", 
                   fill: this.flowerColors.bunch3, 
                   fontFamily: "PixelFont"
@@ -794,7 +840,7 @@ export class Level1 extends Scene
                   this.flowers.bunch4.x = x4;
                   this.flowers.bunch4.y = y4;
 
-                  this.add.text(520, 750, this.flowerTexts.bunch4[this.currentTurn], { 
+                  this.add.text(520, 770, this.flowerTexts.bunch4[this.currentTurn], { 
                     fontSize: "32px", 
                     fill: this.flowerColors.bunch4, 
                     fontFamily: "PixelFont"
@@ -835,7 +881,7 @@ export class Level1 extends Scene
                     this.flowers.bunch5.x = x5;
                     this.flowers.bunch5.y = y5;
 
-                    this.add.text(520, 750, this.flowerTexts.bunch5[this.currentTurn], { 
+                    this.add.text(520, 770, this.flowerTexts.bunch5[this.currentTurn], { 
                       fontSize: "32px", 
                       fill: this.flowerColors.bunch5, 
                       fontFamily: "PixelFont"
@@ -877,7 +923,7 @@ export class Level1 extends Scene
                       this.flowers.bunch6.x = x6;
                       this.flowers.bunch6.y = y6;
 
-                      this.add.text(520, 750, this.flowerTexts.bunch6[this.currentTurn], { 
+                      this.add.text(520, 770, this.flowerTexts.bunch6[this.currentTurn], { 
                         fontSize: "32px", 
                         fill: this.flowerColors.bunch6, 
                         fontFamily: "PixelFont"
@@ -920,7 +966,7 @@ export class Level1 extends Scene
                       this.flowers.bunch7.x = x7;
                       this.flowers.bunch7.y = y7;
 
-                      this.add.text(520, 750, this.flowerTexts.bunch7[this.currentTurn], { 
+                      this.add.text(520, 770, this.flowerTexts.bunch7[this.currentTurn], { 
                         fontSize: "32px", 
                         fill: this.flowerColors.bunch7, 
                         fontFamily: "PixelFont"
@@ -962,7 +1008,7 @@ export class Level1 extends Scene
                         this.flowers.bunch8.x = x8;
                         this.flowers.bunch8.y = y8;
 
-                        this.add.text(520, 750, this.flowerTexts.bunch8[this.currentTurn], { 
+                        this.add.text(520, 770, this.flowerTexts.bunch8[this.currentTurn], { 
                           fontSize: "32px", 
                           fill: this.flowerColors.bunch8, 
                           fontFamily: "PixelFont"
@@ -1008,7 +1054,7 @@ export class Level1 extends Scene
             this.flowers.bunch1.x = x1;
             this.flowers.bunch1.y = y1;
 
-            this.add.text(520, 780, this.flowerTexts.bunch1[this.currentTurn], { 
+            this.add.text(520, 830, this.flowerTexts.bunch1[this.currentTurn], { 
               fontSize: "32px", 
               fill: this.flowerColors.bunch1, 
               fontFamily: "PixelFont"
@@ -1050,7 +1096,7 @@ export class Level1 extends Scene
             this.flowers.bunch2.x = x2;
             this.flowers.bunch2.y = y2;
 
-            this.add.text(520, 780, this.flowerTexts.bunch2[this.currentTurn], { 
+            this.add.text(520, 830, this.flowerTexts.bunch2[this.currentTurn], { 
               fontSize: "32px", 
               fill: this.flowerColors.bunch2, 
               fontFamily: "PixelFont"
@@ -1092,7 +1138,7 @@ export class Level1 extends Scene
             this.flowers.bunch3.x = x3;
             this.flowers.bunch3.y = y3;
 
-            this.add.text(520, 780, this.flowerTexts.bunch3[this.currentTurn], { 
+            this.add.text(520, 830, this.flowerTexts.bunch3[this.currentTurn], { 
               fontSize: "32px", 
               fill: this.flowerColors.bunch3, 
               fontFamily: "PixelFont"
@@ -1134,7 +1180,7 @@ export class Level1 extends Scene
             this.flowers.bunch4.x = x4;
             this.flowers.bunch4.y = y4;
 
-            this.add.text(520, 780, this.flowerTexts.bunch4[this.currentTurn], { 
+            this.add.text(520, 830, this.flowerTexts.bunch4[this.currentTurn], { 
               fontSize: "32px", 
               fill: this.flowerColors.bunch4, 
               fontFamily: "PixelFont"
@@ -1176,7 +1222,7 @@ export class Level1 extends Scene
             this.flowers.bunch5.x = x5;
             this.flowers.bunch5.y = y5;
 
-            this.add.text(520, 780, this.flowerTexts.bunch5[this.currentTurn], { 
+            this.add.text(520, 830, this.flowerTexts.bunch5[this.currentTurn], { 
               fontSize: "32px", 
               fill: this.flowerColors.bunch5, 
               fontFamily: "PixelFont"
@@ -1218,7 +1264,7 @@ export class Level1 extends Scene
             this.flowers.bunch6.x = x6;
             this.flowers.bunch6.y = y6;
 
-            this.add.text(520, 780, this.flowerTexts.bunch6[this.currentTurn], { 
+            this.add.text(520, 830, this.flowerTexts.bunch6[this.currentTurn], { 
               fontSize: "32px", 
               fill: this.flowerColors.bunch6, 
               fontFamily: "PixelFont"
@@ -1260,7 +1306,7 @@ export class Level1 extends Scene
             this.flowers.bunch7.x = x7;
             this.flowers.bunch7.y = y7;
 
-            this.add.text(520, 780, this.flowerTexts.bunch7[this.currentTurn], { 
+            this.add.text(520, 830, this.flowerTexts.bunch7[this.currentTurn], { 
               fontSize: "32px", 
               fill: this.flowerColors.bunch7, 
               fontFamily: "PixelFont"
@@ -1302,7 +1348,7 @@ export class Level1 extends Scene
             this.flowers.bunch8.x = x8;
             this.flowers.bunch8.y = y8;
 
-            this.add.text(520, 780, this.flowerTexts.bunch8[this.currentTurn], { 
+            this.add.text(520, 830, this.flowerTexts.bunch8[this.currentTurn], { 
               fontSize: "32px", 
               fill: this.flowerColors.bunch8, 
               fontFamily: "PixelFont"
@@ -1348,7 +1394,7 @@ export class Level1 extends Scene
             this.flowers.bunch1.x = x1;
             this.flowers.bunch1.y = y1;
 
-            this.add.text(520, 810, this.flowerTexts.bunch1[this.currentTurn], { 
+            this.add.text(520, 890, this.flowerTexts.bunch1[this.currentTurn], { 
               fontSize: "32px", 
               fill: this.flowerColors.bunch1,  
               fontFamily: "PixelFont"
@@ -1391,7 +1437,7 @@ export class Level1 extends Scene
             this.flowers.bunch2.x = x2;
             this.flowers.bunch2.y = y2;
 
-            this.add.text(520, 810, this.flowerTexts.bunch2[this.currentTurn], { 
+            this.add.text(520, 890, this.flowerTexts.bunch2[this.currentTurn], { 
               fontSize: "32px", 
               fill: this.flowerColors.bunch2,  
               fontFamily: "PixelFont"
@@ -1433,7 +1479,7 @@ export class Level1 extends Scene
             this.flowers.bunch3.x = x3;
             this.flowers.bunch3.y = y3;
 
-            this.add.text(520, 810, this.flowerTexts.bunch3[this.currentTurn], { 
+            this.add.text(520, 890, this.flowerTexts.bunch3[this.currentTurn], { 
               fontSize: "32px", 
               fill: this.flowerColors.bunch3, 
               fontFamily: "PixelFont"
@@ -1475,7 +1521,7 @@ export class Level1 extends Scene
             this.flowers.bunch4.x = x4;
             this.flowers.bunch4.y = y4;
 
-            this.add.text(520, 810, this.flowerTexts.bunch4[this.currentTurn], { 
+            this.add.text(520, 890, this.flowerTexts.bunch4[this.currentTurn], { 
               fontSize: "32px", 
               fill: this.flowerColors.bunch4, 
               fontFamily: "PixelFont"
@@ -1517,7 +1563,7 @@ export class Level1 extends Scene
             this.flowers.bunch5.x = x5;
             this.flowers.bunch5.y = y5;
 
-            this.add.text(520, 810, this.flowerTexts.bunch5[this.currentTurn], { 
+            this.add.text(520, 890, this.flowerTexts.bunch5[this.currentTurn], { 
               fontSize: "32px", 
               fill: this.flowerColors.bunch5, 
               fontFamily: "PixelFont"
@@ -1559,7 +1605,7 @@ export class Level1 extends Scene
             this.flowers.bunch6.x = x6;
             this.flowers.bunch6.y = y6;
 
-            this.add.text(520, 810, this.flowerTexts.bunch6[this.currentTurn], { 
+            this.add.text(520, 890, this.flowerTexts.bunch6[this.currentTurn], { 
               fontSize: "32px", 
               fill: this.flowerColors.bunch6, 
               fontFamily: "PixelFont"
@@ -1601,7 +1647,7 @@ export class Level1 extends Scene
             this.flowers.bunch7.x = x7;
             this.flowers.bunch7.y = y7;
 
-            this.add.text(520, 810, this.flowerTexts.bunch7[this.currentTurn], { 
+            this.add.text(520, 890, this.flowerTexts.bunch7[this.currentTurn], { 
               fontSize: "32px", 
               fill: this.flowerColors.bunch7, 
               fontFamily: "PixelFont"
@@ -1643,7 +1689,7 @@ export class Level1 extends Scene
             this.flowers.bunch8.x = x8;
             this.flowers.bunch8.y = y8;
 
-            this.add.text(520, 810, this.flowerTexts.bunch8[this.currentTurn], { 
+            this.add.text(520, 890, this.flowerTexts.bunch8[this.currentTurn], { 
               fontSize: "32px", 
               fill: this.flowerColors.bunch8, 
               fontFamily: "PixelFont"
@@ -1689,7 +1735,7 @@ export class Level1 extends Scene
             this.flowers.bunch1.x = x1;
             this.flowers.bunch1.y = y1;
 
-            this.add.text(520, 840, this.flowerTexts.bunch1[this.currentTurn], { 
+            this.add.text(520, 950, this.flowerTexts.bunch1[this.currentTurn], { 
               fontSize: "32px", 
               fill: this.flowerColors.bunch1, 
               fontFamily: "PixelFont"
@@ -1731,7 +1777,7 @@ export class Level1 extends Scene
             this.flowers.bunch2.x = x2;
             this.flowers.bunch2.y = y2;
 
-            this.add.text(520, 840, this.flowerTexts.bunch2[this.currentTurn], { 
+            this.add.text(520, 950, this.flowerTexts.bunch2[this.currentTurn], { 
               fontSize: "32px", 
               fill: this.flowerColors.bunch2, 
               fontFamily: "PixelFont"
@@ -1773,7 +1819,7 @@ export class Level1 extends Scene
             this.flowers.bunch3.y = y3;
 
 
-            this.add.text(520, 840, this.flowerTexts.bunch3[this.currentTurn], { 
+            this.add.text(520, 950, this.flowerTexts.bunch3[this.currentTurn], { 
               fontSize: "32px", 
               fill: this.flowerColors.bunch3,  
               fontFamily: "PixelFont"
@@ -1815,7 +1861,7 @@ export class Level1 extends Scene
             this.flowers.bunch4.y = y4;
 
 
-            this.add.text(520, 840, this.flowerTexts.bunch4[this.currentTurn], { 
+            this.add.text(520, 950, this.flowerTexts.bunch4[this.currentTurn], { 
               fontSize: "32px", 
               fill: this.flowerColors.bunch4,  
               fontFamily: "PixelFont"
@@ -1857,7 +1903,7 @@ export class Level1 extends Scene
             this.flowers.bunch5.y = y5;
 
 
-            this.add.text(520, 840, this.flowerTexts.bunch5[this.currentTurn], { 
+            this.add.text(520, 950, this.flowerTexts.bunch5[this.currentTurn], { 
               fontSize: "32px", 
               fill: this.flowerColors.bunch5,  
               fontFamily: "PixelFont"
@@ -1899,7 +1945,7 @@ export class Level1 extends Scene
             this.flowers.bunch6.y = y6;
 
 
-            this.add.text(520, 840, this.flowerTexts.bunch6[this.currentTurn], { 
+            this.add.text(520, 950, this.flowerTexts.bunch6[this.currentTurn], { 
               fontSize: "32px", 
               fill: this.flowerColors.bunch6, 
               fontFamily: "PixelFont"
@@ -1941,7 +1987,7 @@ export class Level1 extends Scene
             this.flowers.bunch7.y = y7;
 
 
-            this.add.text(520, 840, this.flowerTexts.bunch7[this.currentTurn], { 
+            this.add.text(520, 950, this.flowerTexts.bunch7[this.currentTurn], { 
               fontSize: "32px", 
               fill: this.flowerColors.bunch7,  
               fontFamily: "PixelFont"
@@ -1982,7 +2028,7 @@ export class Level1 extends Scene
             this.flowers.bunch8.x = x8;
             this.flowers.bunch8.y = y8;
 
-            this.add.text(520, 840, this.flowerTexts.bunch8[this.currentTurn], { 
+            this.add.text(520, 950, this.flowerTexts.bunch8[this.currentTurn], { 
               fontSize: "32px", 
               fill: this.flowerColors.bunch8, 
               fontFamily: "PixelFont"
@@ -1997,7 +2043,7 @@ export class Level1 extends Scene
     }
 
     orderComplete() {
-      this.add.text(520, 900, "Order Complete!", {
+      this.add.text(1100, 100, "Order Complete!", {
         fontSize: "32px", 
         fill: "#0165FC", 
         fontFamily: "PixelFont"
