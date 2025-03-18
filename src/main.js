@@ -1,5 +1,8 @@
 import { Boot } from './scenes/Boot';
 import { Game } from './scenes/Game';
+import { Level4 } from './scenes/Level4';
+import { Level3 } from './scenes/Level3';
+import { Level2 } from './scenes/Level2';
 import { Level1 } from './scenes/Level1';
 import { GameOver } from './scenes/GameOver';
 import { MainMenu } from './scenes/MainMenu';
@@ -20,6 +23,9 @@ const config = {
         Preloader,
         MainMenu,
         Level1,
+        Level2,
+        Level3,
+        Level4,
         GameOver
     ]
 };

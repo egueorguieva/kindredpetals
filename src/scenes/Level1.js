@@ -11,7 +11,7 @@ export class Level1 extends Scene
 
   preload () {
     this.load.image('shop-bg', 'assets/main-bg-4.png')
-    this.load.image('frame', 'assets/order-frame.png')
+    this.load.image('frame', 'assets/order-board-4.png')
     this.load.image('bunch4', 'assets/roses-bunch.png')
     this.load.image('bunch2', 'assets/lilies-bunch.png')
     this.load.image('bunch7', 'assets/daisies-bunch.png')
@@ -28,25 +28,57 @@ export class Level1 extends Scene
     this.load.image('tulip', 'assets/single-tulip.png')
     this.load.image('violet', 'assets/single-violet.png')
     this.load.image('carnation', 'assets/single-carnation.png')
-    this.load.image('vase', 'assets/vase-3.png')
+    this.load.image('vase', 'assets/vase-4.png')
+    this.load.image('shop', 'assets/shop-icon.png')
+    this.load.image('coin', 'assets/coin.png')
+    this.load.image('alert', 'assets/alert.png')
+    this.load.image('star', 'assets/star.png')
+    this.load.image('rose2', 'assets/rose-2.png')
+    this.load.image('violet2', 'assets/violet-2.png')
+    this.load.image('exit-button', 'assets/exit.png')
+    this.load.image('order-button', 'assets/order-button.png')
+    this.load.image('bell', 'assets/bell.png')
+    this.load.image('next-level', 'assets/next-level.png')
   }
     
   create ()
     {
       this.hoverSound = this.sound.add("hover")
       this.selectSound = this.sound.add("select")
+      this.alertSound = this.sound.add("alert")
 
       const bg = this.add.image(0, 0, "shop-bg")
       bg.setOrigin(0, 0)
       bg.setDisplaySize(this.sys.game.config.width, this.sys.game.config.height)
 
-      this.vase = this.add.image(1210, 550, 'vase')
-      this.vase.setScale(0.5)
+      this.vase = this.add.image(1220, 495, 'vase')
+      this.vase.setScale(0.38)
       this.vase.setDepth(1);
       this.vase.preFX.addShadow()
 
+      this.shop = this.add.image(1380, 55, "coin")
+      this.shop.setScale(0.17)
+      this.shop.setInteractive()
+
+      let glow
+      this.shop.on("pointerover", () => {
+          this.hoverSound.play()
+          glow = this.shop.preFX.addGlow("0xffffff", 1, 0, false)
+          this.shop.setScale(0.19)
+        })
+      this.shop.on("pointerout", () => {
+          glow?.setActive(false)
+          this.shop.setScale(0.17)
+        })
+
+      this.startMoney = this.add.text(1310, 40, "$0", {
+        fontSize: "32px",
+        fill: "#ffffff",
+        fontFamily: "PixelFont",
+      }).setDepth(2);
+
       this.setFlowers()
-      //this.createStoryPanel()
+      this.newOrder()
 
       this.textBubble = this.add.text(0, 0, "", {
         fontSize: "24px",
@@ -77,7 +109,7 @@ export class Level1 extends Scene
           "nice"
         ],
         bunch2: [ // paraphrasing
-          "It sounds like you're going through a tough time.",
+          "It sounds like you're feeling sad about graduating and moving away from your college campus and friends.",
           "I'm hearing that you're feeling overwhelmed.",
           "Lily message 3",
           "Lily message 4",
@@ -91,7 +123,7 @@ export class Level1 extends Scene
           "You've got this."
         ],
         bunch4: [ // information
-          "Rose message 1",
+          "This sadness will go away with time as you settle into the \nnext phase of your life.",
           "Rose message 2",
           "Rose message 3",
           "Rose message 4",
@@ -105,7 +137,7 @@ export class Level1 extends Scene
           "Tulip message 5"
         ],
         bunch6: [ // contextualizing
-          "Violet message 1",
+          "The rest of your life will be what you make of it.",
           "Violet message 2",
           "Violet message 3",
           "Violet message 4",
@@ -129,53 +161,116 @@ export class Level1 extends Scene
 
       this.handleFirstFlower()
 
-
     }
 
-    createStoryPanel() {
-      // Wooden frame
-      this.storyFrame = this.add.image(600, 300, "frame").setDepth(10).setScale(1.2);
-    
-      // Story text
-      this.storyText = this.add.text(450, 250, "Once upon a time...", {
-        fontSize: "24px",
-        fill: "#000",
-        wordWrap: { width: 300 },
-        fontFamily: "PixelFont",
+    newOrder() {
+
+      this.notice = this.add.image(1220, 275, "alert").setScale(0.25).setDepth(10).setVisible(false);
+
+      this.time.delayedCall(400, () => {
+        this.notice.setVisible(true);
+        this.alertSound.play();
+      });
+
+      this.storyFrame = this.add.image(-400, 350, "frame").setDepth(10).setScale(.7);
+      this.storyText = this.add.text(-700, 115, "I just graduated college. I was super excited leading up to it and also the day of, but I left my college town yesterday and cried the whole way home.", {
+          fontSize: "32px",
+          fill: "#000",
+          wordWrap: { width: 700 },
+          fontFamily: "PixelFont",
       }).setDepth(11);
-    
-      // Close button
-      this.closeButton = this.add.text(700, 100, "X", {
-        fontSize: "32px",
-        fill: "#ff0000",
-        fontFamily: "PixelFont",
-      }).setDepth(12).setInteractive();
-    
-      // Story tab (hidden initially)
-      this.storyTab = this.add.text(50, 550, "Story", {
-        fontSize: "24px",
-        fill: "#fff",
-        backgroundColor: "#000",
-        padding: { x: 10, y: 5 },
-        fontFamily: "PixelFont",
-      }).setDepth(9).setInteractive().setVisible(false);
-    
-      // Close button minimizes the panel
+  
+      this.closeButton = this.add.image(-400, 75, "exit-button").setScale(0.2).setDepth(12).setInteractive();
+      
+      this.storyTab = this.add.image(1380, 130, "order-button").setScale(0.2).setDepth(9).setInteractive().setVisible(false);
+  
+      this.time.delayedCall(1200, () => {
+        this.tweens.add({
+          targets: this.storyFrame,
+          x: 540, 
+          duration: 1000,
+          ease: "Cubic.easeOut",
+        });
+
+        this.tweens.add({
+          targets: this.storyText,
+          x: 70, 
+          duration: 1000,
+          ease: "Cubic.easeOut",
+        });
+
+        this.tweens.add({
+            targets: this.closeButton,
+            x: 820, 
+            duration: 1000,
+            ease: "Cubic.easeOut",
+            onComplete: () => {
+              this.notice.destroy();
+            }
+        });
+      });
+  
+      let glow
+      this.closeButton.on("pointerover", () => {
+          this.hoverSound.play()
+          glow = this.closeButton.preFX.addGlow("0xffffff", 1, 0, false)
+          this.closeButton.setScale(0.22)
+        })
+      this.closeButton.on("pointerout", () => {
+          glow?.setActive(false)
+          this.closeButton.setScale(0.2)
+        })
+
       this.closeButton.on("pointerdown", () => {
-        this.storyFrame.setVisible(false);
-        this.storyText.setVisible(false);
-        this.closeButton.setVisible(false);
-        this.storyTab.setVisible(true);
+          this.tweens.add({
+              targets: [this.storyFrame, this.storyText, this.closeButton],
+              x: -700, 
+              duration: 300,
+              ease: "Cubic.easeIn",
+              onComplete: () => {
+                  this.storyTab.setVisible(true);
+              }
+          });
       });
-    
-      // Clicking the tab restores the story
+  
+      this.storyTab.on("pointerover", () => {
+          this.hoverSound.play()
+          glow = this.storyTab.preFX.addGlow("0xffffff", 1, 0, false)
+          this.storyTab.setScale(0.22)
+        })
+      this.storyTab.on("pointerout", () => {
+          glow?.setActive(false)
+          this.storyTab.setScale(0.2)
+        })
+
       this.storyTab.on("pointerdown", () => {
-        this.storyFrame.setVisible(true);
-        this.storyText.setVisible(true);
-        this.closeButton.setVisible(true);
-        this.storyTab.setVisible(false);
+          this.storyTab.setVisible(false);
+          this.tweens.add({
+            targets: this.storyFrame,
+            x: 540, 
+            duration: 1000,
+            ease: "Cubic.easeOut",
+          });
+  
+          this.tweens.add({
+            targets: this.storyText,
+            x: 70, 
+            duration: 1000,
+            ease: "Cubic.easeOut",
+          });
+  
+          this.tweens.add({
+              targets: this.closeButton,
+              x: 820, 
+              duration: 1000,
+              ease: "Cubic.easeOut",
+              onComplete: () => {
+                this.notice.destroy();
+              }
+          });
       });
-    }    
+
+    } 
 
     setFlowers() {
       const createFlower = (x, y, key, scale, origin = { x: 0.5, y: 0.5 }) => {
@@ -2043,48 +2138,42 @@ export class Level1 extends Scene
     }
 
     orderComplete() {
-      this.add.text(1100, 100, "Order Complete!", {
-        fontSize: "32px", 
-        fill: "#0165FC", 
+      this.add.text(1080, 250, "Order Complete!", {
+        fontSize: "40px", 
+        fill: "#FFFFFF", 
         fontFamily: "PixelFont"
       })
-    } 
+      this.alertSound.play()
 
-    showStory(message) {
-      // Create background rectangle
-      const background = this.add.rectangle(this.cameras.main.centerX, this.cameras.main.centerY, 400, 200, 0x000000, 0.8);
-      background.setDepth(100);
-    
-      // Create text object
-      const text = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY - 50, message, {
-        fontSize: '20px',
-        color: '#ffffff',
-        fontFamily: 'Arial',
-        align: 'center',
-        wordWrap: { width: 380, useAdvancedWrap: true }
-      });
-      text.setOrigin(0.5);
-      text.setDepth(101);
-    
-      // Create button
-      const button = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY + 50, 'Dismiss', {
-        fontSize: '20px',
-        color: '#ffffff',
-        fontFamily: 'Arial',
-        backgroundColor: '#ff0000',
-        padding: { x: 10, y: 5 }
-      });
-      button.setOrigin(0.5);
-      button.setDepth(101);
-      button.setInteractive({ useHandCursor: true });
-    
-        
-      button.on('pointerdown', () => {
-        background.destroy();
-        text.destroy();
-        button.destroy();
-      }); 
-      
-  }
+      this.startMoney.destroy()
+      this.add.text(1295, 40, "$50", {
+        fontSize: "32px",
+        fill: "#ffffff",
+        fontFamily: "PixelFont",
+      }).setDepth(2);
+
+      this.nextLevel = this.add.image(1380, 460, "next-level").setScale(0.25).setDepth(2).setInteractive()
+      this.add.text(1300, 400, "Next Order", {
+        fontSize: "24px",
+        fill: "#ffffff",
+        fontFamily: "PixelFont",
+      }).setDepth(2);
+
+      let glow
+      this.nextLevel.on("pointerover", () => {
+        glow = this.nextLevel.preFX.addGlow("0xffffff", 1, 0, false)
+        this.hoverSound.play()
+        this.nextLevel.setScale(0.27)
+      })
+      this.nextLevel.on("pointerout", () => {
+        glow?.setActive(false)
+        this.nextLevel.setScale(0.25)
+      })
+      this.nextLevel.on("pointerdown", () => {
+        this.selectSound.play()
+        this.scene.start("Level2")
+      })
+
+    } 
 
 }
