@@ -36,13 +36,18 @@ export class Level4 extends Scene
     this.load.image('rose2', 'assets/rose-2.png')
     this.load.image('violet2', 'assets/violet-2.png')
     this.load.image('exit-button', 'assets/exit.png')
-    this.load.image('order-button', 'assets/order-button.png')
+    this.load.image('order-button', 'assets/order-button-2.png')
     this.load.image('bell', 'assets/bell.png')
     this.load.image('next-level', 'assets/next-level.png')
+    this.load.image('delete', 'assets/delete-icon.png')
   }
     
   create ()
     {
+
+      this.randomizedLevels = this.game.randomizedLevels;
+      console.log("Randomized levels in Level 4:", this.randomizedLevels);
+
       this.hoverSound = this.sound.add("hover")
       this.selectSound = this.sound.add("select")
       this.alertSound = this.sound.add("alert")
@@ -56,7 +61,7 @@ export class Level4 extends Scene
       this.vase.setDepth(1);
       this.vase.preFX.addShadow()
 
-      this.shop = this.add.image(1380, 55, "coin")
+      this.shop = this.add.image(1380, 55, "star")
       this.shop.setScale(0.17)
       this.shop.setInteractive()
 
@@ -71,14 +76,27 @@ export class Level4 extends Scene
           this.shop.setScale(0.17)
         })
 
-      this.startMoney = this.add.text(1310, 40, "$150", {
+      /* this.startPoints = this.add.text(1310, 40, "0", {
         fontSize: "32px",
         fill: "#ffffff",
         fontFamily: "PixelFont",
       }).setDepth(2);
-
+ */
       this.setFlowers()
       this.newOrder()
+
+      this.trash = this.add.image(1380, 215, "delete")  
+      .setScale(0.15)
+      .setInteractive()
+      .setDepth(2);
+    
+      this.trash.on("pointerdown", () => {
+        console.log("Trashcan clicked");
+        this.removeLastFlower();
+      });
+
+      this.flowersInVase = [];
+      this.addedTexts = [];
 
       this.textBubble = this.add.text(0, 0, "", {
         fontSize: "24px",
@@ -173,7 +191,7 @@ export class Level4 extends Scene
       });
 
       this.storyFrame = this.add.image(-400, 350, "frame").setDepth(10).setScale(.7);
-      this.storyText = this.add.text(-700, 115, "Level 4 Text", {
+      this.storyText = this.add.text(-700, 115, "I have a randomly assigned roommate for my freshman college dorm, and I'm a little nervous. She seems nice from our texts so far, and it seems like we have a lot in common. I've heard all sorts of crazy roommate stories, and I feel psyched out. I really want to be friends. I'm excited, but also anxious. I don't want to be a bad roommate either.", {
           fontSize: "32px",
           fill: "#000",
           wordWrap: { width: 700 },
@@ -351,7 +369,8 @@ export class Level4 extends Scene
               .setScale(0.85)
               .setInteractive()
               .setDepth(this.vase.depth - 1)
-            
+
+            this.flowersInVase.push(flowerSprite);
             this.selectSound.play()
             this.flowers.bunch1.x = x1;
             this.flowers.bunch1.y = y1;
@@ -409,6 +428,7 @@ export class Level4 extends Scene
                 .setInteractive()
                 .setDepth(this.vase.depth - 1)
               
+              this.flowersInVase.push(flowerSprite);
               this.selectSound.play()
               this.flowers.bunch2.x = x2;
               this.flowers.bunch2.y = y2;
@@ -466,6 +486,7 @@ export class Level4 extends Scene
                   .setInteractive()
                   .setDepth(this.vase.depth - 1)
 
+                this.flowersInVase.push(flowerSprite);
                 this.selectSound.play()
                 this.flowers.bunch3.x = x3;
                 this.flowers.bunch3.y = y3;
@@ -523,6 +544,7 @@ export class Level4 extends Scene
                     .setInteractive()
                     .setDepth(this.vase.depth - 1)
                   
+                  this.flowersInVase.push(flowerSprite);
                   this.selectSound.play()
                   this.flowers.bunch4.x = x4;
                   this.flowers.bunch4.y = y4;
@@ -580,6 +602,7 @@ export class Level4 extends Scene
                       .setInteractive()
                       .setDepth(this.vase.depth - 1)
 
+                    this.flowersInVase.push(flowerSprite);
                     this.selectSound.play()
                     this.flowers.bunch5.x = x5;
                     this.flowers.bunch5.y = y5;
@@ -637,6 +660,7 @@ export class Level4 extends Scene
                         .setInteractive()
                         .setDepth(this.vase.depth - 1)
 
+                      this.flowersInVase.push(flowerSprite);
                       this.selectSound.play()
                       this.flowers.bunch6.x = x6;
                       this.flowers.bunch6.y = y6;
@@ -694,6 +718,7 @@ export class Level4 extends Scene
                           .setInteractive()
                           .setDepth(this.vase.depth - 1)
 
+                        this.flowersInVase.push(flowerSprite);
                         this.selectSound.play()
                         this.flowers.bunch7.x = x7;
                         this.flowers.bunch7.y = y7;
@@ -751,6 +776,7 @@ export class Level4 extends Scene
                             .setInteractive()
                             .setDepth(this.vase.depth - 1)
 
+                          this.flowersInVase.push(flowerSprite);
                           this.selectSound.play()
                           this.flowers.bunch8.x = x8;
                           this.flowers.bunch8.y = y8;
@@ -807,6 +833,7 @@ export class Level4 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowersInVase.push(flowerSprite);
             this.selectSound.play()
             this.flowers.bunch1.x = x1;
             this.flowers.bunch1.y = y1;
@@ -847,6 +874,7 @@ export class Level4 extends Scene
                 .setInteractive()
                 .setDepth(this.vase.depth - 1)
               
+              this.flowersInVase.push(flowerSprite);
               this.selectSound.play()
               this.flowers.bunch2.x = x2;
               this.flowers.bunch2.y = y2;
@@ -889,6 +917,7 @@ export class Level4 extends Scene
                   .setInteractive()
                   .setDepth(this.vase.depth - 1)
 
+                this.flowersInVase.push(flowerSprite);
                 this.selectSound.play()
                 this.flowers.bunch3.x = x3;
                 this.flowers.bunch3.y = y3;
@@ -931,6 +960,7 @@ export class Level4 extends Scene
                     .setInteractive()
                     .setDepth(this.vase.depth - 1)
 
+                  this.flowersInVase.push(flowerSprite);
                   this.selectSound.play()
                   this.flowers.bunch4.x = x4;
                   this.flowers.bunch4.y = y4;
@@ -972,6 +1002,7 @@ export class Level4 extends Scene
                       .setInteractive()
                       .setDepth(this.vase.depth - 1)
 
+                    this.flowersInVase.push(flowerSprite);
                     this.selectSound.play()
                     this.flowers.bunch5.x = x5;
                     this.flowers.bunch5.y = y5;
@@ -1014,6 +1045,7 @@ export class Level4 extends Scene
                         .setInteractive()
                         .setDepth(this.vase.depth - 1)
 
+                      this.flowersInVase.push(flowerSprite);
                       this.selectSound.play()
                       this.flowers.bunch6.x = x6;
                       this.flowers.bunch6.y = y6;
@@ -1057,6 +1089,7 @@ export class Level4 extends Scene
                         .setInteractive()
                         .setDepth(this.vase.depth - 1)
                       
+                      this.flowersInVase.push(flowerSprite);
                       this.selectSound.play()
                       this.flowers.bunch7.x = x7;
                       this.flowers.bunch7.y = y7;
@@ -1099,6 +1132,7 @@ export class Level4 extends Scene
                           .setInteractive()
                           .setDepth(this.vase.depth - 1)
 
+                        this.flowersInVase.push(flowerSprite);
                         this.selectSound.play()
                         this.flowers.bunch8.x = x8;
                         this.flowers.bunch8.y = y8;
@@ -1145,6 +1179,7 @@ export class Level4 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowersInVase.push(flowerSprite);
             this.selectSound.play()
             this.flowers.bunch1.x = x1;
             this.flowers.bunch1.y = y1;
@@ -1187,6 +1222,7 @@ export class Level4 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowersInVase.push(flowerSprite);
             this.selectSound.play()
             this.flowers.bunch2.x = x2;
             this.flowers.bunch2.y = y2;
@@ -1229,6 +1265,7 @@ export class Level4 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowersInVase.push(flowerSprite);
             this.selectSound.play()
             this.flowers.bunch3.x = x3;
             this.flowers.bunch3.y = y3;
@@ -1271,6 +1308,7 @@ export class Level4 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowersInVase.push(flowerSprite);
             this.selectSound.play()
             this.flowers.bunch4.x = x4;
             this.flowers.bunch4.y = y4;
@@ -1313,6 +1351,7 @@ export class Level4 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowersInVase.push(flowerSprite);
             this.selectSound.play()
             this.flowers.bunch5.x = x5;
             this.flowers.bunch5.y = y5;
@@ -1355,6 +1394,7 @@ export class Level4 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
             
+            this.flowersInVase.push(flowerSprite);
             this.selectSound.play()
             this.flowers.bunch6.x = x6;
             this.flowers.bunch6.y = y6;
@@ -1397,6 +1437,7 @@ export class Level4 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowersInVase.push(flowerSprite);
             this.selectSound.play()
             this.flowers.bunch7.x = x7;
             this.flowers.bunch7.y = y7;
@@ -1439,6 +1480,7 @@ export class Level4 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowersInVase.push(flowerSprite);
             this.selectSound.play()
             this.flowers.bunch8.x = x8;
             this.flowers.bunch8.y = y8;
@@ -1485,6 +1527,7 @@ export class Level4 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowersInVase.push(flowerSprite);
             this.selectSound.play()
             this.flowers.bunch1.x = x1;
             this.flowers.bunch1.y = y1;
@@ -1528,6 +1571,7 @@ export class Level4 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
             
+            this.flowersInVase.push(flowerSprite);
             this.selectSound.play()
             this.flowers.bunch2.x = x2;
             this.flowers.bunch2.y = y2;
@@ -1570,6 +1614,7 @@ export class Level4 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowersInVase.push(flowerSprite);
             this.selectSound.play()
             this.flowers.bunch3.x = x3;
             this.flowers.bunch3.y = y3;
@@ -1612,6 +1657,7 @@ export class Level4 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowersInVase.push(flowerSprite);
             this.selectSound.play()
             this.flowers.bunch4.x = x4;
             this.flowers.bunch4.y = y4;
@@ -1654,6 +1700,7 @@ export class Level4 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowersInVase.push(flowerSprite);
             this.selectSound.play()
             this.flowers.bunch5.x = x5;
             this.flowers.bunch5.y = y5;
@@ -1696,6 +1743,7 @@ export class Level4 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowersInVase.push(flowerSprite);
             this.selectSound.play()
             this.flowers.bunch6.x = x6;
             this.flowers.bunch6.y = y6;
@@ -1738,6 +1786,7 @@ export class Level4 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowersInVase.push(flowerSprite);
             this.selectSound.play()
             this.flowers.bunch7.x = x7;
             this.flowers.bunch7.y = y7;
@@ -1780,6 +1829,7 @@ export class Level4 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
             
+            this.flowersInVase.push(flowerSprite);
             this.selectSound.play()
             this.flowers.bunch8.x = x8;
             this.flowers.bunch8.y = y8;
@@ -1826,6 +1876,7 @@ export class Level4 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowersInVase.push(flowerSprite);
             this.selectSound.play()
             this.flowers.bunch1.x = x1;
             this.flowers.bunch1.y = y1;
@@ -1868,6 +1919,7 @@ export class Level4 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowersInVase.push(flowerSprite);
             this.selectSound.play()
             this.flowers.bunch2.x = x2;
             this.flowers.bunch2.y = y2;
@@ -1909,6 +1961,7 @@ export class Level4 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowersInVase.push(flowerSprite);
             this.selectSound.play()
             this.flowers.bunch3.x = x3;
             this.flowers.bunch3.y = y3;
@@ -1951,6 +2004,7 @@ export class Level4 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowersInVase.push(flowerSprite);
             this.selectSound.play()
             this.flowers.bunch4.x = x4;
             this.flowers.bunch4.y = y4;
@@ -1993,6 +2047,7 @@ export class Level4 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowersInVase.push(flowerSprite);
             this.selectSound.play()
             this.flowers.bunch5.x = x5;
             this.flowers.bunch5.y = y5;
@@ -2035,6 +2090,7 @@ export class Level4 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowersInVase.push(flowerSprite);
             this.selectSound.play()
             this.flowers.bunch6.x = x6;
             this.flowers.bunch6.y = y6;
@@ -2077,6 +2133,7 @@ export class Level4 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowersInVase.push(flowerSprite);
             this.selectSound.play()
             this.flowers.bunch7.x = x7;
             this.flowers.bunch7.y = y7;
@@ -2119,6 +2176,7 @@ export class Level4 extends Scene
               .setInteractive()
               .setDepth(this.vase.depth - 1)
 
+            this.flowersInVase.push(flowerSprite);
             this.selectSound.play()
             this.flowers.bunch8.x = x8;
             this.flowers.bunch8.y = y8;
@@ -2137,6 +2195,16 @@ export class Level4 extends Scene
       )
     }
 
+    removeLastFlower() {
+      if (this.flowersInVase.length > 0) {
+        const lastFlower = this.flowersInVase.pop();
+        lastFlower.destroy();
+        console.log("Removed last flower from vase");
+      } else {
+        console.log("No flowers to remove");
+      }
+    }
+
     orderComplete() {
       this.add.text(1080, 250, "Order Complete!", {
         fontSize: "40px", 
@@ -2145,8 +2213,7 @@ export class Level4 extends Scene
       })
       this.alertSound.play()
 
-      this.startMoney.destroy()
-      this.add.text(1295, 40, "$200", {
+      this.add.text(1295, 40, "0", {
         fontSize: "32px",
         fill: "#ffffff",
         fontFamily: "PixelFont",
@@ -2171,7 +2238,14 @@ export class Level4 extends Scene
       })
       this.nextLevel.on("pointerdown", () => {
         this.selectSound.play()
-        this.scene.start("GameOver", { level: 4, money: 200 })
+        const currentIndex = this.randomizedLevels.findIndex(level => level.key === this.scene.key);
+
+        if (currentIndex >= 0 && currentIndex < this.randomizedLevels.length - 1) {
+          const nextLevelKey = this.randomizedLevels[currentIndex + 1].key;
+          this.scene.start(nextLevelKey);
+        } else {
+          this.scene.start('MainMenu');
+        }
       })
 
     } 

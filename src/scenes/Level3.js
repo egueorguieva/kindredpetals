@@ -36,13 +36,18 @@ export class Level3 extends Scene
     this.load.image('rose2', 'assets/rose-2.png')
     this.load.image('violet2', 'assets/violet-2.png')
     this.load.image('exit-button', 'assets/exit.png')
-    this.load.image('order-button', 'assets/order-button.png')
+    this.load.image('order-button', 'assets/order-button-2.png')
     this.load.image('bell', 'assets/bell.png')
     this.load.image('next-level', 'assets/next-level.png')
+    this.load.image('delete', 'assets/delete-icon.png')
   }
     
   create ()
     {
+
+      this.randomizedLevels = this.game.randomizedLevels;
+      console.log("Randomized levels in Level 3:", this.randomizedLevels);
+
       this.hoverSound = this.sound.add("hover")
       this.selectSound = this.sound.add("select")
       this.alertSound = this.sound.add("alert")
@@ -56,7 +61,7 @@ export class Level3 extends Scene
       this.vase.setDepth(1);
       this.vase.preFX.addShadow()
 
-      this.shop = this.add.image(1380, 55, "coin")
+      this.shop = this.add.image(1380, 55, "star")
       this.shop.setScale(0.17)
       this.shop.setInteractive()
 
@@ -71,14 +76,26 @@ export class Level3 extends Scene
           this.shop.setScale(0.17)
         })
 
-      this.startMoney = this.add.text(1310, 40, "$100", {
+/*       this.startPoints = this.add.text(1310, 40, "0", {
         fontSize: "32px",
         fill: "#ffffff",
         fontFamily: "PixelFont",
-      }).setDepth(2);
+      }).setDepth(2); */
 
       this.setFlowers()
       this.newOrder()
+
+      this.trash = this.add.image(1380, 215, "delete")  
+      .setScale(0.15)
+      .setInteractive()
+      .setDepth(2);
+    
+      this.trash.on("pointerdown", () => {
+        console.log("Trashcan clicked");
+        this.removeLastFlower();
+      });
+
+      this.flowersInVase = [];
 
       this.textBubble = this.add.text(0, 0, "", {
         fontSize: "24px",
@@ -173,7 +190,7 @@ export class Level3 extends Scene
       });
 
       this.storyFrame = this.add.image(-400, 350, "frame").setDepth(10).setScale(.7);
-      this.storyText = this.add.text(-700, 115, "Level 3 Text", {
+      this.storyText = this.add.text(-700, 115, "How do you stop ruminating on mistakes? I was the crazy neighbor today due to a misunderstanding and I quickly apologized because I was genuinely wrong. But I don't know how to shake off the feeling of being wrong? I feel like my neighbor is just going to forever think I'm insane. It feels like I don't express my words right at all and when I make a mistake I feel like it'll last forever.", {
           fontSize: "32px",
           fill: "#000",
           wordWrap: { width: 700 },
@@ -2137,6 +2154,16 @@ export class Level3 extends Scene
       )
     }
 
+    removeLastFlower() {
+      if (this.flowersInVase.length > 0) {
+        const lastFlower = this.flowersInVase.pop();
+        lastFlower.destroy();
+        console.log("Removed last flower from vase");
+      } else {
+        console.log("No flowers to remove");
+      }
+    }
+
     orderComplete() {
       this.add.text(1080, 250, "Order Complete!", {
         fontSize: "40px", 
@@ -2145,8 +2172,7 @@ export class Level3 extends Scene
       })
       this.alertSound.play()
 
-      this.startMoney.destroy()
-      this.add.text(1295, 40, "$150", {
+      this.add.text(1295, 40, "0", {
         fontSize: "32px",
         fill: "#ffffff",
         fontFamily: "PixelFont",
@@ -2171,7 +2197,14 @@ export class Level3 extends Scene
       })
       this.nextLevel.on("pointerdown", () => {
         this.selectSound.play()
-        this.scene.start("Level4")
+        const currentIndex = this.randomizedLevels.findIndex(level => level.key === this.scene.key);
+
+        if (currentIndex >= 0 && currentIndex < this.randomizedLevels.length - 1) {
+          const nextLevelKey = this.randomizedLevels[currentIndex + 1].key;
+          this.scene.start(nextLevelKey);
+        } else {
+          this.scene.start('MainMenu');
+        }
       })
 
     } 

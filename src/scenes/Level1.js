@@ -36,13 +36,18 @@ export class Level1 extends Scene
     this.load.image('rose2', 'assets/rose-2.png')
     this.load.image('violet2', 'assets/violet-2.png')
     this.load.image('exit-button', 'assets/exit.png')
-    this.load.image('order-button', 'assets/order-button.png')
+    this.load.image('order-button', 'assets/order-button-2.png')
     this.load.image('bell', 'assets/bell.png')
     this.load.image('next-level', 'assets/next-level.png')
+    this.load.image('delete', 'assets/delete-icon.png')
   }
     
   create ()
     {
+
+      this.randomizedLevels = this.game.randomizedLevels;
+      console.log("Randomized levels in Level 1:", this.randomizedLevels);
+
       this.hoverSound = this.sound.add("hover")
       this.selectSound = this.sound.add("select")
       this.alertSound = this.sound.add("alert")
@@ -56,29 +61,41 @@ export class Level1 extends Scene
       this.vase.setDepth(1);
       this.vase.preFX.addShadow()
 
-      this.shop = this.add.image(1380, 55, "coin")
-      this.shop.setScale(0.17)
+      this.shop = this.add.image(1380, 55, "star")
+      this.shop.setScale(0.13)
       this.shop.setInteractive()
 
       let glow
       this.shop.on("pointerover", () => {
           this.hoverSound.play()
           glow = this.shop.preFX.addGlow("0xffffff", 1, 0, false)
-          this.shop.setScale(0.19)
+          this.shop.setScale(0.15)
         })
       this.shop.on("pointerout", () => {
           glow?.setActive(false)
-          this.shop.setScale(0.17)
+          this.shop.setScale(0.13)
         })
 
-      this.startMoney = this.add.text(1310, 40, "$0", {
+/*       this.startPoints = this.add.text(1310, 40, "0", {
         fontSize: "32px",
         fill: "#ffffff",
         fontFamily: "PixelFont",
       }).setDepth(2);
-
+ */
       this.setFlowers()
       this.newOrder()
+
+      this.trash = this.add.image(1380, 215, "delete")  
+      .setScale(0.15)
+      .setInteractive()
+      .setDepth(2);
+    
+      this.trash.on("pointerdown", () => {
+        console.log("Trashcan clicked");
+        this.removeLastFlower();
+      });
+
+      this.flowersInVase = [];
 
       this.textBubble = this.add.text(0, 0, "", {
         fontSize: "24px",
@@ -109,8 +126,8 @@ export class Level1 extends Scene
           "nice"
         ],
         bunch2: [ // paraphrasing
-          "It sounds like you're feeling sad about graduating and moving away from your college campus and friends.",
-          "I'm hearing that you're feeling overwhelmed.",
+          "I'm hearing that you're feeling sad about graduating and \nmoving away from your college campus and friends.",
+          "It sounds like you're feeling overwhelmed.",
           "Lily message 3",
           "Lily message 4",
           "Lily message 5"
@@ -173,7 +190,7 @@ export class Level1 extends Scene
       });
 
       this.storyFrame = this.add.image(-400, 350, "frame").setDepth(10).setScale(.7);
-      this.storyText = this.add.text(-700, 115, "I just graduated college. I was super excited leading up to it and also the day of, but I left my college town yesterday and cried the whole way home.", {
+      this.storyText = this.add.text(-700, 115, "I just graduated college. I was super excited leading up to it and also the day of, but I left my college town yesterday and cried the whole way home. I had a great time in college, and I'm also really excited to attend my dream graduate school this Fall. I guess my brain can't comprehend how quickly the time passed and began to realize that I'll never see some of those people again. I'm still excited for the future though. It's a weird feeling.", {
           fontSize: "32px",
           fill: "#000",
           wordWrap: { width: 700 },
@@ -182,7 +199,7 @@ export class Level1 extends Scene
   
       this.closeButton = this.add.image(-400, 75, "exit-button").setScale(0.2).setDepth(12).setInteractive();
       
-      this.storyTab = this.add.image(1380, 130, "order-button").setScale(0.2).setDepth(9).setInteractive().setVisible(false);
+      this.storyTab = this.add.image(1380, 135, "order-button").setScale(0.22).setDepth(9).setInteractive().setVisible(false);
   
       this.time.delayedCall(1200, () => {
         this.tweens.add({
@@ -236,11 +253,11 @@ export class Level1 extends Scene
       this.storyTab.on("pointerover", () => {
           this.hoverSound.play()
           glow = this.storyTab.preFX.addGlow("0xffffff", 1, 0, false)
-          this.storyTab.setScale(0.22)
+          this.storyTab.setScale(0.24)
         })
       this.storyTab.on("pointerout", () => {
           glow?.setActive(false)
-          this.storyTab.setScale(0.2)
+          this.storyTab.setScale(0.22)
         })
 
       this.storyTab.on("pointerdown", () => {
@@ -365,6 +382,8 @@ export class Level1 extends Scene
             flowersPlaced++
             this.currentTurn++
             this.handleSecondFlower()
+
+            this.flowersInVase.push(flower);
             
           }        
 
@@ -423,6 +442,8 @@ export class Level1 extends Scene
               this.currentTurn++
               this.handleSecondFlower()
 
+              this.flowersInVase.push(flower);
+
             }
 
             this.tweens.add({
@@ -479,6 +500,8 @@ export class Level1 extends Scene
                 flowersPlaced++
                 this.currentTurn++
                 this.handleSecondFlower()
+
+                this.flowersInVase.push(flower);
                   
               }
 
@@ -537,6 +560,8 @@ export class Level1 extends Scene
                   this.currentTurn++
                   this.handleSecondFlower()
 
+                  this.flowersInVase.push(flower);
+
                 }
 
                 this.tweens.add({
@@ -593,6 +618,8 @@ export class Level1 extends Scene
                     flowersPlaced++
                     this.currentTurn++
                     this.handleSecondFlower()
+
+                    this.flowersInVase.push(flower);
       
                   }
 
@@ -650,6 +677,8 @@ export class Level1 extends Scene
                       flowersPlaced++
                       this.currentTurn++
                       this.handleSecondFlower()
+
+                      this.flowersInVase.push(flower);
         
                     }
 
@@ -707,6 +736,8 @@ export class Level1 extends Scene
                         flowersPlaced++
                         this.currentTurn++
                         this.handleSecondFlower()
+
+                        this.flowersInVase.push(flower);
           
                       }
 
@@ -764,6 +795,8 @@ export class Level1 extends Scene
                           flowersPlaced++
                           this.currentTurn++
                           this.handleSecondFlower()
+
+                          this.flowersInVase.push(flower);
                         }
 
                         this.tweens.add({
@@ -820,6 +853,8 @@ export class Level1 extends Scene
             flowersPlaced++
             this.currentTurn++
             this.handleThirdFlower()
+
+            this.flowersInVase.push(flower);
           }
         })
 
@@ -860,6 +895,8 @@ export class Level1 extends Scene
               flowersPlaced++
               this.currentTurn++
               this.handleThirdFlower()
+
+              this.flowersInVase.push(flower);
 
             }
               
@@ -902,6 +939,8 @@ export class Level1 extends Scene
                 flowersPlaced++
                 this.currentTurn++
                 this.handleThirdFlower()
+
+                this.flowersInVase.push(flower);
                 
               }
                 
@@ -945,6 +984,8 @@ export class Level1 extends Scene
                   this.currentTurn++
                   this.handleThirdFlower()
 
+                  this.flowersInVase.push(flower);
+
                 }
               })
 
@@ -985,6 +1026,8 @@ export class Level1 extends Scene
                     flowersPlaced++
                     this.currentTurn++
                     this.handleThirdFlower()
+
+                    this.flowersInVase.push(flower);
       
                   }
                     
@@ -1027,6 +1070,8 @@ export class Level1 extends Scene
                       flowersPlaced++
                       this.currentTurn++
                       this.handleThirdFlower()
+
+                      this.flowersInVase.push(flower);
         
                     }
                       
@@ -1070,6 +1115,8 @@ export class Level1 extends Scene
                       flowersPlaced++
                       this.currentTurn++
                       this.handleThirdFlower()
+
+                      this.flowersInVase.push(flower);
           
                     }
                       
@@ -1112,6 +1159,8 @@ export class Level1 extends Scene
                         flowersPlaced++
                         this.currentTurn++
                         this.handleThirdFlower()
+
+                        this.flowersInVase.push(flower);
             
                       }
                         
@@ -1158,6 +1207,8 @@ export class Level1 extends Scene
             flowersPlaced++
             this.currentTurn++
             this.handleFourthFlower()
+
+            this.flowersInVase.push(flower);
             
           }
         }
@@ -1200,6 +1251,8 @@ export class Level1 extends Scene
             flowersPlaced++
             this.currentTurn++
             this.handleFourthFlower()
+
+            this.flowersInVase.push(flower);
             
           }
         }
@@ -1242,6 +1295,8 @@ export class Level1 extends Scene
             flowersPlaced++
             this.currentTurn++
             this.handleFourthFlower()
+
+            this.flowersInVase.push(flower);
             
           }
         }
@@ -1284,6 +1339,8 @@ export class Level1 extends Scene
             flowersPlaced++
             this.currentTurn++
             this.handleFourthFlower()
+
+            this.flowersInVase.push(flower);
             
           }
         }
@@ -1326,6 +1383,8 @@ export class Level1 extends Scene
             flowersPlaced++
             this.currentTurn++
             this.handleFourthFlower()
+
+            this.flowersInVase.push(flower);
             
           }
         }
@@ -1368,6 +1427,8 @@ export class Level1 extends Scene
             flowersPlaced++
             this.currentTurn++
             this.handleFourthFlower()
+
+            this.flowersInVase.push(flower);
             
           }
         }
@@ -1410,6 +1471,8 @@ export class Level1 extends Scene
             flowersPlaced++
             this.currentTurn++
             this.handleFourthFlower()
+
+            this.flowersInVase.push(flower);
             
           }
         }
@@ -1452,6 +1515,8 @@ export class Level1 extends Scene
             flowersPlaced++
             this.currentTurn++
             this.handleFourthFlower()
+
+            this.flowersInVase.push(flower);
             
           }
         }
@@ -1498,6 +1563,8 @@ export class Level1 extends Scene
             flowersPlaced++
             this.currentTurn++
             this.handleFifthFlower()
+
+            this.flowersInVase.push(flower);
             
           }
           
@@ -1541,6 +1608,8 @@ export class Level1 extends Scene
             flowersPlaced++
             this.currentTurn++
             this.handleFifthFlower()
+
+            this.flowersInVase.push(flower);
             
           }
         }
@@ -1583,6 +1652,8 @@ export class Level1 extends Scene
             flowersPlaced++
             this.currentTurn++
             this.handleFifthFlower()
+
+            this.flowersInVase.push(flower);
             
           }
         }
@@ -1625,6 +1696,8 @@ export class Level1 extends Scene
             flowersPlaced++
             this.currentTurn++
             this.handleFifthFlower()
+
+            this.flowersInVase.push(flower);
             
           }
         }
@@ -1667,6 +1740,8 @@ export class Level1 extends Scene
             flowersPlaced++
             this.currentTurn++
             this.handleFifthFlower()
+
+            this.flowersInVase.push(flower);
             
           }
         }
@@ -1709,6 +1784,8 @@ export class Level1 extends Scene
             flowersPlaced++
             this.currentTurn++
             this.handleFifthFlower()
+
+            this.flowersInVase.push(flower);
             
           }
         }
@@ -1751,6 +1828,8 @@ export class Level1 extends Scene
             flowersPlaced++
             this.currentTurn++
             this.handleFifthFlower()
+
+            this.flowersInVase.push(flower);
             
           }
         }
@@ -1793,6 +1872,8 @@ export class Level1 extends Scene
             flowersPlaced++
             this.currentTurn++
             this.handleFifthFlower()
+
+            this.flowersInVase.push(flower);
             
           }
         }
@@ -1839,6 +1920,8 @@ export class Level1 extends Scene
             flowersPlaced++
             this.currentTurn++
             this.orderComplete()
+
+            this.flowersInVase.push(flower);
           }
           
         }
@@ -1881,6 +1964,8 @@ export class Level1 extends Scene
             flowersPlaced++
             this.currentTurn++
             this.orderComplete()
+
+            this.flowersInVase.push(flower);
           }
         }
       )
@@ -1923,6 +2008,8 @@ export class Level1 extends Scene
             flowersPlaced++
             this.currentTurn++
             this.orderComplete()
+
+            this.flowersInVase.push(flower);
           }
         }
       )
@@ -1965,6 +2052,8 @@ export class Level1 extends Scene
             flowersPlaced++
             this.currentTurn++
             this.orderComplete()
+
+            this.flowersInVase.push(flower);
           }
         }
       )
@@ -2007,6 +2096,8 @@ export class Level1 extends Scene
             flowersPlaced++
             this.currentTurn++
             this.orderComplete()
+
+            this.flowersInVase.push(flower);
           }
         }
       )
@@ -2049,6 +2140,8 @@ export class Level1 extends Scene
             flowersPlaced++
             this.currentTurn++
             this.orderComplete()
+
+            this.flowersInVase.push(flower);
           }
         }
       )
@@ -2091,6 +2184,8 @@ export class Level1 extends Scene
             flowersPlaced++
             this.currentTurn++
             this.orderComplete()
+
+            this.flowersInVase.push(flower);
           }
         }
       )
@@ -2132,9 +2227,21 @@ export class Level1 extends Scene
             flowersPlaced++
             this.currentTurn++
             this.orderComplete()
+
+            this.flowersInVase.push(flower);
           }
         }
       )
+    }
+
+    removeLastFlower() {
+      if (this.flowersInVase.length > 0) {
+        const lastFlower = this.flowersInVase.pop();
+        lastFlower.destroy();
+        console.log("Removed last flower from vase");
+      } else {
+        console.log("No flowers to remove");
+      }
     }
 
     orderComplete() {
@@ -2145,8 +2252,7 @@ export class Level1 extends Scene
       })
       this.alertSound.play()
 
-      this.startMoney.destroy()
-      this.add.text(1295, 40, "$50", {
+      this.add.text(1295, 40, "0", {
         fontSize: "32px",
         fill: "#ffffff",
         fontFamily: "PixelFont",
@@ -2171,9 +2277,14 @@ export class Level1 extends Scene
       })
       this.nextLevel.on("pointerdown", () => {
         this.selectSound.play()
-        this.scene.start("Level2")
+        const currentIndex = this.randomizedLevels.findIndex(level => level.key === this.scene.key);
+
+        if (currentIndex >= 0 && currentIndex < this.randomizedLevels.length - 1) {
+          const nextLevelKey = this.randomizedLevels[currentIndex + 1].key;
+          this.scene.start(nextLevelKey);
+        } else {
+          this.scene.start('MainMenu');
+        }
       })
-
     } 
-
 }
