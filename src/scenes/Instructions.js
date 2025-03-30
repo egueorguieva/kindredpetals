@@ -1,10 +1,10 @@
 import { Scene } from 'phaser';
 
-export class Level4 extends Scene
+export class Instructions extends Scene
 {
     constructor ()
     {
-        super('Level4');
+        super('Instructions');
         this.textBubble = null;
     }
 
@@ -51,9 +51,8 @@ export class Level4 extends Scene
 
     create ()
     {
-
       this.randomizedLevels = this.game.randomizedLevels;
-      console.log("Randomized levels in Level 4:", this.randomizedLevels);
+      console.log("Randomized levels in Instructional Level:", this.randomizedLevels);
 
       this.hoverSound = this.sound.add("hover")
       this.selectSound = this.sound.add("select")
@@ -154,9 +153,9 @@ export class Level4 extends Scene
         bunch1: [ // emotional expression
           "I'm excited to hear about your graduation!",
           "I'm sorry to hear you're feeling conflicted.",
-          "I'm happy for you for graduating!",
+          "I'm happy you're going to your dream graduate school!",
           "I'm sorry about your anxiety.",
-          ""
+          "I'm glad you're excited about the future!",
         ],
         bunch2: [ // paraphrasing
           "It sounds like you're feeling sad about graduating and \nmoving away from your college campus and friends.",
@@ -166,10 +165,10 @@ export class Level4 extends Scene
           "Lily message 5"
         ],
         bunch3: [ // empowerment
-          "You're doing such a great job.",
-          "You've totally got this!",
+          "Congratulations on graduating! What a huge \naccomplishment.",
+          "You've done such a great job.",
           "You're amazing.",
-          "You're so strong.",
+          "You're obviously smart and capable, and I \nknow you'll do great in graduate school.",
           "You've got this."
         ],
         bunch4: [ // information
@@ -180,11 +179,11 @@ export class Level4 extends Scene
           "Rose message 5"
         ],
         bunch5: [ // validation
-          "You're not alone in this.",
+          "You're totally normal for feeling this way, it's a big\n change!",
           "It's okay to feel mixed feelings right now.",
           "It's completely valid to feel this way.",
           "Lots of people feel like this around graduation.",
-          "You're totally normal for feeling this way, it's a big change!"
+          "You're not alone in this."
         ],
         bunch6: [ // contextualizing
           "The rest of your life will be what you make of it.",
@@ -209,6 +208,17 @@ export class Level4 extends Scene
         ]
       };
 
+      this.flowerPlacementRanges = {
+        bunch1: { xMin: 1190, xMax: 1230, yMin: 500, yMax: 540 }, // forget-me-not
+        bunch2: { xMin: 1220, xMax: 1260, yMin: 490, yMax: 530 }, // lily
+        bunch3: { xMin: 1180, xMax: 1250, yMin: 495, yMax: 535 }, // carnation
+        bunch4: { xMin: 1200, xMax: 1240, yMin: 510, yMax: 550 }, // rose
+        bunch5: { xMin: 1210, xMax: 1270, yMin: 495, yMax: 530 }, // tulip
+        bunch6: { xMin: 1185, xMax: 1245, yMin: 500, yMax: 540 }, // violet
+        bunch7: { xMin: 1200, xMax: 1250, yMin: 505, yMax: 545 }, // daisy
+        bunch8: { xMin: 1195, xMax: 1235, yMin: 500, yMax: 540 }  // daffodil
+      };
+
       console.log("flowerTexts:", this.flowerTexts);
 
       this.setupFlowerInteractions();
@@ -223,23 +233,16 @@ export class Level4 extends Scene
       this.finishButton.on("pointerout", () => {
         glow?.setActive(false)
         this.finishButton.setScale(0.25)
+
+        if (this.finishButton.hoverStartTime) {
+          let hoverDuration = Date.now() - this.finishButton.hoverStartTime;
+          console.log(`Hovered over finish button for ${hoverDuration}ms`);
+        }
       })
 
       this.finishButton.on('pointerdown', () => {
         this.selectSound.play()
-        this.logBouquetData();
-        console.log("Level 4 finish button clicked");
-    
-        this.time.delayedCall(1000, () => {
-          const currentIndex = this.randomizedLevels.findIndex(level => level.key === this.scene.key);
-  
-          if (currentIndex >= 0 && currentIndex < this.randomizedLevels.length - 1) {
-            const nextLevelKey = this.randomizedLevels[currentIndex + 1].key;
-            this.scene.start(nextLevelKey);
-          } else {
-            this.scene.start('MainMenu');
-          }
-        });
+        this.scene.start(this.randomizedLevels[0].key);
     });
 
 
@@ -335,22 +338,30 @@ export class Level4 extends Scene
             ease: "Cubic.easeOut",
             onComplete: () => {
               this.notice.destroy();
+              this.storyOpenTime = Date.now();
             }
         });
       });
   
-      let glow
+      this.closeButton.preFX?.clear(); 
+      let glow = this.closeButton.preFX?.addGlow("0xffffff", 1, 0, false);
+      glow?.setActive(false);
+
       this.closeButton.on("pointerover", () => {
-          this.hoverSound.play()
-          glow = this.closeButton.preFX.addGlow("0xffffff", 1, 0, false)
-          this.closeButton.setScale(0.22)
-        })
+        this.hoverSound.play();
+        glow?.setActive(true); 
+        this.closeButton.setScale(0.22);
+      });
+    
       this.closeButton.on("pointerout", () => {
-          glow?.setActive(false)
-          this.closeButton.setScale(0.2)
-        })
+        glow?.setActive(false);
+        this.closeButton.setScale(0.2);
+      });
+      
+      this.storyOpenTime = 0;
 
       this.closeButton.on("pointerdown", () => {
+          this.selectSound.play();
           this.tweens.add({
               targets: [this.storyFrame, this.storyText, this.closeButton],
               x: -700, 
@@ -358,6 +369,8 @@ export class Level4 extends Scene
               ease: "Cubic.easeIn",
               onComplete: () => {
                   this.storyTab.setVisible(true);
+                  const duration = Date.now() - this.storyOpenTime; 
+                  console.log(`Story frame was open for ${duration / 1000} seconds`); // send to firebase
               }
           });
       });
@@ -396,6 +409,7 @@ export class Level4 extends Scene
               ease: "Cubic.easeOut",
               onComplete: () => {
                 this.notice.destroy();
+                this.storyOpenTime = Date.now();
               }
           });
       });
@@ -416,6 +430,9 @@ export class Level4 extends Scene
           });
       
           flower.on("pointerover", () => {
+            if (this.storyFrame.visible) return;
+
+            this.hoverSound.play();
             flower.hoverStartTime = Date.now();
             this.textBubble.setText(this.flowerTexts[key][this.currentTurn])
               .setPosition(flower.x + 70, flower.y - 30)
@@ -441,11 +458,13 @@ export class Level4 extends Scene
       
             if (this.flowersPlaced < 5 && Phaser.Geom.Intersects.RectangleToRectangle(flowerBounds, vaseBounds)) {
               console.log(`Placed ${key} in vase with snippet: "${this.flowerTexts[key][this.currentTurn]}"`);
-              const flowerImage = this.add.image(
-                Phaser.Math.Between(1200, 1285), // random-ish vase positions
-                Phaser.Math.Between(500, 540),
-                this.getFlowerImageKey(key)
-              )
+
+              const range = this.flowerPlacementRanges[key];
+
+              const flowerX = Phaser.Math.Between(range.xMin, range.xMax);
+              const flowerY = Phaser.Math.Between(range.yMin, range.yMax);
+
+              const flowerImage = this.add.image(flowerX, flowerY, this.getFlowerImageKey(key))
               .setScale(0.8)
               .setInteractive()
               .setDepth(this.vase.depth - 1);
@@ -454,7 +473,7 @@ export class Level4 extends Scene
               this.flowersInVase.push(flowerImage);
               this.selectSound.play();
       
-              const textSnippet = this.add.text(520, 710 + 30 * this.flowersPlaced, this.flowerTexts[key][this.currentTurn], { 
+              const textSnippet = this.add.text(520, 710 + 70 * this.flowersPlaced, this.flowerTexts[key][this.currentTurn], { 
                 fontSize: "32px", 
                 fill: this.flowerColors[key], 
                 fontFamily: "PixelFont"
@@ -522,9 +541,9 @@ export class Level4 extends Scene
           console.log(`Deleted ${flowerKey} with snippet: "${this.flowerTexts[flowerKey][this.currentTurn]}"`, 
               "Turn:", this.currentTurn, 
               "Flowers in vase:", this.flowersInVase.length);
-      } else {
+          } else {
           console.log("No flowers to remove");
-      }
+        }
   }
       
 }

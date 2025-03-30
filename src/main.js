@@ -2,10 +2,10 @@ import { Level4 } from './scenes/Level4';
 import { Level3 } from './scenes/Level3';
 import { Level2 } from './scenes/Level2';
 import { Level1 } from './scenes/Level1';
+import { Instructions } from './scenes/Instructions';
 import { GameOver } from './scenes/GameOver';
 import { MainMenu } from './scenes/MainMenu';
 import { Preloader } from './scenes/Preloader';
-
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -37,6 +37,7 @@ const config = {
     scene: [
         Preloader,
         MainMenu,
+        Instructions,
         ...randomizedLevels.map(l => l.scene),
         GameOver
     ]
