@@ -53,7 +53,7 @@ export class Level1 extends Scene
     {
 
       this.randomizedLevels = this.game.randomizedLevels;
-      console.log("Randomized levels in Level 1:", this.randomizedLevels);
+      console.log("Randomized level list:", this.randomizedLevels);
 
       this.hoverSound = this.sound.add("hover")
       this.selectSound = this.sound.add("select")
@@ -161,9 +161,9 @@ export class Level1 extends Scene
         bunch2: [ // paraphrasing
           "It sounds like you're feeling sad about graduating and \nmoving away from your college campus and friends.",
           "I'm hearing that you're feeling overwhelmed.",
-          "Lily message 3",
-          "Lily message 4",
-          "Lily message 5"
+          "It seems like you're experiencing a mix of emotions \nafter such a big change.",
+          "I understand that you're feeling a bit lost right now \nbut also excited about the future.",
+          "It sounds like you're optimistic."
         ],
         bunch3: [ // empowerment
           "Congratulations on graduating! What a huge \naccomplishment.",
@@ -175,9 +175,9 @@ export class Level1 extends Scene
         bunch4: [ // information
           "This sadness will go away with time as you settle into the \nnext phase of your life.",
           "College graduation is a huge milestone to process.",
-          "message 3",
-          "Rose message 4",
-          "Rose message 5"
+          "Having a plan for the next steps can help ease your\n anxiety.",
+          "Social media is a great way to keep in touch with your\n college friends.",
+          "Big life changes tend to come with a mix of emotions.",
         ],
         bunch5: [ // validation
           "You're totally normal for feeling this way, it's a big\n change!",
@@ -190,15 +190,15 @@ export class Level1 extends Scene
           "The rest of your life will be what you make of it.",
           "There's so much potential ahead of you.",
           "Your future is full of possibilities!",
+          "Change is innevitable, but that's what makes life\n so exciting.",
           "Don't worry, things will end up okay.",
-          "Change is innevitable, but that's what makes life so exciting.",
         ],
         bunch7: [ // advice
-          "Daisy message 1",
-          "Daisy message 2",
-          "Daisy message 3",
-          "Daisy message 4",
-          "Daisy message 5"
+          "It might help to make a list of all the things \nyou're looking forward to next.",
+          "You should reach out to your friends from college\n and plan a visit soon.",
+          "Talking to a counselor or therapist could be \nhelpful during your transition.",
+          "You might consider journaling about your feelings \nto help sort through them.",
+          "Visit your college town again in a few months!",
         ],
         bunch8: [ // gratitude
           "Thank you so much for sharing this with me.",
@@ -211,7 +211,7 @@ export class Level1 extends Scene
 
       this.flowerPlacementRanges = {
         bunch1: { xMin: 1190, xMax: 1230, yMin: 500, yMax: 540 }, // forget-me-not
-        bunch2: { xMin: 1220, xMax: 1260, yMin: 490, yMax: 530 }, // lily
+        bunch2: { xMin: 1230, xMax: 1270, yMin: 490, yMax: 530 }, // lily
         bunch3: { xMin: 1180, xMax: 1250, yMin: 495, yMax: 535 }, // carnation
         bunch4: { xMin: 1200, xMax: 1240, yMin: 510, yMax: 550 }, // rose
         bunch5: { xMin: 1210, xMax: 1270, yMin: 495, yMax: 530 }, // tulip
@@ -317,6 +317,8 @@ export class Level1 extends Scene
         this.alertSound.play();
       });
 
+      this.isStoryFrameOpen = true;
+
       this.storyFrame = this.add.image(-400, 350, "frame").setDepth(10).setScale(.7);
       this.storyText = this.add.text(-700, 115, "I just graduated college. I was super excited leading up to it and also the day of, but I left my college town yesterday and cried the whole way home. I had a great time in college, and I'm also really excited to attend my dream graduate school this Fall. I guess my brain can't comprehend how quickly the time passed and began to realize that I'll never see some of those people again. I'm still excited for the future though. It's a weird feeling.", {
           fontSize: "32px",
@@ -374,6 +376,7 @@ export class Level1 extends Scene
       this.storyOpenTime = 0;
 
       this.closeButton.on("pointerdown", () => {
+          this.isStoryFrameOpen = false;
           this.selectSound.play();
           this.tweens.add({
               targets: [this.storyFrame, this.storyText, this.closeButton],
@@ -399,6 +402,7 @@ export class Level1 extends Scene
         })
 
       this.storyTab.on("pointerdown", () => {
+          this.isStoryFrameOpen = true;
           console.log("Story tab clicked"); // send to firebase
           this.storyTab.setVisible(false);
           this.tweens.add({
@@ -434,8 +438,25 @@ export class Level1 extends Scene
       
         bunchKeys.forEach((key) => {
           const flower = this.flowers[key];
+          console.log(this.flowers);
           const { x, y } = flower;
+
+          if (!flower) {
+            console.error(`Flower ${key} is undefined`);
+            return;
+          }
+
+          flower.setInteractive();
+          console.log(`${key} interactive: ${flower.input.enabled}`);
+          
           this.input.setDraggable(flower);
+
+          flower.on("pointerdown", (pointer) => {
+            console.log(`Flower ${key} clicked`);
+
+            flower.x = pointer.x;
+            flower.y = pointer.y;
+          });
       
           flower.on("drag", (pointer, dragX, dragY) => {
             flower.x = dragX;
@@ -443,8 +464,7 @@ export class Level1 extends Scene
           });
       
           flower.on("pointerover", () => {
-            if (this.storyFrame.visible) return;
-
+            if (this.isStoryFrameOpen) return;
             this.hoverSound.play();
             flower.hoverStartTime = Date.now();
             this.textBubble.setText(this.flowerTexts[key][this.currentTurn])

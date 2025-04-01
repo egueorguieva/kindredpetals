@@ -37,7 +37,6 @@ const config = {
     scene: [
         Preloader,
         MainMenu,
-        Instructions,
         ...randomizedLevels.map(l => l.scene),
         GameOver
     ]

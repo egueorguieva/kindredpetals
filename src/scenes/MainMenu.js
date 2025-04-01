@@ -17,6 +17,9 @@ export class MainMenu extends Scene
 
     create ()
     {
+        this.randomizedLevels = this.game.randomizedLevels;
+        console.log("Randomized level list:", this.randomizedLevels);
+
         const hoverSound = this.sound.add("hover")
         const selectSound = this.sound.add("select")
 
@@ -102,8 +105,7 @@ export class MainMenu extends Scene
 
         levels[0].on("pointerdown", () => {
             selectSound.play()
-            this.scene.start('Instructions')
-
+            this.scene.start(this.randomizedLevels[0].key);
         })
 
         const muteIcon = this.add.image(90, 65, "muteIcon")

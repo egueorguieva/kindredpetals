@@ -41,18 +41,10 @@ export class Instructions extends Scene
         this.load.image('delete', 'assets/delete-icon.png')
     }
 
-    logBouquetData() {
-      console.log('Flowers used: ', this.flowersInVase.map(flower => flower.flowerKey));
-      console.log('Text snippets: ', this.addedTexts.map(text => text.text));
-      console.log('Total flowers placed: ', this.flowersPlaced);
-      console.log('Deletions: ', this.trashClicks);
-      console.log('Deleted texts: ', this.deletedSnippets);
-    }
-
     create ()
     {
       this.randomizedLevels = this.game.randomizedLevels;
-      console.log("Randomized levels in Instructional Level:", this.randomizedLevels);
+      console.log("Randomized level list:", this.randomizedLevels);
 
       this.hoverSound = this.sound.add("hover")
       this.selectSound = this.sound.add("select")
@@ -67,60 +59,8 @@ export class Instructions extends Scene
       this.vase.setDepth(1);
       this.vase.preFX.addShadow()
 
-      /* this.shop = this.add.image(1380, 55, "star")
-      this.shop.setScale(0.15)
-      this.shop.setInteractive()
-
-      let glow
-      this.shop.on("pointerover", () => {
-          this.hoverSound.play()
-          glow = this.shop.preFX.addGlow("0xffffff", 1, 0, false)
-          this.shop.setScale(0.17)
-        })
-      this.shop.on("pointerout", () => {
-          glow?.setActive(false)
-          this.shop.setScale(0.15)
-        }) */
-
-      this.trashClicks = 0;
-      this.deletedSnippets = [];
-      this.trash = this.add.image(1380, 60, "delete")
-          .setScale(0.15)
-          .setInteractive()
-          .setDepth(2);
-
-      let glow
-      this.trash.on("pointerover", () => {
-          this.trash.hoverStartTime = Date.now();
-          this.hoverSound.play()
-          glow = this.trash.preFX.addGlow("0xffffff", 1, 0, false)
-          this.trash.setScale(0.17)
-      });
-
-      this.trash.on("pointerout", () => { 
-          let hoverDuration = Date.now() - this.trash.hoverStartTime;
-          console.log(`Hovered over trash for ${hoverDuration}ms`);
-          glow?.setActive(false)
-          this.trash.setScale(0.15)
-      });
-
-      this.trash.on("pointerdown", () => {
-          this.selectSound.play();
-          console.log("Trashcan clicked");
-          this.trashClicks++;
-          this.removeLastFlower();
-      });
-
-      this.flowersInVase = [];
-      this.addedTexts = [];
-      this.currentTurn = 0;
-      this.flowersPlaced = 0;
-
+      this.gameInstruct();
       this.setFlowers();
-      this.newOrder();
-
-      console.log("textBubble:", this.textBubble);
-      console.log("currentTurn:", this.currentTurn);
 
       this.flowerCounter = this.add.text(1100, 40, "Flowers: 0/5", {
         fontSize: "32px",
@@ -151,60 +91,28 @@ export class Instructions extends Scene
 
       this.flowerTexts = {
         bunch1: [ // emotional expression
-          "I'm excited to hear about your graduation!",
-          "I'm sorry to hear you're feeling conflicted.",
-          "I'm happy you're going to your dream graduate school!",
-          "I'm sorry about your anxiety.",
-          "I'm glad you're excited about the future!",
+          "Hello! I'm a forget-me-not flower. \nI represent remembrance and nostalgia."
         ],
         bunch2: [ // paraphrasing
-          "It sounds like you're feeling sad about graduating and \nmoving away from your college campus and friends.",
-          "I'm hearing that you're feeling overwhelmed.",
-          "Lily message 3",
-          "Lily message 4",
-          "Lily message 5"
+          "Hello! I'm a lily flower. \nI represent purity and renewal.",
         ],
         bunch3: [ // empowerment
-          "Congratulations on graduating! What a huge \naccomplishment.",
-          "You've done such a great job.",
-          "You're amazing.",
-          "You're obviously smart and capable, and I \nknow you'll do great in graduate school.",
-          "You've got this."
+          "Hello! I'm a carnation flower. \nI represent admiration and love.",
         ],
         bunch4: [ // information
-          "This sadness will go away with time as you settle into the \nnext phase of your life.",
-          "College graduation is a huge milestone to process.",
-          "message 3",
-          "Rose message 4",
-          "Rose message 5"
+          "Hello! I'm a rose flower. \nI represent love and passion.",
         ],
         bunch5: [ // validation
-          "You're totally normal for feeling this way, it's a big\n change!",
-          "It's okay to feel mixed feelings right now.",
-          "It's completely valid to feel this way.",
-          "Lots of people feel like this around graduation.",
-          "You're not alone in this."
+          "Hello! I'm a tulip flower. \nI represent elegance and grace.",
         ],
         bunch6: [ // contextualizing
-          "The rest of your life will be what you make of it.",
-          "There's so much potential ahead of you.",
-          "Your future is full of possibilities!",
-          "Don't worry, things will end up okay.",
-          "Change is innevitable, but that's what makes life so exciting.",
+          "Hello! I'm a violet flower. \nI represent modesty and simplicity.",
         ],
         bunch7: [ // advice
-          "Daisy message 1",
-          "Daisy message 2",
-          "Daisy message 3",
-          "Daisy message 4",
-          "Daisy message 5"
+          "Hello! I'm a daisy flower. \nI represent innocence and new beginnings.",
         ],
         bunch8: [ // gratitude
-          "Thank you so much for sharing this with me.",
-          "I really appreciate your openness.",
-          "I feel grateful to be here for you.",
-          "Thank you for trusting me with your feelings.",
-          "I appreciate you."
+          "Hello! I'm a daffodil flower. \nI represent rebirth and new beginnings.",
         ]
       };
 
@@ -218,8 +126,6 @@ export class Instructions extends Scene
         bunch7: { xMin: 1200, xMax: 1250, yMin: 505, yMax: 545 }, // daisy
         bunch8: { xMin: 1195, xMax: 1235, yMin: 500, yMax: 540 }  // daffodil
       };
-
-      console.log("flowerTexts:", this.flowerTexts);
 
       this.setupFlowerInteractions();
 
@@ -246,7 +152,94 @@ export class Instructions extends Scene
     });
 
 
-    }
+  }
+
+  gameInstruct() {
+
+    this.storyFrame = this.add.image(800, 500, "frame").setDepth(10).setScale(.7);
+    this.storyText = this.add.text(600, 300, "Welcome to Kindred Petals flower shop!", {
+        fontSize: "40px",
+        fill: "#000",
+        wordWrap: { width: 700 },
+        fontFamily: "PixelFont",
+    }).setDepth(11);
+
+    this.closeButton = this.add.image(-400, 75, "exit-button").setScale(0.2).setDepth(12).setInteractive();
+    
+    this.storyTab = this.add.image(1380, 135, "order-button").setScale(0.22).setDepth(9).setInteractive().setVisible(false);
+
+    this.closeButton.preFX?.clear(); 
+    let glow = this.closeButton.preFX?.addGlow("0xffffff", 1, 0, false);
+    glow?.setActive(false);
+
+    this.closeButton.on("pointerover", () => {
+      this.hoverSound.play();
+      glow?.setActive(true); 
+      this.closeButton.setScale(0.22);
+    });
+  
+    this.closeButton.on("pointerout", () => {
+      glow?.setActive(false);
+      this.closeButton.setScale(0.2);
+    });
+    
+    this.storyOpenTime = 0;
+
+    this.closeButton.on("pointerdown", () => {
+        this.selectSound.play();
+        this.tweens.add({
+            targets: [this.storyFrame, this.storyText, this.closeButton],
+            x: -700, 
+            duration: 300,
+            ease: "Cubic.easeIn",
+            onComplete: () => {
+                this.storyTab.setVisible(true);
+                const duration = Date.now() - this.storyOpenTime; 
+                console.log(`Story frame was open for ${duration / 1000} seconds`); // send to firebase
+            }
+        });
+    });
+
+    this.storyTab.on("pointerover", () => {
+        this.hoverSound.play()
+        glow = this.storyTab.preFX.addGlow("0xffffff", 1, 0, false)
+        this.storyTab.setScale(0.24)
+      })
+    this.storyTab.on("pointerout", () => {
+        glow?.setActive(false)
+        this.storyTab.setScale(0.22)
+      })
+
+    this.storyTab.on("pointerdown", () => {
+        console.log("Story tab clicked"); // send to firebase
+        this.storyTab.setVisible(false);
+        this.tweens.add({
+          targets: this.storyFrame,
+          x: 540, 
+          duration: 1000,
+          ease: "Cubic.easeOut",
+        });
+
+        this.tweens.add({
+          targets: this.storyText,
+          x: 70, 
+          duration: 1000,
+          ease: "Cubic.easeOut",
+        });
+
+        this.tweens.add({
+            targets: this.closeButton,
+            x: 820, 
+            duration: 1000,
+            ease: "Cubic.easeOut",
+            onComplete: () => {
+              this.notice.destroy();
+              this.storyOpenTime = Date.now();
+            }
+        });
+    });
+
+  } 
 
     setFlowers() {
       const createFlower = (x, y, key, scale, origin = { x: 0.5, y: 0.5 }) => {
@@ -294,127 +287,6 @@ export class Instructions extends Scene
         this.flowers[key] = createdFlower
       })
     }
-
-    newOrder() {
-
-      this.notice = this.add.image(1220, 275, "alert").setScale(0.25).setDepth(10).setVisible(false);
-
-      this.time.delayedCall(400, () => {
-        this.notice.setVisible(true);
-        this.alertSound.play();
-      });
-
-      this.storyFrame = this.add.image(-400, 350, "frame").setDepth(10).setScale(.7);
-      this.storyText = this.add.text(-700, 115, "I just graduated college. I was super excited leading up to it and also the day of, but I left my college town yesterday and cried the whole way home. I had a great time in college, and I'm also really excited to attend my dream graduate school this Fall. I guess my brain can't comprehend how quickly the time passed and began to realize that I'll never see some of those people again. I'm still excited for the future though. It's a weird feeling.", {
-          fontSize: "32px",
-          fill: "#000",
-          wordWrap: { width: 700 },
-          fontFamily: "PixelFont",
-      }).setDepth(11);
-  
-      this.closeButton = this.add.image(-400, 75, "exit-button").setScale(0.2).setDepth(12).setInteractive();
-      
-      this.storyTab = this.add.image(1380, 135, "order-button").setScale(0.22).setDepth(9).setInteractive().setVisible(false);
-  
-      this.time.delayedCall(1200, () => {
-        this.tweens.add({
-          targets: this.storyFrame,
-          x: 540, 
-          duration: 1000,
-          ease: "Cubic.easeOut",
-        });
-
-        this.tweens.add({
-          targets: this.storyText,
-          x: 70, 
-          duration: 1000,
-          ease: "Cubic.easeOut",
-        });
-
-        this.tweens.add({
-            targets: this.closeButton,
-            x: 820, 
-            duration: 1000,
-            ease: "Cubic.easeOut",
-            onComplete: () => {
-              this.notice.destroy();
-              this.storyOpenTime = Date.now();
-            }
-        });
-      });
-  
-      this.closeButton.preFX?.clear(); 
-      let glow = this.closeButton.preFX?.addGlow("0xffffff", 1, 0, false);
-      glow?.setActive(false);
-
-      this.closeButton.on("pointerover", () => {
-        this.hoverSound.play();
-        glow?.setActive(true); 
-        this.closeButton.setScale(0.22);
-      });
-    
-      this.closeButton.on("pointerout", () => {
-        glow?.setActive(false);
-        this.closeButton.setScale(0.2);
-      });
-      
-      this.storyOpenTime = 0;
-
-      this.closeButton.on("pointerdown", () => {
-          this.selectSound.play();
-          this.tweens.add({
-              targets: [this.storyFrame, this.storyText, this.closeButton],
-              x: -700, 
-              duration: 300,
-              ease: "Cubic.easeIn",
-              onComplete: () => {
-                  this.storyTab.setVisible(true);
-                  const duration = Date.now() - this.storyOpenTime; 
-                  console.log(`Story frame was open for ${duration / 1000} seconds`); // send to firebase
-              }
-          });
-      });
-  
-      this.storyTab.on("pointerover", () => {
-          this.hoverSound.play()
-          glow = this.storyTab.preFX.addGlow("0xffffff", 1, 0, false)
-          this.storyTab.setScale(0.24)
-        })
-      this.storyTab.on("pointerout", () => {
-          glow?.setActive(false)
-          this.storyTab.setScale(0.22)
-        })
-
-      this.storyTab.on("pointerdown", () => {
-          console.log("Story tab clicked"); // send to firebase
-          this.storyTab.setVisible(false);
-          this.tweens.add({
-            targets: this.storyFrame,
-            x: 540, 
-            duration: 1000,
-            ease: "Cubic.easeOut",
-          });
-  
-          this.tweens.add({
-            targets: this.storyText,
-            x: 70, 
-            duration: 1000,
-            ease: "Cubic.easeOut",
-          });
-  
-          this.tweens.add({
-              targets: this.closeButton,
-              x: 820, 
-              duration: 1000,
-              ease: "Cubic.easeOut",
-              onComplete: () => {
-                this.notice.destroy();
-                this.storyOpenTime = Date.now();
-              }
-          });
-      });
-
-    } 
 
     setupFlowerInteractions() {
         const bunchKeys = ["bunch1", "bunch2", "bunch3", "bunch4", "bunch5", "bunch6", "bunch7", "bunch8"];
@@ -518,6 +390,37 @@ export class Instructions extends Scene
           bunch8: "daffodil"
         };
         return mapping[key];
+    }
+
+    addTrashButton() {
+
+      this.trash = this.add.image(1380, 60, "delete")
+      .setScale(0.15)
+      .setInteractive()
+      .setDepth(2);
+
+      let glow
+      this.trash.on("pointerover", () => {
+          this.trash.hoverStartTime = Date.now();
+          this.hoverSound.play()
+          glow = this.trash.preFX.addGlow("0xffffff", 1, 0, false)
+          this.trash.setScale(0.17)
+      });
+
+      this.trash.on("pointerout", () => { 
+          let hoverDuration = Date.now() - this.trash.hoverStartTime;
+          console.log(`Hovered over trash for ${hoverDuration}ms`);
+          glow?.setActive(false)
+          this.trash.setScale(0.15)
+      });
+
+      this.trash.on("pointerdown", () => {
+          this.selectSound.play();
+          console.log("Trashcan clicked");
+          this.trashClicks++;
+          this.removeLastFlower();
+      });
+
     }
       
 
