@@ -152,53 +152,53 @@ export class Level4 extends Scene
 
       this.flowerTexts = {
         bunch1: [ // emotional expression
-          "I'm excited to hear about your graduation!",
-          "I'm sorry to hear you're feeling conflicted.",
-          "I'm happy you're going to your dream graduate school!",
-          "I'm sorry about your anxiety.",
-          "I'm glad you're excited about the future!",
+          "I'm excited for you!",
+          "I'm happy for you for starting college!",
+          "I'm sorry you're feeling anxious.",
+          "I'm excited by your optimism.",
+          "I'm glad you're excited about your roommate!",
         ],
         bunch2: [ // paraphrasing
-          "It sounds like you're feeling sad about graduating and \nmoving away from your college campus and friends.",
-          "I'm hearing that you're feeling overwhelmed.",
-          "Lily message 3",
-          "Lily message 4",
-          "Lily message 5"
+          "It sounds like you're feeling a mix of excitement\n and anxiety.",
+          "I'm hearing that you're nervous about being a\n good roommate.",
+          "It seems like you might be overwhlemed about college.",
+          "I'm understanding that you're anxious.",
+          "It sounds like you're feeling a lot of pressure to\n be a good roommate.",
         ],
         bunch3: [ // empowerment
-          "Congratulations on graduating! What a huge \naccomplishment.",
-          "You've done such a great job.",
+          "You're doing great.",
+          "You're obviously self-aware, which is great.",
           "You're amazing.",
-          "You're obviously smart and capable, and I \nknow you'll do great in graduate school.",
+          "Anyone would be lucky to have you as a roommate.",
           "You've got this."
         ],
         bunch4: [ // information
-          "This sadness will go away with time as you settle into the \nnext phase of your life.",
-          "College graduation is a huge milestone to process.",
-          "message 3",
-          "Rose message 4",
-          "Rose message 5"
+          "First impressions aren't everything.",
+          "You will adjust to living together relatively quickly.",
+          "Different people have different living styles.",
+          "Studies suggest random roommate experiences are more\n often neutral than extreme.",
+          "Living with a roommate is a great way to develop\n conflict resolution skills.",
         ],
         bunch5: [ // validation
-          "You're totally normal for feeling this way, it's a big\n change!",
+          "Your anxiety is totally valid.",
           "It's okay to feel mixed feelings right now.",
           "It's completely valid to feel this way.",
-          "Lots of people feel like this around graduation.",
+          "Lots of people feel like this about random roommates.",
           "You're not alone in this."
         ],
         bunch6: [ // contextualizing
           "The rest of your life will be what you make of it.",
           "There's so much potential ahead of you.",
           "Your future is full of possibilities!",
-          "Don't worry, things will end up okay.",
           "Change is innevitable, but that's what makes life so exciting.",
+          "Don't worry, things will end up okay.",
         ],
         bunch7: [ // advice
-          "Daisy message 1",
-          "Daisy message 2",
-          "Daisy message 3",
-          "Daisy message 4",
-          "Daisy message 5"
+          "You should try to be open and honest with your roommate.",
+          "Just be yourself.",
+          "Try to be open-minded.",
+          "Be patient with both yourself and your roommate.",
+          "Don't be afraid to ask for help.",
         ],
         bunch8: [ // gratitude
           "Thank you so much for sharing this with me.",

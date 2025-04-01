@@ -173,11 +173,11 @@ export class Level2 extends Scene
           "You've got this."
         ],
         bunch4: [ // information
-          "",
-          "",
-          "message 3",
-          "Rose message 4",
-          "Rose message 5"
+          "What you're feeling right now is a response to\n great distress",
+          "The brain processess emotional pain\n the same way it does physical pain",
+          "You might experience a range of emotions like shock,\n anger, sadness, and confusion",
+          "You might experience intrusive thoughts about\n your ex-partner.",
+          "The severe emotional pain will fade with time."
         ],
         bunch5: [ // validation
           "You're allowed to feel any way you want.",
@@ -194,11 +194,11 @@ export class Level2 extends Scene
           "There's plenty of fish in the sea.",
         ],
         bunch7: [ // advice
-          "Daisy message 1",
-          "Daisy message 2",
-          "Daisy message 3",
-          "Daisy message 4",
-          "Daisy message 5"
+          "Take some time for yourself.",
+          "Focus on self-care.",
+          "Talk to someone you trust.",
+          "Consider journaling your feelings.",
+          "Don't call him or stay in touch."
         ],
         bunch8: [ // gratitude
           "Thank you so much for sharing this with me.",

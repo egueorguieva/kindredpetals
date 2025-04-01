@@ -152,53 +152,53 @@ export class Level3 extends Scene
 
       this.flowerTexts = {
         bunch1: [ // emotional expression
-          "I'm excited to hear about your graduation!",
-          "I'm sorry to hear you're feeling conflicted.",
-          "I'm happy you're going to your dream graduate school!",
-          "I'm sorry about your anxiety.",
-          "I'm glad you're excited about the future!",
+          "I'm so sorry to hear that.",
+          "I feel like you're being hard on yourself.",
+          "I'm sorry you're feeling like that.",
+          "I feel bad for you.",
+          "I'm sorry.",
         ],
         bunch2: [ // paraphrasing
-          "It sounds like you're feeling sad about graduating and \nmoving away from your college campus and friends.",
-          "I'm hearing that you're feeling overwhelmed.",
-          "Lily message 3",
-          "Lily message 4",
-          "Lily message 5"
+          "I understand that you feel like your neighbor \nwill think you're crazy.",
+          "It sounds like you're worried about how your neighbor \nperceives you.", 
+          "It sounds like you're feeling guilty.",
+          "I'm hearing that you're feeling embarrassed.",
+          "It seems like you're feeling anxious about this.",
         ],
         bunch3: [ // empowerment
-          "Congratulations on graduating! What a huge \naccomplishment.",
-          "You've done such a great job.",
-          "You're amazing.",
-          "You're obviously smart and capable, and I \nknow you'll do great in graduate school.",
-          "You've got this."
+          "You did great by admitting fault.",
+          "You're doing your best.",
+          "You're a good person.",
+          "It's great that you're self-aware.",
+          "You did the right thing by apologizing."
         ],
         bunch4: [ // information
-          "This sadness will go away with time as you settle into the \nnext phase of your life.",
-          "College graduation is a huge milestone to process.",
-          "message 3",
-          "Rose message 4",
-          "Rose message 5"
+          "Your brain's prefrontal cortex is highly active \nduring self-evaluation.",
+          "People are more forgiving than you think, \nespecially if you apologize.",
+          "You can rebuild rapport with small acts of kindness.",
+          "You appear to have experienced cognitive dissonance.",
+          "Time will reduce the intensity of your feelings."
         ],
         bunch5: [ // validation
-          "You're totally normal for feeling this way, it's a big\n change!",
+          "You're totally normal for feeling this way.",
           "It's okay to feel mixed feelings right now.",
           "It's completely valid to feel this way.",
-          "Lots of people feel like this around graduation.",
+          "It's normal for neighbors to misunderstand each other.",
           "You're not alone in this."
         ],
         bunch6: [ // contextualizing
           "The rest of your life will be what you make of it.",
           "There's so much potential ahead of you.",
           "Your future is full of possibilities!",
+          "You won't always feel this way.",
           "Don't worry, things will end up okay.",
-          "Change is innevitable, but that's what makes life so exciting.",
         ],
         bunch7: [ // advice
-          "Daisy message 1",
-          "Daisy message 2",
-          "Daisy message 3",
-          "Daisy message 4",
-          "Daisy message 5"
+          "You could try talking to your neighbor about it.",
+          "Maybe you could write them a note to apologize.",
+          "Try to focus on the positive.",
+          "Consider giving your neighbor some space.",
+          "You might want to talk to a friend about this.",
         ],
         bunch8: [ // gratitude
           "Thank you so much for sharing this with me.",
